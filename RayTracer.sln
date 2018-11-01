@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RayTracer", "RayTracer\RayTracer.vcxproj", "{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Resource", "RayTracer\Resource\Resource.pyproj", "{15413A92-D220-45A5-87CA-D975B08C88AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}.Debug|x64.ActiveCfg = Debug|x64
+		{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}.Debug|x64.Build.0 = Debug|x64
+		{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}.Debug|x86.ActiveCfg = Debug|Win32
+		{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}.Debug|x86.Build.0 = Debug|Win32
+		{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}.Release|Any CPU.ActiveCfg = Release|Win32
+		{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}.Release|x64.ActiveCfg = Release|x64
+		{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}.Release|x64.Build.0 = Release|x64
+		{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}.Release|x86.ActiveCfg = Release|Win32
+		{B4CDBF1C-9E56-40AA-B759-A4B71DAA36F0}.Release|x86.Build.0 = Release|Win32
+		{15413A92-D220-45A5-87CA-D975B08C88AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15413A92-D220-45A5-87CA-D975B08C88AD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{15413A92-D220-45A5-87CA-D975B08C88AD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{15413A92-D220-45A5-87CA-D975B08C88AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15413A92-D220-45A5-87CA-D975B08C88AD}.Release|x64.ActiveCfg = Release|Any CPU
+		{15413A92-D220-45A5-87CA-D975B08C88AD}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A1FC9BCC-0317-4CC6-BA2B-6938D0B2EE6D}
+	EndGlobalSection
+EndGlobal
