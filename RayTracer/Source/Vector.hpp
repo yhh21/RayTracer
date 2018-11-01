@@ -19,7 +19,7 @@ namespace Utilities {
 
             Vector(const size_t size) {
                 this->size = size;
-                vec = new T[this->size]();
+                vec = new T[this->GetSize()]();
             }
 
             Vector(const Vector<T> &v) {
@@ -29,22 +29,11 @@ namespace Utilities {
             ~Vector() { if (vec != nullptr) delete vec; }
 
 
-            template<class T2>
-            void Clone(const Vector<T2> &v) {
-                if (this->vec != nullptr) delete vec;
-
-                this->size = v.GetSize();
-                this->vec = new T[this->size]();
-                for (size_t i = 0; i < v.GetSize(); ++i) {
-                    this->SetValue<T>(i, static_cast<T>(v.GetValue<T2>(i)));
-                }
-            }
-
 #ifdef DEBUG
             void Print() const {
-                for (size_t i = 0; i < size; ++i) {
+                for (size_t i = 0; i < GetSize(); ++i) {
                     cout << GetValue<T>(i);
-                    if (i != size - 1) {
+                    if (i != GetSize() - 1) {
                         cout << " ";
                     }
                 }
@@ -163,6 +152,26 @@ namespace Utilities {
 
             Vector<T>& Normalize() {
                 return *this / this->Length();
+            }
+        public:
+            template<class T2>
+            void Clone(const Vector<T2> &v) {
+                if (this->GetSize() != v.GetSize()) {
+                    if (this->vec != nullptr) {
+                        delete this->vec;
+                        this->vec = nullptr;
+                    }
+
+                    this->size = v.GetSize();
+                }
+
+                if (this->vec == nullptr) {
+                    this->vec = new T[this->GetSize()]();
+                }
+
+                for (size_t i = 0; i < this->GetSize(); ++i) {
+                    this->SetValue<T>(i, static_cast<T>(v.GetValue<T2>(i)));
+                }
             }
         private:
             T *vec = nullptr;

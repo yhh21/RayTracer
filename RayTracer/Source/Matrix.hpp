@@ -31,30 +31,10 @@ namespace Utilities{
             }
 
             ~Matrix() {
-                for (size_t i = 0; i < this->col; ++i) delete mat[i];
+                for (size_t i = 0; i < this->GetCol(); ++i) delete mat[i];
                 delete mat;
             }
 
-
-            template<class T2>
-            void Clone(const Matrix<T2> &matrix) {
-                for (size_t c = 0; c < this->col; ++c) delete mat[c];
-                delete mat;
-
-                this->col = matrix.GetCol();
-                this->row = matrix.GetRow();
-
-                this->mat = new T*[col];
-                for (size_t c = 0; c < col; ++c) {
-                    this->mat[c] = new T[row]();
-                }
-
-                for (size_t c = 0; c < col; ++c) {
-                    for (size_t r = 0; r < row; ++r) {
-                        this->SetValue<T>(c, r, matrix.GetValue<T2>(c, r));
-                    }
-                }
-            }
 
 #ifdef DEBUG
             void Print() const {
@@ -68,6 +48,35 @@ namespace Utilities{
                 cout << "\n";
             }
 #endif // DEBUG
+        public:
+            template<class T2>
+            void Clone(const Matrix<T2> &matrix) {
+                if (this->GetCol() != matrix.GetCol() || this->GetRow() != matrix.GetRow()) {
+                    if (this->mat != nullptr) {
+                        for (size_t c = 0; c < this->GetCol(); ++c) {
+                            delete this->mat[c];
+                        }
+                        delete this->mat;
+                        this->mat = nullptr;
+                    }
+
+                    this->col = matrix.GetCol();
+                    this->row = matrix.GetRow();
+                }
+
+                if (this->mat == nullptr) {
+                    this->mat = new T*[this->GetCol()];
+                    for (size_t c = 0; c < this->GetCol(); ++c) {
+                        this->mat[c] = new T[this->GetRow()]();
+                    }
+                }
+
+                for (size_t c = 0; c < this->GetCol(); ++c) {
+                    for (size_t r = 0; r < this->GetRow(); ++r) {
+                        this->SetValue<T>(c, r, matrix.GetValue<T2>(c, r));
+                    }
+                }
+            }
         private:
             T **mat;
             size_t col, row;

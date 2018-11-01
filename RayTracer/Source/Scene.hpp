@@ -35,10 +35,11 @@ namespace Utilities {
             CColor *pColor = nullptr;
             auto objs = objsMgr.GetObjects();
             size_t objsLength = objs.size();
+            DPoint3 eye(row / 2, col / 2, 0);
 
             for (int c = 0; c < col; ++c) {
                 for (int r = 0; r < row; ++r) {
-                    Ray *ray = new Ray(DPoint3(row / 2, col / 2, 0), DVector3(r - row / 2, c - col / 2, col / 2));
+                    Ray *ray = new Ray(eye, DVector3(r - row / 2, c - col / 2, col / 2));
 
                     bool isHit = false;
                     double tMin;
@@ -55,6 +56,7 @@ namespace Utilities {
                     }
                     
                     vv[c].push_back(isHit ? *pColor : CColor_RED);
+                    //if (isHit) pColor->Print();
                 }
             }
 
