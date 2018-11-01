@@ -17,6 +17,7 @@ namespace Utilities {
         void SetB(const T b) { this->b = b; }
         void SetA(const T a) { this->a = a; }
 
+
         Color() : Color(T(0), T(0), T(0), T(0)) { }
 
         Color(const T r, const T g, const T b) : Color(r, g, b, T(0)) { }
@@ -38,10 +39,10 @@ namespace Utilities {
 
         template<class T2>
         void Clone(const Color<T2> &c) {
-            this->r = c.GetR();
-            this->g = c.GetG();
-            this->b = c.GetB();
-            this->a = c.GetA();
+            this->r = static_cast<T>(c.GetR());
+            this->g = static_cast<T>(c.GetG());
+            this->b = static_cast<T>(c.GetB());
+            this->a = static_cast<T>(c.GetA());
         }
 
 #ifdef DEBUG
@@ -53,5 +54,13 @@ namespace Utilities {
         T r, g, b, a;
     };
 
+
 #define CColor Color<unsigned char>
+
+
+    const CColor CColor_RED = CColor(255, 0, 0);
+    const CColor CColor_GREEN = CColor(0, 255, 0);
+    const CColor CColor_BLUE = CColor(0, 0, 255);
+    const CColor CColor_BLACK = CColor(0, 0, 0);
+    const CColor CColor_WHITE = CColor(255, 255, 255);
 }

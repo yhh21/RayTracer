@@ -3,6 +3,7 @@
 #include "pch.h"
 #include "Object.hpp"
 #include "Point.hpp"
+#include <cmath>
 
 using namespace Utilities;
 using namespace Utilities::Math;
@@ -16,13 +17,7 @@ namespace Objects {
         }
 
         virtual bool Hit(const Ray& ray, double& tMin) {
-#ifdef DEBUG
-            ray.GetOrigin().Print();
-#endif // DEBUG
             DVector oc = (ray.GetOrigin() - center);
-#ifdef DEBUG
-            oc.Print();
-#endif // DEBUG
             double a = ray.GetDirection().Dot(ray.GetDirection());
             double b = oc.Dot(ray.GetDirection()) * 2.0;
             double c = oc.Dot(oc) - radius * radius;
@@ -30,7 +25,17 @@ namespace Objects {
             double discriminant = b * b - 4.0 * a * c;
 
             if (discriminant >= 0.0) {
-                return true;
+                double e = sqrt(discriminant);
+                double t = (-b - e) / (2 * a);
+
+                if (t <= 0) {
+                    t = (-b + e) / (2 * a);
+                }
+
+                if (t > 0) {
+                    tMin = t;
+                    return true;
+                }
             }
 
             return false;

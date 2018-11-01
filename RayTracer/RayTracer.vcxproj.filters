@@ -45,6 +45,15 @@
     <ClInclude Include="Source\Sphere.hpp">
       <Filter>Source\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ObjectsManager.hpp">
+      <Filter>Source\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene.hpp">
+      <Filter>Source\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window.hpp">
+      <Filter>Source\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">

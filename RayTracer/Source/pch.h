@@ -9,7 +9,7 @@
 // https://en.wikipedia.org/wiki/Netpbm_format
 #define PPM_FORMAT
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #include <iostream>
 using namespace std;

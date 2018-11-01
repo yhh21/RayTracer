@@ -8,6 +8,15 @@ namespace Utilities {
         template<class T = double>
         class Vector {
         public:
+            size_t GetSize() const { return this->size; }
+
+            template<class T>
+            T GetValue(const size_t index) const { return this->vec[index]; }
+
+            template<class T>
+            void SetValue(const size_t index, const T value) { this->vec[index] = value; }
+
+
             Vector(const size_t size) {
                 this->size = size;
                 vec = new T[this->size]();
@@ -20,26 +29,34 @@ namespace Utilities {
             ~Vector() { if (vec != nullptr) delete vec; }
 
 
-            size_t GetSize() const { return this->size; }
+            template<class T2>
+            void Clone(const Vector<T2> &v) {
+                if (this->vec != nullptr) delete vec;
 
-            template<class T>
-            T GetValue(const size_t index) const { return this->vec[index]; }
+                this->size = v.GetSize();
+                this->vec = new T[this->size]();
+                for (size_t i = 0; i < v.GetSize(); ++i) {
+                    this->SetValue<T>(i, static_cast<T>(v.GetValue<T2>(i)));
+                }
+            }
 
-            template<class T>
-            void SetValue(const size_t index, const T value) { this->vec[index] = value; }
+#ifdef DEBUG
+            void Print() const {
+                for (size_t i = 0; i < size; ++i) {
+                    cout << GetValue<T>(i);
+                    if (i != size - 1) {
+                        cout << " ";
+                    }
+                }
+                cout << "\n";
+            }
+#endif // DEBUG
 
 
             // Vector operator
             template<class T2>
-            Vector<T>& operator=(const Vector<T2> &v)
-            {
-                for (size_t i = 0; i < v.GetSize(); ++i) {
-                    this->SetValue<T>(i, v.GetValue<T2>(i));
-                }
-                for (size_t i = v.GetSize(); i < this->GetSize(); ++i) {
-                    this->SetValue<T>(i, T2(0));
-                }
-
+            Vector<T>& operator=(const Vector<T2> &v) {
+                Clone(v);
                 return *this;
             }
 
@@ -54,8 +71,8 @@ namespace Utilities {
             }
 
             // Vector operator
-            template<class T = double>
-            Vector<T> operator+(const Vector<T> &v) const {
+            template<class T2 = double>
+            Vector<T> operator+(const Vector<T2> &v) const {
                 size_t Size1 = this->GetSize();
                 size_t Size2 = v.GetSize();
                 size_t minSize = Size1 < Size2 ? Size1 : Size2;
@@ -63,17 +80,17 @@ namespace Utilities {
 
                 Vector<T> res(maxSize);
                 for (size_t i = 0; i < minSize; ++i) {
-                    res.SetValue<T>(i, this->GetValue<T>(i) + v.GetValue<T>(i));
+                    res.SetValue<T>(i, this->GetValue<T>(i) + static_cast<T>(v.GetValue<T2>(i)));
                 }
                 for (size_t i = minSize; i < maxSize; ++i) {
-                    res.SetValue<T>(i, Size1 > minSize ? this->GetValue<T>(i) : v.GetValue<T>(i));
+                    res.SetValue<T>(i, Size1 > minSize ? this->GetValue<T>(i) : static_cast<T>(v.GetValue<T2>(i)));
                 }
 
                 return res;
             }
 
-            template<class T = double>
-            Vector<T> operator-(const Vector<T> &v) const {
+            template<class T2 = double>
+            Vector<T> operator-(const Vector<T2> &v) const {
                 size_t Size1 = this->GetSize();
                 size_t Size2 = v.GetSize();
                 size_t minSize = Size1 < Size2 ? Size1 : Size2;
@@ -81,16 +98,16 @@ namespace Utilities {
 
                 Vector<T> res(maxSize);
                 for (size_t i = 0; i < minSize; ++i) {
-                    res.SetValue<T>(i, this->GetValue<T>(i) - v.GetValue<T>(i));
+                    res.SetValue<T>(i, this->GetValue<T>(i) - static_cast<T>(v.GetValue<T2>(i)));
                 }
                 for (size_t i = minSize; i < maxSize; ++i) {
-                    res.SetValue<T>(i, Size1 > minSize ? this->GetValue<T>(i) : -v.GetValue<T>(i));
+                    res.SetValue<T>(i, Size1 > minSize ? this->GetValue<T>(i) : static_cast<T>(-v.GetValue<T2>(i)));
                 }
                 return res;
             }
 
-            template<class T = double>
-            Vector<T> operator*(const Vector<T> &v) const {
+            template<class T2 = double>
+            Vector<T> operator*(const Vector<T2> &v) const {
                 size_t Size1 = this->GetSize();
                 size_t Size2 = v.GetSize();
                 size_t minSize = Size1 < Size2 ? Size1 : Size2;
@@ -98,7 +115,7 @@ namespace Utilities {
 
                 Vector<T> res(maxSize);
                 for (size_t i = 0; i < minSize; ++i) {
-                    res.SetValue<T>(i, this->GetValue<T>(i) * v.GetValue<T>(i));
+                    res.SetValue<T>(i, this->GetValue<T>(i) * static_cast<T>(v.GetValue<T2>(i)));
                 }
                 for (size_t i = minSize; i < maxSize; ++i) {
                     res.SetValue<T>(i, T(0));
@@ -107,18 +124,18 @@ namespace Utilities {
                 return res;
             }
             
-            template<class T = double>
-            Vector<T>& operator*(const T &s) {
+            template<class T2 = double>
+            Vector<T>& operator*(const T2 &s) {
                 for (size_t i = 0; i < this->GetSize(); ++i) {
-                    this->SetValue<T>(i, this->GetValue<T>(i) * s);
+                    this->SetValue<T>(i, this->GetValue<T>(i) * static_cast<T>(s));
                 }
 
                 return *this;
             }
 
-            template<class T = double>
-            Vector<T>& operator/(const T &s) {
-                return *this * (T(1) / s);
+            template<class T2 = double>
+            Vector<T>& operator/(const T2 &s) {
+                return *this * (T2(1) / s);
             }
 
 
@@ -147,31 +164,6 @@ namespace Utilities {
             Vector<T>& Normalize() {
                 return *this / this->Length();
             }
-
-
-
-            template<class T2>
-            void Clone(const Vector<T2> &v) {
-                if (this->vec != nullptr) delete vec;
-
-                this->size = v.GetSize();
-                this->vec = new T[this->size]();
-                for (size_t i = 0; i < v.GetSize(); ++i) {
-                    this->SetValue<T>(i, v.GetValue<T2>(i));
-                }
-            }
-
-#ifdef DEBUG
-            void Print() const {
-                for (size_t i = 0; i < size; ++i) {
-                    cout << GetValue<T>(i);
-                    if (i != size - 1) {
-                        cout << " ";
-                    }
-                }
-                cout << "\n";
-            }
-#endif // DEBUG
         private:
             T *vec = nullptr;
             size_t size;
@@ -212,7 +204,7 @@ namespace Utilities {
             }
         };
 
-        // typedef
+
 #define DVector Vector<double>
 #define DVector2 Vector2<double>
 #define DVector3 Vector3<double>

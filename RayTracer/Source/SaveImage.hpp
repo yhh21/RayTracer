@@ -13,16 +13,16 @@ namespace Utilities {
     namespace Tools {
 #ifdef PPM_FORMAT
         inline
-        static void pixel_write(FILE *fp, const unsigned char r, const unsigned char g, const unsigned char b) {
+        static void pixel_write(FILE *fp, const CColor& c) {
             static unsigned char color[3];
-            color[0] = r & 255;
-            color[1] = g & 255;
-            color[2] = b & 255;
+            color[0] = c.GetR() & 255;
+            color[1] = c.GetG() & 255;
+            color[2] = c.GetB() & 255;
             fwrite(color, 1, 3, fp);
         }
 #endif // PPM_FORMAT
 
-        static void SaveImage(vector<vector<Color<unsigned char>>> ss) {
+        static void SaveImage(vector<vector<CColor>> ss) {
             size_t col = ss.size();
             size_t row = ss[0].size();
 #ifdef PPM_FORMAT
@@ -37,8 +37,7 @@ namespace Utilities {
 
             for (size_t r = 0; r < row; ++r) {
                 for (size_t c = 0; c < col; ++c) {
-                    auto tmp = ss[c][r];
-                    pixel_write(fp, tmp.GetR(), tmp.GetG(), tmp.GetB());
+                    pixel_write(fp, ss[c][r]);
                 }
             }
 
