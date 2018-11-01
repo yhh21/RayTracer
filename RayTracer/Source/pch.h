@@ -5,15 +5,20 @@
 #include "d3dx12.h"
 #endif // DirectX12
 
-#define _CRT_SECURE_NO_WARNINGS
+
 // https://en.wikipedia.org/wiki/Netpbm_format
 #define PPM_FORMAT
+#ifdef PPM_FORMAT
+#define _CRT_SECURE_NO_WARNINGS
+#endif // PPM_FORMAT
+
 
 #define DEBUG
 #ifdef DEBUG
 #include <iostream>
 using namespace std;
 #endif // DEBUG
+
 
 // Constants
 constexpr float PI = 3.1415926535897932F;

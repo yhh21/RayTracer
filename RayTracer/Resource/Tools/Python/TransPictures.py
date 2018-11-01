@@ -35,6 +35,8 @@ def TransPictures() :
                 if differMgr.IsChangedByPath(RES_PATH) or differMgr.IsChangedByPath(DES_PATH) :
                     img = Image.open(RES_PATH)
                     img.save(DES_PATH)
+                    differMgr.IsChangedByPath(DES_PATH)
+
                     print(str(index) + " : " + fileName + " to " + desFileName)
                     index = index + 1
 

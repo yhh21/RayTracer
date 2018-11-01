@@ -1,60 +1,45 @@
 #pragma once
 
 #include "pch.h"
+#include "Vector.hpp"
 
 namespace Utilities {
-    // RGBA default bit = 8888
     template<class T = unsigned char>
-    class Color {
+    class Color : protected Utilities::Math::Vector4<T> {
     public:
-        T GetR() const { return r; }
-        T GetG() const { return g; }
-        T GetB() const { return b; }
-        T GetA() const { return a; }
+        T GetR() const { return this->GetValue<T>(0); }
+        T GetG() const { return this->GetValue<T>(1); }
+        T GetB() const { return this->GetValue<T>(2); }
+        T GetA() const { return this->GetValue<T>(3); }
 
-        void SetR(const T r) { this->r = r; }
-        void SetG(const T g) { this->g = g; }
-        void SetB(const T b) { this->b = b; }
-        void SetA(const T a) { this->a = a; }
+        void SetR(const T r) { this->SetValue<T>(0, r); }
+        void SetG(const T g) { this->SetValue<T>(1, g); }
+        void SetB(const T b) { this->SetValue<T>(2, b); }
+        void SetA(const T a) { this->SetValue<T>(3, a); }
 
 
         Color() : Color(T(0), T(0), T(0), T(0)) { }
 
         Color(const T r, const T g, const T b) : Color(r, g, b, T(0)) { }
 
-        Color(const T r, const T g, const T b, const T a) {
-            this->r = r;
-            this->g = g;
-            this->b = b;
-            this->a = a;
-        }
+        Color(const T r, const T g, const T b, const T a) : Utilities::Math::Vector4<T>(r, g, b, a) { }
 
         Color(const Color &c) : Color(c.GetR(), c.GetG(), c.GetB(), c.GetA()) { }
 
         Color& operator=(const Color& c) {
-            Clone(c);
+            this->Utilities::Math::Vector4<T>::Clone(c);
             return *this;
-        }
-
-
-        template<class T2>
-        void Clone(const Color<T2> &c) {
-            this->r = static_cast<T>(c.GetR());
-            this->g = static_cast<T>(c.GetG());
-            this->b = static_cast<T>(c.GetB());
-            this->a = static_cast<T>(c.GetA());
         }
 
 #ifdef DEBUG
         void Print() const {
-            cout << (int)r << " " << (int)g << " " << (int)b << " " << (int)a << "\n";
+            cout << (int)this->GetR() << " " << (int)this->GetG() << " " << (int)this->GetB() << " " << (int)this->GetA() << "\n";
         }
 #endif // DEBUG
-    private:
-        T r, g, b, a;
     };
 
 
+    // CColor RGBA default bit = 8888
 #define CColor Color<unsigned char>
 
 
