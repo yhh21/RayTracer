@@ -2,12 +2,10 @@
 
 #include "Scene.hpp"
 
-#include <iostream>
-using namespace std;
-
-
 int main() {
-    cout << "hello, ray tracer!\n";
+#ifdef DEBUG
+    Utilities::DebugTools::PrintDebugLog("hello, ray tracer!\n", false);
+#endif
 
 
     Scene world;
@@ -16,7 +14,7 @@ int main() {
 
 
 //#ifdef DEBUG
-    cout << "Pass Enter:\n";
+    Utilities::DebugTools::PrintDebugLog("Pass Enter:\n", false);
     int pass;
     cin >> pass;
 //#endif

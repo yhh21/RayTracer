@@ -31,13 +31,16 @@ namespace Utilities {
 
 #ifdef DEBUG
             void Print() const {
+                string str = "[";
                 for (size_t i = 0; i < GetSize(); ++i) {
-                    cout << GetValue<T>(i);
+                    str += to_string(GetValue<T>(i));
                     if (i != GetSize() - 1) {
-                        cout << " ";
+                        str += ", ";
                     }
                 }
-                cout << "\n";
+                str += "]\n";
+
+                Utilities::DebugTools::PrintDebugLog(str);
             }
 #endif // DEBUG
 

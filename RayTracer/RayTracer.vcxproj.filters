@@ -27,9 +27,6 @@
     <ClInclude Include="Source\Matrix.hpp">
       <Filter>Source\Utilities\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SaveImage.hpp">
-      <Filter>Source\Utilities\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="Source\pch.h">
       <Filter>Source\Utilities</Filter>
     </ClInclude>
@@ -53,6 +50,12 @@
     </ClInclude>
     <ClInclude Include="Source\Window.hpp">
       <Filter>Source\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DebugTools.hpp">
+      <Filter>Source\Utilities\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ImageManager.hpp">
+      <Filter>Source\Utilities\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

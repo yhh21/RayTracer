@@ -15,9 +15,10 @@
 
 #define DEBUG
 #ifdef DEBUG
-#include <iostream>
-using namespace std;
+#include "DebugTools.hpp"
 #endif // DEBUG
+
+using namespace std;
 
 
 // Constants

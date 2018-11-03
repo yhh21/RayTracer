@@ -38,14 +38,16 @@ namespace Utilities{
 
 #ifdef DEBUG
             void Print() const {
+                string str = "";
                 for (size_t c = 0; c < col; ++c) {
                     for (size_t r = 0; r < row; ++r) {
-                        if (r == 0) cout << "[ ";
-                        cout << this->GetValue<T>(c, r);
-                        cout << r != row - 1 ? " " : " ]";
+                        if (r == 0) str += "[ ";
+                        str += to_string(this->GetValue<T>(c, r));
+                        str += r != row - 1 ? ", " : "]\n";
                     }
                 }
-                cout << "\n";
+
+                Utilities::DebugTools::PrintDebugLog(str);
             }
 #endif // DEBUG
         public:

@@ -3,10 +3,10 @@
 #include "pch.h"
 #include "ObjectsManager.hpp"
 #include "Color.hpp"
-#include "SaveImage.hpp"
 #include "Ray.hpp"
 #include "Sphere.hpp"
 #include "Window.hpp"
+#include "ImageManager.hpp"
 
 namespace Utilities {
     class Scene {
@@ -60,11 +60,12 @@ namespace Utilities {
                 }
             }
 
-            Utilities::Tools::SaveImage(vv);
+            Utilities::ImageManager::SaveImage(vv);
 
 
 #ifdef DEBUG
-            cout << "hit_num = " << hit_num << " , not_hit_num = " << col * row - hit_num << " , sum_num = " << col * row << endl;
+            string str ="hit_num = " + to_string(hit_num) + " , not_hit_num = " + to_string(col * row - hit_num) + " , sum_num = " + to_string(col * row) + "\n";
+            Utilities::DebugTools::PrintDebugLog(str);
 #endif // DEBUG
         }
 

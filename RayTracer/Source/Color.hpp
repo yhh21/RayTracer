@@ -33,7 +33,9 @@ namespace Utilities {
 
 #ifdef DEBUG
         void Print() const {
-            cout << (int)this->GetR() << " " << (int)this->GetG() << " " << (int)this->GetB() << " " << (int)this->GetA() << "\n";
+            string str = "[" + to_string((int)this->GetR()) + ", " + to_string((int)this->GetG()) + ", " +
+                to_string((int)this->GetB()) + ", " + to_string((int)this->GetA()) + "]\n";
+            Utilities::DebugTools::PrintDebugLog(str);
         }
 #endif // DEBUG
     };

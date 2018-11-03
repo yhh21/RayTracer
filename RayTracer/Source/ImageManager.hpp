@@ -10,7 +10,7 @@
 using namespace std;
 
 namespace Utilities {
-    namespace Tools {
+    namespace ImageManager {
 #ifdef PPM_FORMAT
         inline
         static void pixel_write(FILE *fp, const CColor& c) {
