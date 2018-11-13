@@ -4,6 +4,7 @@
 import os
 import sys
 import json
+import codecs
 import hashlib
 import time
 
@@ -67,5 +68,9 @@ class CDifferrenceManager() :
     def SaveMD5(self) :
         for key in self.mNewMD5s :
             self.mMD5s[key] = self.mNewMD5s[key]
-        json.dump(self.mMD5s, open(str(SAVE_MD5_PATH), "w+"))
+
+        encodedJson = json.dumps(self.mMD5s, sort_keys = True, indent = 2, ensure_ascii = False)
+        f = codecs.open(str(SAVE_MD5_PATH), "wb+", "utf-8")
+        f.write(encodedJson)
+        f.close()
 
