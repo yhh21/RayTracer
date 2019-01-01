@@ -1,0 +1,355 @@
+#pragma once
+
+#include <cmath>
+
+namespace Utilities
+{
+    namespace Math
+    {
+        template<typename T>
+        struct Vec3
+        {
+            T x, y, z;
+
+            static const size_t SIZE = 3;
+
+            ////////////////////////////////////////////////////////////////////////////////
+            /// Construction
+            ////////////////////////////////////////////////////////////////////////////////
+
+            __forceinline
+                Vec3() {}
+
+            __forceinline explicit
+                Vec3(const T& a) : x(a), y(a), z(a) {}
+
+            __forceinline explicit
+                Vec3(const T& x, const T& y, const T& z) : x(x), y(y), z(z) {}
+
+
+            __forceinline
+                Vec3(const Vec3& other)
+            {
+                Clone(other);
+            }
+
+            template<typename T1> __forceinline
+                Vec3(const Vec3<T1>& a) : x(static_cast<T>(a.x)), y(static_cast<T>(a.y)), z(static_cast<T>(a.z)) {}
+
+            template<typename T1> __forceinline
+                Vec3& operator =(const Vec3<T1>& other)
+            {
+                Clone(other);
+                return *this;
+            }
+
+
+            template<typename T1> __forceinline
+                void Clone(const Vec3<T1>& other)
+            {
+                x = other.x; y = other.y; z = other.z;
+            }
+
+
+            __forceinline
+                const T& operator [](const size_t axis) const
+            {
+                assert(axis < SIZE);
+                return (&x)[axis];
+            }
+
+            __forceinline
+                T& operator [](const size_t axis)
+            {
+                assert(axis < SIZE);
+                return (&x)[axis];
+            }
+        }
+
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Unary Operators
+        ////////////////////////////////////////////////////////////////////////////////
+
+        template<typename T> __forceinline
+            Vec3<T> operator +(const Vec3<T>& a)
+        {
+            return Vec3<T>(a.x, a.y, a.z);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> operator -(const Vec3<T>& a)
+        {
+            return Vec3<T>(-a.x, -a.y, -a.z);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> Abs(const Vec3<T>& a)
+        {
+            return Vec3<T>(abs(a.x), abs(a.y), abs(a.z));
+        }
+
+        /*
+        template<typename T> __forceinline
+            Vec3<T> Rcp(const Vec3<T>& a)
+        {
+            return Vec3<T>(rcp(a.x), rcp(a.y), rcp(a.z));
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> Rsqrt(const Vec3<T>& a)
+        {
+            return Vec3<T>(rsqrt(a.x), rsqrt(a.y), rsqrt(a.z));
+        }
+        */
+
+        template<typename T> __forceinline
+            Vec3<T> Sqrt(const Vec3<T>& a)
+        {
+            return Vec3<T>(sqrt(a.x), sqrt(a.y), sqrt(a.z));
+        }
+
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Euclidian Space Operators
+        ////////////////////////////////////////////////////////////////////////////////
+
+        template<typename T> __forceinline
+            T Dot(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return a.x * b.x + a.y * b.y + a.z * b.z;
+        }
+
+        template<typename T> __forceinline
+            T AbsDot(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return abs(Dot(a, b));
+        }
+
+        template<typename T> __forceinline
+            T Length(const Vec3<T>& a)
+        {
+            return sqrt(Dot(a, a));
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> Normalize(const Vec3<T>& a)
+        {
+            return a / sqrt(Dot(a, a));
+        }
+
+        template<typename T> __forceinline
+            T Distance(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return Length(a - b);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> cross(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return Vec3<T>((a.y * b.z) - (a.z * b.y),
+                (a.z * b.x) - (a.x * b.z),
+                (a.x * b.y) - (a.y * b.x));
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Binary Operators
+        ////////////////////////////////////////////////////////////////////////////////
+
+        template<typename T> __forceinline
+            Vec3<T> operator +(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return Vec3<T>(a.x + b.x, a.y + b.y, a.z + b.z);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> operator -(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return Vec3<T>(a.x - b.x, a.y - b.y, a.z - b.z);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> operator *(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return Vec3<T>(a.x * b.x, a.y * b.y, a.z * b.z);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> operator *(const T& a, const Vec3<T>& b)
+        {
+            return Vec3<T>(a   * b.x, a   * b.y, a   * b.z);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> operator *(const Vec3<T>& a, const T& b)
+        {
+            return Vec3<T>(a.x * b, a.y * b, a.z * b);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> operator /(const Vec3<T>& a, const T& b)
+        {
+            return Vec3<T>(a.x / b, a.y / b, a.z / b);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> operator /(const T& a, const Vec3<T>& b)
+        {
+            return Vec3<T>(a / b.x, a / b.y, a / b.z);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> operator /(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return Vec3<T>(a.x / b.x, a.y / b.y, a.z / b.z);
+        }
+
+
+        template<typename T> __forceinline
+            Vec3<T> Min(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return Vec3<T>(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z));
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> Max(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return Vec3<T>(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z));
+        }
+
+
+        template<typename T> __forceinline
+            Vec3<T> operator >>(const Vec3<T>& a, const int b)
+        {
+            return Vec3<T>(a.x >> b, a.y >> b, a.z >> b);
+        }
+
+        template<typename T> __forceinline
+            Vec3<T> operator <<(const Vec3<T>& a, const int b)
+        {
+            return Vec3<T>(a.x << b, a.y << b, a.z << b);
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Assignment Operators
+        ////////////////////////////////////////////////////////////////////////////////
+
+        template<typename T> __forceinline
+            const Vec3<T>& operator +=(Vec3<T>& a, const T b)
+        {
+            a.x += b;   a.y += b;   a.z += b;
+            return a;
+        }
+
+        template<typename T> __forceinline
+            const Vec3<T>& operator +=(Vec3<T>& a, const Vec3<T>& b)
+        {
+            a.x += b.x; a.y += b.y; a.z += b.z;
+            return a;
+        }
+
+        template<typename T> __forceinline
+            const Vec3<T>& operator -=(Vec3<T>& a, const Vec3<T>& b)
+        {
+            a.x -= b.x; a.y -= b.y; a.z -= b.z;
+            return a;
+        }
+
+        template<typename T> __forceinline
+            const Vec3<T>& operator *=(Vec3<T>& a, const T& b)
+        {
+            a.x *= b; a.y *= b; a.z *= b;
+            return a;
+        }
+
+        template<typename T> __forceinline
+            const Vec3<T>& operator /=(Vec3<T>& a, const T& b)
+        {
+            a.x /= b; a.y /= b; a.z /= b;
+            return a;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Comparison Operators
+        ////////////////////////////////////////////////////////////////////////////////
+
+        template<typename T> __forceinline
+            bool operator ==(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return a.x == b.x && a.y == b.y && a.z == b.z;
+        }
+
+        template<typename T> __forceinline
+            bool operator !=(const Vec3<T>& a, const Vec3<T>& b)
+        {
+            return a.x != b.x || a.y != b.y || a.z != b.z;
+        }
+
+        template<typename T> __forceinline
+            bool operator < (const Vec3<T>& a, const Vec3<T>& b)
+        {
+            if (a.x != b.x) return a.x < b.x;
+            if (a.y != b.y) return a.y < b.y;
+            if (a.z != b.z) return a.z < b.z;
+            return false;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Select
+        ////////////////////////////////////////////////////////////////////////////////
+
+        template<typename T> __forceinline
+            int MaxDim(const Vec3<T>& a)
+        {
+            if (a.x > a.y)
+            {
+                if (a.x > a.z) return 0;
+                else return 2;
+            }
+            else
+            {
+                if (a.y > a.z) return 1;
+                else return 2;
+            }
+        }
+
+        template<typename T> __forceinline
+            int MinDim(const Vec3<T>& a)
+        {
+            if (a.x <= a.y)
+            {
+                if (a.x <= a.z) return 0;
+                else return 2;
+            }
+            else
+            {
+                if (a.y <= a.z) return 1;
+                else return 2;
+            }
+        }
+
+        template <typename T> __forceinline
+            Vec3<T> Permute(const Vec3<T> &a, size_t x, size_t y, size_t z)
+        {
+            return Vec3<T>(a[x], a[y], a[z]);
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Output Operators
+        ////////////////////////////////////////////////////////////////////////////////
+
+        template<typename T> inline
+            std::ostream& operator<<(std::ostream& cout, const Vec3<T>& a)
+        {
+            return cout << "(" << a.x << ", " << a.y << ", " << a.z << ")";
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Default template instantiations
+        ////////////////////////////////////////////////////////////////////////////////
+
+        typedef Vec3<bool> Vec3b;
+        typedef Vec3<int> Vec3i;
+        typedef Vec3<float> Vec3f;
+    }
+}

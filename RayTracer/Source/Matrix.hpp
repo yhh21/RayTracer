@@ -2,7 +2,7 @@
 
 #include "pch.h"
 
-namespace Utilities{
+namespace Common{
     namespace Math {
         template<class T = double>
         class Matrix {
@@ -47,7 +47,7 @@ namespace Utilities{
                     }
                 }
 
-                Utilities::DebugTools::PrintDebugLog(str);
+                Common::DebugTools::PrintDebugLog(str);
             }
 #endif // DEBUG
         public:

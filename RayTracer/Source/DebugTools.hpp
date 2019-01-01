@@ -15,7 +15,7 @@
 
 using namespace std;
 
-namespace Utilities {
+namespace Common {
     namespace DebugTools {
         /// copy from https://blog.csdn.net/windpenguin/article/details/80382344
         static string TraceStack() {

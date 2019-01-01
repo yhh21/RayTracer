@@ -7,14 +7,14 @@
 namespace Objects {
     class Object {
     public:
-        Object(const Utilities::CColor &color) {
-            this->color = new Utilities::CColor(color);
+        Object(const Common::CColor &color) {
+            this->color = new Common::CColor(color);
         }
 
-        Utilities::CColor& GetColor() const { return *color; }
+        Common::CColor& GetColor() const { return *color; }
 
-        virtual bool Hit(const Utilities::Ray& ray, double& tMin) = 0;
+        virtual bool Hit(const Common::Ray& ray, double& tMin) = 0;
     private:
-        Utilities::CColor *color;
+        Common::CColor *color;
     };
 }

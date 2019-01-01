@@ -3,9 +3,9 @@
 #include "pch.h"
 #include "Vector.hpp"
 
-namespace Utilities {
+namespace Common {
     template<class T = unsigned char>
-    class Color : protected Utilities::Math::Vector4<T> {
+    class Color : protected Common::Math::Vector4<T> {
     public:
         T GetR() const { return this->GetValue<T>(0); }
         T GetG() const { return this->GetValue<T>(1); }
@@ -22,12 +22,12 @@ namespace Utilities {
 
         Color(const T r, const T g, const T b) : Color(r, g, b, T(0)) { }
 
-        Color(const T r, const T g, const T b, const T a) : Utilities::Math::Vector4<T>(r, g, b, a) { }
+        Color(const T r, const T g, const T b, const T a) : Common::Math::Vector4<T>(r, g, b, a) { }
 
         Color(const Color &c) : Color(c.GetR(), c.GetG(), c.GetB(), c.GetA()) { }
 
         Color& operator=(const Color& c) {
-            this->Utilities::Math::Vector4<T>::Clone(c);
+            this->Common::Math::Vector4<T>::Clone(c);
             return *this;
         }
 
@@ -35,7 +35,7 @@ namespace Utilities {
         void Print() const {
             string str = "[" + to_string((int)this->GetR()) + ", " + to_string((int)this->GetG()) + ", " +
                 to_string((int)this->GetB()) + ", " + to_string((int)this->GetA()) + "]\n";
-            Utilities::DebugTools::PrintDebugLog(str);
+            Common::DebugTools::PrintDebugLog(str);
         }
 #endif // DEBUG
     };

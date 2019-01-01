@@ -4,37 +4,28 @@
     <Filter Include="Source">
       <UniqueIdentifier>{b25d0e1e-c229-4ea5-bc2e-a95a660f0bc3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Utilities">
-      <UniqueIdentifier>{38663b84-b693-4612-a986-f014f23ccca7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utilities\Math">
-      <UniqueIdentifier>{15e2a607-75f6-4776-b96e-cf1ce9406364}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utilities\Tools">
-      <UniqueIdentifier>{b010eaa7-c6a5-4c67-9b0f-b7010339cba0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Objects">
       <UniqueIdentifier>{87adc243-6125-4df4-a884-f5db42d5f17f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common">
+      <UniqueIdentifier>{38663b84-b693-4612-a986-f014f23ccca7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common\Math">
+      <UniqueIdentifier>{15e2a607-75f6-4776-b96e-cf1ce9406364}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common\Tools">
+      <UniqueIdentifier>{b010eaa7-c6a5-4c67-9b0f-b7010339cba0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Color.hpp">
-      <Filter>Source\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Vector.hpp">
-      <Filter>Source\Utilities\Math</Filter>
+      <Filter>Source\Common</Filter>
     </ClInclude>
     <ClInclude Include="Source\Matrix.hpp">
-      <Filter>Source\Utilities\Math</Filter>
+      <Filter>Source\Common\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\pch.h">
-      <Filter>Source\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Ray.hpp">
-      <Filter>Source\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Point.hpp">
-      <Filter>Source\Utilities\Math</Filter>
+      <Filter>Source\Common</Filter>
     </ClInclude>
     <ClInclude Include="Source\Object.hpp">
       <Filter>Source\Objects</Filter>
@@ -46,16 +37,39 @@
       <Filter>Source\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene.hpp">
-      <Filter>Source\Utilities</Filter>
+      <Filter>Source\Common</Filter>
     </ClInclude>
     <ClInclude Include="Source\Window.hpp">
-      <Filter>Source\Utilities</Filter>
+      <Filter>Source\Common</Filter>
     </ClInclude>
     <ClInclude Include="Source\DebugTools.hpp">
-      <Filter>Source\Utilities\Tools</Filter>
+      <Filter>Source\Common\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Source\ImageManager.hpp">
-      <Filter>Source\Utilities\Tools</Filter>
+      <Filter>Source\Common\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Vec2.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Vec3.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Vec4.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Ray.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Bounds2.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Bounds3.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Constants.h" />
+    <ClInclude Include="Source\common\math\Transform.h" />
+    <ClInclude Include="Source\common\math\Mat3.h">
+      <Filter>Source\Common\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

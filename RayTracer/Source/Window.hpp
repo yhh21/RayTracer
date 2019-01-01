@@ -4,7 +4,7 @@
 #include "Color.hpp"
 #include <vector>
 
-namespace Utilities {
+namespace Common {
     class Window {
     public:
         size_t GetCol() const { return this->col; }

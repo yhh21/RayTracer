@@ -9,7 +9,7 @@
 
 using namespace std;
 
-namespace Utilities {
+namespace Common {
     namespace ImageManager {
 #ifdef PPM_FORMAT
         inline

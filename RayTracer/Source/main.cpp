@@ -4,7 +4,7 @@
 
 int main() {
 #ifdef DEBUG
-    Utilities::DebugTools::PrintDebugLog("hello, ray tracer!\n", false);
+    Common::DebugTools::PrintDebugLog("hello, ray tracer!\n", false);
 #endif
 
 
@@ -14,7 +14,7 @@ int main() {
 
 
 //#ifdef DEBUG
-    Utilities::DebugTools::PrintDebugLog("Pass Enter:\n", false);
+    Common::DebugTools::PrintDebugLog("Pass Enter:\n", false);
     int pass;
     cin >> pass;
 //#endif

@@ -5,8 +5,8 @@
 #include "Point.hpp"
 #include <cmath>
 
-using namespace Utilities;
-using namespace Utilities::Math;
+using namespace Common;
+using namespace Common::Math;
 
 namespace Objects {
     class Sphere : public Object {
