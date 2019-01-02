@@ -18,4 +18,6 @@
 #include "DebugTools.hpp"
 #endif /// DEBUG
 
+#include <cassert>
+
 using namespace std;

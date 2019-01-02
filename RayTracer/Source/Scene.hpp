@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "ObjectsManager.hpp"
 #include "Color.hpp"
-#include "Ray.hpp"
+#include "core/Ray.h"
 #include "Sphere.hpp"
 #include "Window.hpp"
 #include "ImageManager.hpp"
@@ -39,7 +39,7 @@ namespace Common {
 
             for (int c = 0; c < col; ++c) {
                 for (int r = 0; r < row; ++r) {
-                    Ray *ray = new Ray(eye, Vec3f(r - row / 2, c - col / 2, col / 2));
+                    Ray<float> *ray = new Ray<float>(eye, Vec3f(r - row / 2, c - col / 2, col / 2));
 
                     bool isHit = false;
                     double tMin;
@@ -50,11 +50,11 @@ namespace Common {
                             isHit = true;
                             tMin = t;
 #ifdef DEBUG
-                                ++hit_num;
+                            ++hit_num;
 #endif //DEBUG
                         }
                     }
-                    
+
                     vv[c].push_back(isHit ? *pColor : CColor_RED);
                     //if (isHit) pColor->Print();
                 }
@@ -64,7 +64,7 @@ namespace Common {
 
 
 #ifdef DEBUG
-            string str ="hit_num = " + to_string(hit_num) + " , not_hit_num = " + to_string(col * row - hit_num) + " , sum_num = " + to_string(col * row) + "\n";
+            string str = "hit_num = " + to_string(hit_num) + " , not_hit_num = " + to_string(col * row - hit_num) + " , sum_num = " + to_string(col * row) + "\n";
             Common::DebugTools::PrintDebugLog(str);
 #endif // DEBUG
         }

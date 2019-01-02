@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include <cmath>
+#include "common/math/Constants.h"
 #include "Object.hpp"
 #include "common/math/Vec3.h"
 
@@ -19,11 +19,11 @@ namespace Objects {
             this->radius = radius;
         }
 
-        virtual bool Hit(const Ray& ray, double& tMin) {
+        virtual bool Hit(const Ray<float>& ray, double& tMin) {
             Vec3f oc = (ray.origin - GetCenter());
-            double a = ray.dir.Dot(ray.dir);
-            double b = oc.Dot(ray.dir) * 2.0;
-            double c = oc.Dot(oc) - GetRadius() * GetRadius();
+            double a = LengthSquared(ray.dir);
+            double b = Dot(oc, ray.dir) * 2.0;
+            double c = LengthSquared(oc) - GetRadius() * GetRadius();
 
             double discriminant = b * b - 4.0 * a * c;
 

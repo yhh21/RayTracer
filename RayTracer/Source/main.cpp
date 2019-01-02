@@ -13,10 +13,10 @@ int main() {
     world.RenderScene();
 
 
-//#ifdef DEBUG
+    //#ifdef DEBUG
     Common::DebugTools::PrintDebugLog("Pass Enter:\n", false);
     int pass;
     cin >> pass;
-//#endif
+    //#endif
     return 0;
 }

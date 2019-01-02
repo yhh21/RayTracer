@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cmath>
+#include "common/math/Constants.h"
 
 namespace Common
 {
@@ -89,7 +89,7 @@ namespace Common
             return Vec2<T>(abs(a.x), abs(a.y));
         }
 
-        
+
         template<typename T> __forceinline
             Vec2<T> Rcp(const Vec2<T>& a)
         {

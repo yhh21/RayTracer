@@ -54,15 +54,8 @@ namespace Common {
             return oss.str();
         }
 
-
-        static void PrintDebugLog(const char *str, bool isPrintTraceStack = true) {
-            cout << str;
-            if (isPrintTraceStack) {
-                cout << TraceStack();
-            }
-        }
-
-        static void PrintDebugLog(const string str, bool isPrintTraceStack = true) {
+        template<typename T> inline
+            static void PrintDebugLog(const T &str, bool isPrintTraceStack = false) {
             cout << str;
             if (isPrintTraceStack) {
                 cout << TraceStack();

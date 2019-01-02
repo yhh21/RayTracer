@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cmath>
+#include "common/math/Constants.h"
 #include "Mat4.h"
 #include "Vec3.h"
 #include "Ray.h"
@@ -172,7 +172,7 @@ namespace Common
         }
 
         template <typename T> inline
-        Bounds3f operator()(const Transform<T> &trans, const Bounds3f<T> &bounds) const {
+            Bounds3f operator()(const Transform<T> &trans, const Bounds3f<T> &bounds) const {
             Bounds3f ret(trans(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_min.z)));
             ret = Union(ret, trans(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_min.z)));
             ret = Union(ret, trans(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_min.z)));

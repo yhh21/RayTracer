@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include <cmath>
+#include "common/math/Constants.h"
 #include "Vec2.h"
 
 namespace Common

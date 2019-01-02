@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include "Color.hpp"
-#include "common/math/Ray.h"
+#include "core/Ray.h"
 
 namespace Objects {
     class Object {

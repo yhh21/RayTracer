@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cmath>
-#include "Vec3.h"
+#include "common/math/Constants.h"
+#include "common/math/Vec3.h"
 
 class Medium;
 
@@ -35,7 +35,7 @@ namespace Common
             , const Vec3T& direction = Vec3T(static_cast<T>(0), static_cast<T>(0), static_cast<T>(1))
             , T t_max = (std::numeric_limits<T>::max)(), T t_min = static_cast<T>(0)
             , T time = static_cast<T>(0))
-            : origin(origin), dir(direction), inv_dir(1 / direction), t_max(t_max), t_min(t_min)
+            : origin(origin), dir(direction), inv_dir(-dir), t_max(t_max), t_min(t_min)
         {}
 
 

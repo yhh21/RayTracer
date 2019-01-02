@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cmath>
+#include "common/math/Constants.h"
 
 namespace Common
 {

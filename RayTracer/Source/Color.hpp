@@ -5,7 +5,7 @@
 
 namespace Common {
     template<class T = unsigned char>
-    class Color : protected Common::Math::Vec4<T> {
+    class Color : public Common::Math::Vec4<T> {
     public:
         Color() : Color(T(0), T(0), T(0), T(0)) { }
 

@@ -78,7 +78,9 @@
     <ClInclude Include="Source\common\math\Quaternion.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\core\Ray.h" />
+    <ClInclude Include="Source\core\Ray.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">

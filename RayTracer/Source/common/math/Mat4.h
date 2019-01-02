@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cmath>
+#include "common/math/Constants.h"
 #include "Vec4.h"
 
 namespace Common
@@ -393,7 +393,7 @@ namespace Common
         }
 
         template<typename T> __forceinline
-        Mat4 Transpose(Mat4<T>& mat4) const
+            Mat4 Transpose(Mat4<T>& mat4) const
         {
             return Mat4<T>(mat4[0][0], mat4[1][0], mat4[2][0], mat4[3][0]
                 , mat4[0][1], mat4[1][1], mat4[2][1], mat4[3][1]
