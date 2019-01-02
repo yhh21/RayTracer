@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-namespace Utilities
+namespace Common
 {
     namespace Math
     {
@@ -64,7 +64,7 @@ namespace Utilities
                 assert(axis < SIZE);
                 return (&x)[axis];
             }
-        }
+        };
 
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -89,11 +89,11 @@ namespace Utilities
             return Vec2<T>(abs(a.x), abs(a.y));
         }
 
-        /*
+        
         template<typename T> __forceinline
             Vec2<T> Rcp(const Vec2<T>& a)
         {
-            return Vec2<T>(rcp(a.x), rcp(a.y));
+            return Vec2<T>(rcp(a.x), r(a.y));
         }
 
         template<typename T> __forceinline
@@ -101,7 +101,6 @@ namespace Utilities
         {
             return Vec2<T>(rsqrt(a.x), rsqrt(a.y));
         }
-        */
 
         template<typename T> __forceinline
             Vec2<T> Sqrt(const Vec2<T>& a)

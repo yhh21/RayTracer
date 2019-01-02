@@ -1,9 +1,10 @@
+/// TODO
 #pragma once
 
 #include <cmath>
 #include "Vec3.h"
 
-namespace Utilities
+namespace Common
 {
     namespace Math
     {
@@ -113,21 +114,20 @@ namespace Utilities
                 mat[2][2] = v3[2];
             }
 
-            /*
+
             __forceinline
-                const T& operator[](size_t index) const
+                const T* operator[](size_t i) const
             {
-                assert(index < SIZE * SIZE);
-                return mat[index / SIZE][j % SIZE];
+                assert(index < SIZE);
+                return &(mat[index]);
             }
 
             __forceinline
-                T& operator[](size_t index)
+                T* operator[](size_t i)
             {
-                assert(index < SIZE * SIZE);
-                return mat[index / SIZE][j % SIZE];
+                assert(index < SIZE);
+                return &(mat[index]);
             }
-            */
 
             __forceinline
                 const T& operator()(size_t i, size_t j) const
@@ -142,7 +142,7 @@ namespace Utilities
                 assert(i < SIZE && j < SIZE);
                 return mat[i][j];
             }
-        }
+        };
 
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -237,6 +237,18 @@ namespace Utilities
                 + other[2][7] * other[1][5] + other[2][8] * other[2][8]);
 
             return *this;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Output Operators
+        ////////////////////////////////////////////////////////////////////////////////
+
+        template<typename T> inline
+            std::ostream& operator<<(std::ostream& cout, const Mat3<T>& mat3)
+        {
+            return cout << "[" << mat3[0][0] << ", " << mat3[0][1] << ", " << mat3[0][2] << "]" << endl
+                << "[" << mat3[1][0] << ", " << mat3[1][1] << ", " << mat3[1][2] << "]" << endl
+                << "[" << mat3[2][0] << ", " << mat3[2][1] << ", " << mat3[2][2] << "]";
         }
     }
 }

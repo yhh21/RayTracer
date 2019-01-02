@@ -16,13 +16,13 @@
     <Filter Include="Source\Common\Tools">
       <UniqueIdentifier>{b010eaa7-c6a5-4c67-9b0f-b7010339cba0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Core">
+      <UniqueIdentifier>{d64c2730-5226-467c-bf40-c68833b6881f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Color.hpp">
       <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Matrix.hpp">
-      <Filter>Source\Common\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\pch.h">
       <Filter>Source\Common</Filter>
@@ -57,20 +57,28 @@
     <ClInclude Include="Source\common\math\Vec4.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\common\math\Ray.h">
-      <Filter>Source\Common\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Source\common\math\Bounds2.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\common\math\Bounds3.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\common\math\Constants.h" />
-    <ClInclude Include="Source\common\math\Transform.h" />
     <ClInclude Include="Source\common\math\Mat3.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Source\common\math\Transform.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Mat4.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Constants.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Quaternion.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\Ray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">

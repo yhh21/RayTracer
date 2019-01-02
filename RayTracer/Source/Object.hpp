@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include "Color.hpp"
-#include "Ray.hpp"
+#include "common/math/Ray.h"
 
 namespace Objects {
     class Object {
@@ -13,7 +13,7 @@ namespace Objects {
 
         Common::CColor& GetColor() const { return *color; }
 
-        virtual bool Hit(const Common::Ray& ray, double& tMin) = 0;
+        virtual bool Hit(const Common::Ray<float>& ray, double& tMin) = 0;
     private:
         Common::CColor *color;
     };

@@ -8,15 +8,15 @@
 #include "Window.hpp"
 #include "ImageManager.hpp"
 
-namespace Utilities {
+namespace Common {
     class Scene {
     public:
         void BuildWord() {
             size_t col = 300, row = 300;
-            window = new Utilities::Window(col, row);
+            window = new Common::Window(col, row);
 
-            Objects::Sphere *sphere1 = new Objects::Sphere(CColor_WHITE, DPoint3(row / 2, col / 2 - col / 8, col / 2), col / 4);
-            Objects::Sphere *sphere2 = new Objects::Sphere(CColor_GREEN, DPoint3(row / 2, col / 2 + col / 8, col / 2 + col / 8), col / 4);
+            Objects::Sphere *sphere1 = new Objects::Sphere(CColor_WHITE, Vec3f(row / 2, col / 2 - col / 8, col / 2), col / 4);
+            Objects::Sphere *sphere2 = new Objects::Sphere(CColor_GREEN, Vec3f(row / 2, col / 2 + col / 8, col / 2 + col / 8), col / 4);
 
             objsMgr.AddObject(sphere1);
             objsMgr.AddObject(sphere2);
@@ -35,11 +35,11 @@ namespace Utilities {
             CColor *pColor = nullptr;
             auto objs = objsMgr.GetObjects();
             size_t objsLength = objs.size();
-            DPoint3 eye(row / 2, col / 2, 0);
+            Vec3f eye(row / 2, col / 2, 0);
 
             for (int c = 0; c < col; ++c) {
                 for (int r = 0; r < row; ++r) {
-                    Ray *ray = new Ray(eye, DVector3(r - row / 2, c - col / 2, col / 2));
+                    Ray *ray = new Ray(eye, Vec3f(r - row / 2, c - col / 2, col / 2));
 
                     bool isHit = false;
                     double tMin;
@@ -60,18 +60,18 @@ namespace Utilities {
                 }
             }
 
-            Utilities::ImageManager::SaveImage(vv);
+            Common::ImageManager::SaveImage(vv);
 
 
 #ifdef DEBUG
             string str ="hit_num = " + to_string(hit_num) + " , not_hit_num = " + to_string(col * row - hit_num) + " , sum_num = " + to_string(col * row) + "\n";
-            Utilities::DebugTools::PrintDebugLog(str);
+            Common::DebugTools::PrintDebugLog(str);
 #endif // DEBUG
         }
 
 
     private:
         Objects::ObjectsManager objsMgr;
-        Utilities::Window *window;
+        Common::Window *window;
     };
 }

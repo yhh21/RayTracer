@@ -4,7 +4,7 @@
 #include <cmath>
 #include "Vec2.h"
 
-namespace Utilities
+namespace Common
 {
     namespace Math
     {
@@ -116,7 +116,7 @@ namespace Utilities
                 *center = (point_min + point_max) * static_cast<T>(0.5);
                 *radius = Inside(*center, *this) ? Distance(*center, point_max) : 0;
             }
-        }
+        };
 
 
         template <typename T>

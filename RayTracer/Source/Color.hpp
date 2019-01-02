@@ -1,43 +1,24 @@
 #pragma once
 
 #include "pch.h"
-#include "Vector.hpp"
+#include "common/math/Vec4.h"
 
 namespace Common {
     template<class T = unsigned char>
-    class Color : protected Common::Math::Vector4<T> {
+    class Color : protected Common::Math::Vec4<T> {
     public:
-        T GetR() const { return this->GetValue<T>(0); }
-        T GetG() const { return this->GetValue<T>(1); }
-        T GetB() const { return this->GetValue<T>(2); }
-        T GetA() const { return this->GetValue<T>(3); }
-
-        void SetR(const T r) { this->SetValue<T>(0, r); }
-        void SetG(const T g) { this->SetValue<T>(1, g); }
-        void SetB(const T b) { this->SetValue<T>(2, b); }
-        void SetA(const T a) { this->SetValue<T>(3, a); }
-
-
         Color() : Color(T(0), T(0), T(0), T(0)) { }
 
         Color(const T r, const T g, const T b) : Color(r, g, b, T(0)) { }
 
-        Color(const T r, const T g, const T b, const T a) : Common::Math::Vector4<T>(r, g, b, a) { }
+        Color(const T r, const T g, const T b, const T a) : Common::Math::Vec4<T>(r, g, b, a) { }
 
-        Color(const Color &c) : Color(c.GetR(), c.GetG(), c.GetB(), c.GetA()) { }
+        Color(const Color &c) : Color(c[0], c[1], c[2], c[3]) { }
 
         Color& operator=(const Color& c) {
-            this->Common::Math::Vector4<T>::Clone(c);
+            this->Common::Math::Vec4<T>::Clone(c);
             return *this;
         }
-
-#ifdef DEBUG
-        void Print() const {
-            string str = "[" + to_string((int)this->GetR()) + ", " + to_string((int)this->GetG()) + ", " +
-                to_string((int)this->GetB()) + ", " + to_string((int)this->GetA()) + "]\n";
-            Common::DebugTools::PrintDebugLog(str);
-        }
-#endif // DEBUG
     };
 
 

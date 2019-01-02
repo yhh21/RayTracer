@@ -23,13 +23,14 @@
     <ClInclude Include="Source\common\math\Bounds3.h" />
     <ClInclude Include="Source\common\math\Constants.h" />
     <ClInclude Include="Source\common\math\Mat3.h" />
-    <ClInclude Include="Source\common\math\Ray.h" />
+    <ClInclude Include="Source\common\math\Mat4.h" />
+    <ClInclude Include="Source\common\math\Quaternion.h" />
     <ClInclude Include="Source\common\math\Transform.h" />
     <ClInclude Include="Source\common\math\Vec2.h" />
     <ClInclude Include="Source\common\math\Vec3.h" />
     <ClInclude Include="Source\common\math\Vec4.h" />
+    <ClInclude Include="Source\core\Ray.h" />
     <ClInclude Include="Source\DebugTools.hpp" />
-    <ClInclude Include="Source\Matrix.hpp" />
     <ClInclude Include="Source\Object.hpp" />
     <ClInclude Include="Source\ObjectsManager.hpp" />
     <ClInclude Include="Source\pch.h" />

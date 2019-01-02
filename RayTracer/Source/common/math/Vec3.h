@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-namespace Utilities
+namespace Common
 {
     namespace Math
     {
@@ -64,7 +64,7 @@ namespace Utilities
                 assert(axis < SIZE);
                 return (&x)[axis];
             }
-        }
+        };
 
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +89,6 @@ namespace Utilities
             return Vec3<T>(abs(a.x), abs(a.y), abs(a.z));
         }
 
-        /*
         template<typename T> __forceinline
             Vec3<T> Rcp(const Vec3<T>& a)
         {
@@ -101,7 +100,6 @@ namespace Utilities
         {
             return Vec3<T>(rsqrt(a.x), rsqrt(a.y), rsqrt(a.z));
         }
-        */
 
         template<typename T> __forceinline
             Vec3<T> Sqrt(const Vec3<T>& a)
@@ -127,15 +125,21 @@ namespace Utilities
         }
 
         template<typename T> __forceinline
+            T LengthSquared(const Vec3<T>& a)
+        {
+            return Dot(a, a);
+        }
+
+        template<typename T> __forceinline
             T Length(const Vec3<T>& a)
         {
-            return sqrt(Dot(a, a));
+            return sqrt(LengthSquared(a));
         }
 
         template<typename T> __forceinline
             Vec3<T> Normalize(const Vec3<T>& a)
         {
-            return a / sqrt(Dot(a, a));
+            return a / Length(a);
         }
 
         template<typename T> __forceinline
@@ -145,11 +149,11 @@ namespace Utilities
         }
 
         template<typename T> __forceinline
-            Vec3<T> cross(const Vec3<T>& a, const Vec3<T>& b)
+            Vec3<T> Cross(const Vec3<T>& a, const Vec3<T>& b)
         {
-            return Vec3<T>((a.y * b.z) - (a.z * b.y),
-                (a.z * b.x) - (a.x * b.z),
-                (a.x * b.y) - (a.y * b.x));
+            return Vec3<T>((a.y * b.z) - (a.z * b.y)
+                , (a.z * b.x) - (a.x * b.z)
+                , (a.x * b.y) - (a.y * b.x));
         }
 
         ////////////////////////////////////////////////////////////////////////////////
