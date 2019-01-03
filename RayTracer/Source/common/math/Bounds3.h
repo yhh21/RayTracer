@@ -1,7 +1,6 @@
 #pragma once
 
-
-#include "common/math/Constants.h"
+#include "Constants.h"
 #include "Vec3.h"
 
 namespace Common
@@ -26,7 +25,8 @@ namespace Common
                 point_max = Vec3<T>(max_num);
             }
 
-            explicit Bounds3(const Vec3<T> &p) : point_min(p), point_max(p) {}
+            explicit Bounds3(const Vec3<T> &p) : point_min(p), point_max(p)
+            {}
 
             Bounds3(const Vec3<T> &p1, const Vec3<T> &p2)
                 : point_min(Min(p1, p2)), point_max(Max(p1, p2))
@@ -43,27 +43,31 @@ namespace Common
             __forceinline
                 const Vec3<T> &operator[](size_t axis) const
             {
-                assert(axis < 2);
+                CHECK_LT(axis, 2);
                 return (i == 0) ? point_min : point_max;
             }
 
             __forceinline
                 Vec3<T> &operator[](size_t axis)
             {
-                assert(axis < 2);
+                CHECK_LT(axis, 2);
                 return (i == 1) ? point_min : point_max;
             }
 
 
             Vec3<T> Corner(int corner) const
             {
-                assert(corner >= 0 && corner < 8);
-                return Vec3<T>((*this)[(corner & 1)].x,
+                CHECK_GE(corner, 0);
+                CHECK_LT(corner, 8)
+                    return Vec3<T>((*this)[(corner & 1)].x,
                     (*this)[(corner & 2) ? 1 : 0].y,
-                    (*this)[(corner & 4) ? 1 : 0].z);
+                        (*this)[(corner & 4) ? 1 : 0].z);
             }
 
-            Vec3<T> Diagonal() const { return point_max - point_min; }
+            Vec3<T> Diagonal() const
+            {
+                return point_max - point_min;
+            }
 
             T SurfaceArea() const
             {
@@ -151,10 +155,10 @@ namespace Common
             return ret;
         }
 
-        bool IntersectP(const Ray &ray, T *hitt0 = nullptr, T *hitt1 = nullptr) const;
+        bool IntersectP(const Core::Ray &ray, T *hitt0 = nullptr, T *hitt1 = nullptr) const;
 
         inline
-            bool IntersectP(const Ray &ray, const Vector3f &invDir, const int dirIsNeg[3]) const;
+            bool IntersectP(const Core::Ray &ray, const Vector3f &invDir, const int dirIsNeg[3]) const;
 
 
         template <typename T>
@@ -203,7 +207,7 @@ namespace Common
         /// Default template instantiations
         ////////////////////////////////////////////////////////////////////////////////
 
-        typedef Bounds3<float> Bounds3f;
+        typedef Bounds3<Float> Bounds3f;
         typedef Bounds3<int> Bounds3i;
     }
 }

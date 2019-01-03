@@ -4,50 +4,26 @@
     <Filter Include="Source">
       <UniqueIdentifier>{b25d0e1e-c229-4ea5-bc2e-a95a660f0bc3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Objects">
-      <UniqueIdentifier>{87adc243-6125-4df4-a884-f5db42d5f17f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Common">
       <UniqueIdentifier>{38663b84-b693-4612-a986-f014f23ccca7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Common\Math">
       <UniqueIdentifier>{15e2a607-75f6-4776-b96e-cf1ce9406364}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Common\Tools">
-      <UniqueIdentifier>{b010eaa7-c6a5-4c67-9b0f-b7010339cba0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Core">
       <UniqueIdentifier>{d64c2730-5226-467c-bf40-c68833b6881f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Core\Color">
+      <UniqueIdentifier>{cf8280ab-dabf-4d3b-9367-f02631c67764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common\Tool">
+      <UniqueIdentifier>{b010eaa7-c6a5-4c67-9b0f-b7010339cba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Object">
+      <UniqueIdentifier>{87adc243-6125-4df4-a884-f5db42d5f17f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Color.hpp">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\pch.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object.hpp">
-      <Filter>Source\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Sphere.hpp">
-      <Filter>Source\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ObjectsManager.hpp">
-      <Filter>Source\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene.hpp">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Window.hpp">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DebugTools.hpp">
-      <Filter>Source\Common\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ImageManager.hpp">
-      <Filter>Source\Common\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="Source\common\math\Vec2.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
@@ -80,6 +56,45 @@
     </ClInclude>
     <ClInclude Include="Source\core\Ray.h">
       <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\color\CoefficientSpectrum.h">
+      <Filter>Source\Core\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\color\SampledSpectrum.h">
+      <Filter>Source\Core\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\pch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\tool\DebugTools.h">
+      <Filter>Source\Common\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\tool\ImageManager.h">
+      <Filter>Source\Common\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Color.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectsManager.h">
+      <Filter>Source\Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object.h">
+      <Filter>Source\Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sphere.h">
+      <Filter>Source\Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\color\RGBSpectrum.h">
+      <Filter>Source\Core\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TestCompiling.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/math/Constants.h"
+#include "Constants.h"
 
 namespace Common
 {
@@ -18,13 +18,16 @@ namespace Common
             ////////////////////////////////////////////////////////////////////////////////
 
             __forceinline
-                Vec4() {}
+                Vec4()
+            {}
 
             __forceinline explicit
-                Vec4(const T& a) : x(a), y(a), z(a), w(a) {}
+                Vec4(const T& a) : x(a), y(a), z(a), w(a)
+            {}
 
             __forceinline explicit
-                Vec4(const T& x, const T& y, const T& z, const T& w) : x(x), y(y), z(z), w(w) {}
+                Vec4(const T& x, const T& y, const T& z, const T& w) : x(x), y(y), z(z), w(w)
+            {}
 
 
             __forceinline
@@ -34,7 +37,8 @@ namespace Common
             }
 
             template<typename T1> __forceinline
-                Vec4(const Vec4<T1>& a) : x(static_cast<T>(a.x)), y(static_cast<T>(a.y)), z(static_cast<T>(a.z)), w(static_cast<T>(a.w)) {}
+                Vec4(const Vec4<T1>& a) : x(static_cast<T>(a.x)), y(static_cast<T>(a.y)), z(static_cast<T>(a.z)), w(static_cast<T>(a.w))
+            {}
 
             template<typename T1> __forceinline
                 Vec4& operator =(const Vec4<T1>& other)
@@ -54,14 +58,18 @@ namespace Common
             __forceinline
                 const T& operator [](const size_t axis) const
             {
-                assert(axis < SIZE);
+            #ifdef DEBUG
+                CHECK_LT(axis, SIZE);
+            #endif // DEBUG
                 return (&x)[axis];
             }
 
             __forceinline
                 T& operator [](const size_t axis)
             {
-                assert(axis < SIZE);
+            #ifdef DEBUG
+                CHECK_LT(axis, SIZE);
+            #endif // DEBUG
                 return (&x)[axis];
             }
         };
@@ -292,6 +300,6 @@ namespace Common
         typedef Vec4<bool> Vec4b;
         typedef Vec4<unsigned char> Vec4uc;
         typedef Vec4<int> Vec4i;
-        typedef Vec4<float> Vec4f;
+        typedef Vec4<Float> Vec4f;
     }
 }

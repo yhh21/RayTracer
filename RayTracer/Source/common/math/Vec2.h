@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/math/Constants.h"
+#include "Constants.h"
 
 namespace Common
 {
@@ -18,13 +18,16 @@ namespace Common
             ////////////////////////////////////////////////////////////////////////////////
 
             __forceinline
-                Vec2() {}
+                Vec2()
+            {}
 
             __forceinline explicit
-                Vec2(const T& a) : x(a), y(a) {}
+                Vec2(const T& a) : x(a), y(a)
+            {}
 
             __forceinline explicit
-                Vec2(const T& x, const T& y) : x(x), y(y) {}
+                Vec2(const T& x, const T& y) : x(x), y(y)
+            {}
 
 
             __forceinline
@@ -34,7 +37,8 @@ namespace Common
             }
 
             template<typename T1> __forceinline
-                Vec2(const Vec2<T1>& a) : x(static_cast<T>(a.x)), y(static_cast<T>(a.y)) {}
+                Vec2(const Vec2<T1>& a) : x(static_cast<T>(a.x)), y(static_cast<T>(a.y))
+            {}
 
             template<typename T1> __forceinline
                 Vec2& operator =(const Vec2<T1>& other)
@@ -54,14 +58,14 @@ namespace Common
             __forceinline
                 const T& operator [](const size_t axis) const
             {
-                assert(axis < SIZE);
+                CHECK_LT(axis, SIZE);
                 return (&x)[axis];
             }
 
             __forceinline
                 T& operator [](const size_t axis)
             {
-                assert(axis < SIZE);
+                CHECK_LT(axis, SIZE);
                 return (&x)[axis];
             }
         };
@@ -310,6 +314,6 @@ namespace Common
 
         typedef Vec2<bool> Vec2b;
         typedef Vec2<int> Vec2i;
-        typedef Vec2<float> Vec2f;
+        typedef Vec2<Float> Vec2f;
     }
 }

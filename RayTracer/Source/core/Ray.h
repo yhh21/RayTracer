@@ -7,7 +7,7 @@ class Medium;
 
 using namespace Common::Math;
 
-namespace Common
+namespace Core
 {
     template<typename T = double>
     class Ray
@@ -39,6 +39,7 @@ namespace Common
         {}
 
 
+        __forceinline
         Vec3T operator()(T t) const
         {
             return origin + dir * t;

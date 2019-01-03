@@ -1,9 +1,9 @@
 #pragma once
 
-#include "common/math/Constants.h"
+#include "Constants.h"
 #include "Mat4.h"
 #include "Vec3.h"
-#include "Ray.h"
+#include "Core::Ray.h"
 
 namespace Common
 {
@@ -22,7 +22,8 @@ namespace Common
             /// Construction
             ////////////////////////////////////////////////////////////////////////////////
 
-            Transform() {}
+            Transform()
+            {}
 
             Transform(const T m[4][4]) : mat4(Mat4x4T(m)), inv_mat4(Inverse(mat4))
             {}
@@ -47,7 +48,8 @@ namespace Common
 
 
         template <typename T>
-        Transform<T> Translate(const Vec3<T> &delta) {
+        Transform<T> Translate(const Vec3<T> &delta)
+        {
             Mat4<T> m(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0), delta[0]
                 , static_cast<T>(0), static_cast<T>(1), static_cast<T>(0), delta[1]
                 , static_cast<T>(0), static_cast<T>(0), static_cast<T>(1), delta[2]
@@ -62,7 +64,8 @@ namespace Common
         }
 
         template <typename T>
-        Transform<T> Scale(const Vec3<T> &scale) {
+        Transform<T> Scale(const Vec3<T> &scale)
+        {
             Mat4<T> m(scale[0], static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)
                 , static_cast<T>(0), scale[1], static_cast<T>(0), static_cast<T>(0)
                 , static_cast<T>(0), static_cast<T>(0), scale[2], static_cast<T>(0)
@@ -78,7 +81,8 @@ namespace Common
 
 
         template <typename T>
-        Transform<T> Rotate(const T theta, const Vec3<T> &axis) {
+        Transform<T> Rotate(const T theta, const Vec3<T> &axis)
+        {
             Vec3<T> normal_axis = Normalize(axis);
 
             T sin_theta = std::sin(Radians(theta));
@@ -107,7 +111,8 @@ namespace Common
 
 
         template <typename T>
-        Transform<T> LookAt(const Vec3<T> &pos, const Vec3<T> &look, const Vec3<T> &up) {
+        Transform<T> LookAt(const Vec3<T> &pos, const Vec3<T> &look, const Vec3<T> &up)
+        {
             Mat4<T> camera_to_world;
             /// Initialize fourth column of viewing matrix
             camera_to_world[0][3] = pos[0];
@@ -117,7 +122,8 @@ namespace Common
 
             /// Initialize first three columns of viewing matrix
             Vec3<T> dir = Normalize(look - pos);
-            if (Cross(Normalize(up), dir).Length() == 0) {
+            if (Cross(Normalize(up), dir).Length() == 0)
+            {
                 /*
                 Error(
                     "\"up\" vector (%f, %f, %f) and viewing direction (%f, %f, %f) "
@@ -162,17 +168,18 @@ namespace Common
         }
 
         template <typename T> inline
-            Ray<T> operator()(const Transform<T> &trans, const Ray<T> &ray) const
+            Core::Ray<T> operator()(const Transform<T> &trans, const Core::Ray<T> &ray) const
         {
             Vec3<T> oError;
             Vec3<T> origin = (*this)(ray.origin, &oError);
             Vec3<T> dir = (*this)(ray.dir);
             /// <Offset ray origin to edge of error bounds and compute tMax 233>
-            return Ray(origin, dir, tMax, ray.time, ray.medium);
+            return Core::Ray(origin, dir, tMax, ray.time, ray.medium);
         }
 
         template <typename T> inline
-            Bounds3f operator()(const Transform<T> &trans, const Bounds3f<T> &bounds) const {
+            Bounds3f operator()(const Transform<T> &trans, const Bounds3f<T> &bounds) const
+        {
             Bounds3f ret(trans(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_min.z)));
             ret = Union(ret, trans(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_min.z)));
             ret = Union(ret, trans(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_min.z)));

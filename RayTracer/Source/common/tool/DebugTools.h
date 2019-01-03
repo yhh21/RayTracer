@@ -15,10 +15,13 @@
 
 using namespace std;
 
-namespace Common {
-    namespace DebugTools {
+namespace Common
+{
+    namespace DebugTools
+    {
         /// copy from https://blog.csdn.net/windpenguin/article/details/80382344
-        static string TraceStack() {
+        static string TraceStack()
+        {
             static const int MAX_STACK_FRAMES = 5;
 
             void *pStack[MAX_STACK_FRAMES];
@@ -29,7 +32,8 @@ namespace Common {
 
             std::ostringstream oss;
             oss << "stack traceback: " << std::endl;
-            for (WORD i = 0; i < frames; ++i) {
+            for (WORD i = 0; i < frames; ++i)
+            {
                 DWORD64 address = (DWORD64)(pStack[i]);
 
                 DWORD64 displacementSym = 0;
@@ -44,10 +48,12 @@ namespace Common {
                 line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
 
                 if (SymFromAddr(process, address, &displacementSym, pSymbol)
-                    && SymGetLineFromAddr64(process, address, &displacementLine, &line)) {
+                    && SymGetLineFromAddr64(process, address, &displacementLine, &line))
+                {
                     oss << "\t" << pSymbol->Name << " at " << line.FileName << ":" << line.LineNumber << "(0x" << std::hex << pSymbol->Address << std::dec << ")" << std::endl;
                 }
-                else {
+                else
+                {
                     oss << "\terror: " << GetLastError() << std::endl;
                 }
             }
@@ -55,9 +61,11 @@ namespace Common {
         }
 
         template<typename T> inline
-            static void PrintDebugLog(const T &str, bool isPrintTraceStack = false) {
+            static void PrintDebugLog(const T &str, bool isPrintTraceStack = false)
+        {
             cout << str;
-            if (isPrintTraceStack) {
+            if (isPrintTraceStack)
+            {
                 cout << TraceStack();
             }
         }

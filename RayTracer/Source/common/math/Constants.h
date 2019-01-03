@@ -1,20 +1,21 @@
 #pragma once
 
+#include "pch.h"
 #include <cmath>
 
 namespace Common
 {
     namespace Math
     {
-        static constexpr float SHADOW_EPSILON = 0.0001F;
-        static constexpr float PI = 3.14159265358979323846F;
-        static constexpr float TWO_PI = 2.0F * PI;
-        static constexpr float INV_PI = 1.0F / PI;
-        static constexpr float INV_TWO_PI = 1 / TWO_PI;
-        static constexpr float INV_FOUR_PI = INV_TWO_PI * INV_TWO_PI;
-        static constexpr float PI_DIV_TWO = PI * 0.5F;
-        static constexpr float PI_DIV_FOUR = PI * 0.25F;
-        static constexpr float SQRT_TWO = 1.41421356237309504880F;
+        static constexpr Float SHADOW_EPSILON = static_cast<Float>(0.0001F);
+        static constexpr Float PI = static_cast<Float>(3.14159265358979323846F);
+        static constexpr Float TWO_PI = static_cast<Float>(2.0F) * PI;
+        static constexpr Float INV_PI = static_cast<Float>(1.0F) / PI;
+        static constexpr Float INV_TWO_PI = static_cast<Float>(0.5F) * INV_PI;
+        static constexpr Float INV_FOUR_PI = static_cast<Float>(0.25F) * INV_PI;
+        static constexpr Float PI_DIV_TWO = static_cast<Float>(0.5F) * PI;
+        static constexpr Float PI_DIV_FOUR = static_cast<Float>(0.25F) * PI;
+        static constexpr Float SQRT_TWO = static_cast<Float>(1.41421356237309504880F);
 
 
         template<typename T> __forceinline
@@ -26,10 +27,12 @@ namespace Common
         template<typename T, typename T1, typename T2> __forceinline
             T Clamp(T t, T1 min, T2 max)
         {
-            if (t < static_cast<T>(min)) {
+            if (t < static_cast<T>(min))
+            {
                 return static_cast<T>(min);
             }
-            else if (t > static_cast<T>(max)) {
+            else if (t > static_cast<T>(max))
+            {
                 return static_cast<T>(max);
             }
             else
@@ -42,18 +45,19 @@ namespace Common
         template<typename T> __forceinline
             T rcp(T t)
         {
-            if (t == static_cast<T>(0)) {
+            if (t == static_cast<T>(0))
+            {
                 int i = 0;
                 ++i;
             }
-            assert(t != static_cast<T>(0));
+            CHECK_NE(t, static_cast<T>(0));
             return static_cast<T>(1) / t;
         }
 
         template<typename T> __forceinline
             T rsqrt(T t)
         {
-            assert(t >= static_cast<T>(0));
+            CHECK_GE(t, static_cast<T>(0));
             return static_cast<T>(1) / sqrt(t);
         }
 

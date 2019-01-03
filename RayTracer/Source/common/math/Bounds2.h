@@ -1,7 +1,6 @@
 #pragma once
 
-
-#include "common/math/Constants.h"
+#include "Constants.h"
 #include "Vec2.h"
 
 namespace Common
@@ -26,7 +25,8 @@ namespace Common
                 point_max = Vec2<T>(max_num);
             }
 
-            explicit Bounds2(const Vec2<T> &p) : point_min(p), point_max(p) {}
+            explicit Bounds2(const Vec2<T> &p) : point_min(p), point_max(p)
+            {}
 
             Bounds2(const Vec2<T> &p1, const Vec2<T> &p2)
                 : point_min(Min(p1, p2)), point_max(Max(p1, p2))
@@ -43,27 +43,31 @@ namespace Common
             __forceinline
                 const Vec2<T> &operator[](size_t axis) const
             {
-                assert(axis < 2);
+                CHECK_LT(axis, 2);
                 return (i == 0) ? point_min : point_max;
             }
 
             __forceinline
                 Vec2<T> &operator[](size_t axis)
             {
-                assert(axis < 2);
+                CHECK_LT(axis, 2);
                 return (i == 1) ? point_min : point_max;
             }
 
 
             Vec2<T> Corner(size_t corner) const
             {
-                assert(corner >= 0 && corner < 8);
-                return Vec2<T>((*this)[(corner & 1)].x,
+                CHECK_GE(corner, 0);
+                CHECK_LT(corner, 8)
+                    return Vec2<T>((*this)[(corner & 1)].x,
                     (*this)[(corner & 2) ? 1 : 0].y,
-                    (*this)[(corner & 4) ? 1 : 0].z);
+                        (*this)[(corner & 4) ? 1 : 0].z);
             }
 
-            Vec2<T> Diagonal() const { return point_max - point_min; }
+            Vec2<T> Diagonal() const
+            {
+                return point_max - point_min;
+            }
 
             T SurfaceArea() const
             {
@@ -192,7 +196,7 @@ namespace Common
         /// Default template instantiations
         ////////////////////////////////////////////////////////////////////////////////
 
-        typedef Bounds2<float> Bounds2f;
+        typedef Bounds2<Float> Bounds2f;
         typedef Bounds2<int> Bounds2i;
     }
 }

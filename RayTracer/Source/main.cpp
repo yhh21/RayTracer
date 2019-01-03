@@ -1,8 +1,9 @@
 #include "pch.h"
 
-#include "Scene.hpp"
+#include "Scene.h"
 
-int main() {
+int main()
+{
 #ifdef DEBUG
     Common::DebugTools::PrintDebugLog("hello, ray tracer!\n", false);
 #endif
@@ -13,10 +14,11 @@ int main() {
     world.RenderScene();
 
 
-    //#ifdef DEBUG
+#ifdef DEBUG
     Common::DebugTools::PrintDebugLog("Pass Enter:\n", false);
+
     int pass;
     cin >> pass;
-    //#endif
     return 0;
+#endif
 }

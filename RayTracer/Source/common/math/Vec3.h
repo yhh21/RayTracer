@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/math/Constants.h"
+#include "Constants.h"
 
 namespace Common
 {
@@ -18,13 +18,16 @@ namespace Common
             ////////////////////////////////////////////////////////////////////////////////
 
             __forceinline
-                Vec3() {}
+                Vec3()
+            {}
 
             __forceinline explicit
-                Vec3(const T& a) : x(a), y(a), z(a) {}
+                Vec3(const T& a) : x(a), y(a), z(a)
+            {}
 
             __forceinline explicit
-                Vec3(const T& x, const T& y, const T& z) : x(x), y(y), z(z) {}
+                Vec3(const T& x, const T& y, const T& z) : x(x), y(y), z(z)
+            {}
 
 
             __forceinline
@@ -34,7 +37,8 @@ namespace Common
             }
 
             template<typename T1> __forceinline
-                Vec3(const Vec3<T1>& a) : x(static_cast<T>(a.x)), y(static_cast<T>(a.y)), z(static_cast<T>(a.z)) {}
+                Vec3(const Vec3<T1>& a) : x(static_cast<T>(a.x)), y(static_cast<T>(a.y)), z(static_cast<T>(a.z))
+            {}
 
             template<typename T1> __forceinline
                 Vec3& operator =(const Vec3<T1>& other)
@@ -54,14 +58,14 @@ namespace Common
             __forceinline
                 const T& operator [](const size_t axis) const
             {
-                assert(axis < SIZE);
+                CHECK_LT(axis, SIZE);
                 return (&x)[axis];
             }
 
             __forceinline
                 T& operator [](const size_t axis)
             {
-                assert(axis < SIZE);
+                CHECK_LT(axis, SIZE);
                 return (&x)[axis];
             }
         };
@@ -223,7 +227,7 @@ namespace Common
 
 
         template<typename T> __forceinline
-            Vec3<T> operator >>(const Vec3<T>& a, const int b)
+            Vec3<T> operator >> (const Vec3<T>& a, const int b)
         {
             return Vec3<T>(a.x >> b, a.y >> b, a.z >> b);
         }
@@ -354,6 +358,6 @@ namespace Common
 
         typedef Vec3<bool> Vec3b;
         typedef Vec3<int> Vec3i;
-        typedef Vec3<float> Vec3f;
+        typedef Vec3<Float> Vec3f;
     }
 }

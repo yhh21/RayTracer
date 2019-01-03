@@ -1,7 +1,7 @@
 /// TODO
 #pragma once
 
-#include "common/math/Constants.h"
+#include "Constants.h"
 #include "Vec3.h"
 
 namespace Common
@@ -20,7 +20,8 @@ namespace Common
             /// Construction
             ////////////////////////////////////////////////////////////////////////////////
 
-            Mat3() {}
+            Mat3()
+            {}
 
             template<typename T1>
             Mat3(T1 a, T1 b, T1 c
@@ -47,7 +48,8 @@ namespace Common
             template<typename T1>
             Mat3(T1 **a)
             {
-                assert((sizeof(a) / sizeof(*a)) < SIZE && (sizeof(*a) / sizeof(**a)) < SIZE);
+                CHECK_LT((sizeof(a) / sizeof(*a)), SIZE);
+                CHECK_LT(sizeof(*a) / sizeof(**a)), SIZE);
                 mat[0][0] = static_cast<T>(a[0][0]);
                 mat[0][1] = static_cast<T>(a[0][1]);
                 mat[0][2] = static_cast<T>(a[0][2]);
@@ -118,28 +120,30 @@ namespace Common
             __forceinline
                 const T* operator[](size_t i) const
             {
-                assert(index < SIZE);
+                CHECK_LT(index, SIZE);
                 return &(mat[index]);
             }
 
             __forceinline
                 T* operator[](size_t i)
             {
-                assert(index < SIZE);
+                CHECK_LT(index, SIZE);
                 return &(mat[index]);
             }
 
             __forceinline
                 const T& operator()(size_t i, size_t j) const
             {
-                assert(i < SIZE && j < SIZE);
+                CHECK_LT(i, SIZE);
+                CHECK_LT(j, SIZE);
                 return mat[i][j];
             }
 
             __forceinline
                 T& operator()(size_t i, size_t j)
             {
-                assert(i < SIZE && j < SIZE);
+                CHECK_LT(i, SIZE);
+                CHECK_LT(j, SIZE);
                 return mat[i][j];
             }
         };

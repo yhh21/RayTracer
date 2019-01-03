@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/math/Constants.h"
+#include "Constants.h"
 #include "Vec4.h"
 
 namespace Common
@@ -19,7 +19,8 @@ namespace Common
             /// Construction
             ////////////////////////////////////////////////////////////////////////////////
 
-            Mat4() {}
+            Mat4()
+            {}
 
             template<typename T1>
             Mat4(T1 a, T1 b, T1 c, T1 d
@@ -57,7 +58,8 @@ namespace Common
             template<typename T1>
             Mat4(T1 **a)
             {
-                assert((sizeof(a) / sizeof(*a)) < SIZE && (sizeof(*a) / sizeof(**a)) < SIZE);
+                CHECK_LT((sizeof(a) / sizeof(*a)), SIZE);
+                CHECK_LT(sizeof(*a) / sizeof(**a)), SIZE);
 
                 for (int i = 0; i < SIZE; ++i)
                 {
@@ -112,7 +114,8 @@ namespace Common
 
             void SetBasis(const Vec4<T> &v1, const Vec4<T> &v2, const Vec4<T> &v3)
             {
-                for (int i = 0; i < SIZE; ++i) {
+                for (int i = 0; i < SIZE; ++i)
+                {
                     mat[0][i] = v1[i];
                     mat[1][i] = v2[i];
                     mat[2][i] = v3[i];
@@ -124,28 +127,30 @@ namespace Common
             __forceinline
                 const T* operator[](size_t i) const
             {
-                assert(index < SIZE);
+                CHECK_LT(index, SIZE);
                 return &(mat[index]);
             }
 
             __forceinline
                 T* operator[](size_t i)
             {
-                assert(index < SIZE);
+                CHECK_LT(index, SIZE);
                 return &(mat[index]);
             }
 
             __forceinline
                 const T& operator()(size_t i, size_t j) const
             {
-                assert(i < SIZE && j < SIZE);
+                CHECK_LT(i, SIZE);
+                CHECK_LT(j, SIZE);
                 return mat[i][j];
             }
 
             __forceinline
                 T& operator()(size_t i, size_t j)
             {
-                assert(i < SIZE && j < SIZE);
+                CHECK_LT(i, SIZE);
+                CHECK_LT(j, SIZE);
                 return mat[i][j];
             }
         };
@@ -219,8 +224,10 @@ namespace Common
         template<typename T, typename T1> __forceinline
             Mat4<T> &operator*=(Mat4<T>& mat4, const Mat4<T1> &other)
         {
-            for (int i = 0; i < mat4.SIZE; ++i) {
-                for (int j = 0; j < mat4.SIZE; ++j) {
+            for (int i = 0; i < mat4.SIZE; ++i)
+            {
+                for (int j = 0; j < mat4.SIZE; ++j)
+                {
                     mat4[i][j] = static_cast<T>(mat4[i][0] * other[0][j]
                         + mat4[i][1] * other[1][j]
                         + mat4[i][2] * other[2][j]
@@ -277,29 +284,34 @@ namespace Common
                     !isExactlyEqual(m[3][3], T(1.0)));
 
             T det;
-            if (hasPerspective) {
+            if (hasPerspective)
+            {
                 det = m[0][3] * det3(m, 1, 2, 3, 0, 2, 1)
                     + m[1][3] * det3(m, 2, 0, 3, 0, 2, 1)
                     + m[2][3] * det3(m, 3, 0, 1, 0, 2, 1)
                     + m[3][3] * detA;
             }
-            else {
+            else
+            {
                 det = detA * m[3][3];
             }
 
             Mat4<T> inv;
             bool invertible;
 
-            if (isApproxEqual(det, T(0.0), tolerance)) {
+            if (isApproxEqual(det, T(0.0), tolerance))
+            {
                 invertible = false;
 
             }
-            else if (isApproxEqual(detA, T(0.0), T(1e-8))) {
+            else if (isApproxEqual(detA, T(0.0), T(1e-8)))
+            {
                 // det is too small to rely on inversion by subblocks
                 invertible = m.invert(inv, tolerance);
 
             }
-            else {
+            else
+            {
                 invertible = true;
                 detA = 1.0 / detA;
 
@@ -318,7 +330,8 @@ namespace Common
                 inv[2][1] = detA * (m0120 - m[0][0] * m[2][1]);
                 inv[2][2] = detA * (m0011 - m0110);
 
-                if (hasPerspective) {
+                if (hasPerspective)
+                {
                     //
                     // Calculate r, p, and h
                     //
@@ -339,11 +352,13 @@ namespace Common
                         + inv[2][2] * m[2][3];
 
                     T h = m[3][3] - p.dot(Vec3<T>(m[3][0], m[3][1], m[3][2]));
-                    if (isApproxEqual(h, T(0.0), tolerance)) {
+                    if (isApproxEqual(h, T(0.0), tolerance))
+                    {
                         invertible = false;
 
                     }
-                    else {
+                    else
+                    {
                         h = 1.0 / h;
 
                         //
@@ -373,7 +388,8 @@ namespace Common
                         inv[2][2] += p[2] * r[2];
                     }
                 }
-                else {
+                else
+                {
                     // Equations are much simpler in the non-perspective case
                     inv[3][0] = -(m[3][0] * inv[0][0] + m[3][1] * inv[1][0]
                         + m[3][2] * inv[2][0]);
@@ -408,14 +424,18 @@ namespace Common
         template<typename T> inline
             std::ostream& operator<<(std::ostream& cout, const Mat4<T>& mat4)
         {
-            for (int i = 0; i < mat4.SIZE; ++i) {
-                for (int j = 0; j < mat4.SIZE; ++j) {
-                    if (0 == j) {
+            for (int i = 0; i < mat4.SIZE; ++i)
+            {
+                for (int j = 0; j < mat4.SIZE; ++j)
+                {
+                    if (0 == j)
+                    {
                         cout << "[";
                     }
                     cout << mat[i][j];
                     cout << (mat4.SIZE - 1 != j) ? ", " : "]";
-                    if (mat4.SIZE - 1 != i) {
+                    if (mat4.SIZE - 1 != i)
+                    {
                         cout << endl;
                     }
                 }
@@ -430,6 +450,6 @@ namespace Common
 
         typedef Mat4<bool> Mat4x4b;
         typedef Mat4<int> Mat4x4i;
-        typedef Mat4<float> Mat4x4f;
+        typedef Mat4<Float> Mat4x4f;
     }
 }
