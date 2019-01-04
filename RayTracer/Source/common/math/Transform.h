@@ -44,6 +44,16 @@ namespace Common
             {
                 return Transform(Transpose(t.mat4), Transpose(t.inv_mat4));
             }
+
+
+            bool SwapsHandedness() const
+            {
+                Float det = mat4.mat[0][0] * (mat4.mat[1][1] * mat4.mat[2][2] - mat4.mat[1][2] * mat4.mat[2][1])
+                    - mat4.mat[0][1] * (mat4.mat[1][0] * mat4.mat[2][2] - mat4.mat[1][2] * mat4.mat[2][0])
+                    + mat4.mat[0][2] * (mat4.mat[1][0] * mat4.mat[2][1] - mat4.mat[1][1] * mat4.mat[2][0]);
+
+                return det < 0;
+            }
         }
 
 

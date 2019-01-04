@@ -22,6 +22,9 @@
     <Filter Include="Source\Core\Object">
       <UniqueIdentifier>{87adc243-6125-4df4-a884-f5db42d5f17f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Core\Shape">
+      <UniqueIdentifier>{6be75074-2ac8-41d6-946f-441c4622da86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\common\math\Vec2.h">
@@ -72,9 +75,6 @@
     <ClInclude Include="Source\common\tool\ImageManager.h">
       <Filter>Source\Common\Tool</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Color.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
@@ -95,6 +95,12 @@
     </ClInclude>
     <ClInclude Include="Source\TestCompiling.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\color\ColorExtern.h">
+      <Filter>Source\Core\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\shape\Shape.h">
+      <Filter>Source\Core\Shape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

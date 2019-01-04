@@ -8,6 +8,8 @@ namespace Common
     namespace Math
     {
         static constexpr Float SHADOW_EPSILON = static_cast<Float>(0.0001F);
+        static constexpr Float MachineEpsilon = std::numeric_limits<Float>::epsilon() * static_cast<Float>(0.5F);
+
         static constexpr Float PI = static_cast<Float>(3.14159265358979323846F);
         static constexpr Float TWO_PI = static_cast<Float>(2.0F) * PI;
         static constexpr Float INV_PI = static_cast<Float>(1.0F) / PI;
@@ -72,6 +74,14 @@ namespace Common
             T Degrees(T rad)
         {
             return static_cast<T>(180.0F / PI) * rad;
+        }
+
+
+        __forceinline
+            Float Gamma(int n)
+        {
+            return (static_cast<Float>(n) * MachineEpsilon)
+                / (static_cast<Float>(1.0F) - static_cast<Float>(n) * MachineEpsilon);
         }
     }
 }
