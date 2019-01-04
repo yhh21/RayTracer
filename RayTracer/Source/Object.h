@@ -19,7 +19,7 @@ namespace Objects
             return *color;
         }
 
-        virtual bool Hit(const Core::Ray<Float>& ray, double& tMin) = 0;
+        virtual bool Hit(const Core::Ray<Float>& ray, double& t_min) = 0;
     private:
         Common::CColor *color;
     };

@@ -228,10 +228,10 @@ namespace Common
             {
                 for (int j = 0; j < mat4.SIZE; ++j)
                 {
-                    mat4[i][j] = static_cast<T>(mat4[i][0] * other[0][j]
-                        + mat4[i][1] * other[1][j]
-                        + mat4[i][2] * other[2][j]
-                        + mat4[i][3] * other[3][j]);
+                    mat4[i][j] = mat4[i][0] * static_cast<T>(other[0][j])
+                        + mat4[i][1] * static_cast<T>(other[1][j])
+                        + mat4[i][2] * static_cast<T>(other[2][j])
+                        + mat4[i][3] * static_cast<T>(other[3][j]);
                 }
 
                 return mat4;

@@ -120,6 +120,36 @@ namespace Common
                 *center = (point_min + point_max) * static_cast<T>(0.5);
                 *radius = Inside(*center, *this) ? Distance(*center, point_max) : 0;
             }
+
+
+            bool IntersectP(const Core::Ray &ray, T *hitt0 = nullptr, T *hitt1 = nullptr) const
+            {
+                Float t0 = 0, t1 = ray.t_max;
+                for (int i = 0; i < 3; ++i)
+                {
+                    /// Update interval for _i_th bounding box slab
+                    Float invRayDir = 1 / ray.d[i];
+                    Float tNear = (point_min[i] - ray.o[i]) * invRayDir;
+                    Float tFar = (point_max[i] - ray.o[i]) * invRayDir;
+
+                    /// Update parametric interval from slab intersection $t$ values
+                    if (tNear > tFar)
+                    {
+                        std::swap(tNear, tFar);
+                    }
+
+                    /// Update _tFar_ to ensure robust ray--bounds intersection
+                    tFar *= 1 + 2 * Gamma(3);
+                    t0 = tNear > t0 ? tNear : t0;
+                    t1 = tFar < t1 ? tFar : t1;
+
+                    if (t0 > t1) return false;
+                }
+                if (hitt0) *hitt0 = t0;
+                if (hitt1) *hitt1 = t1;
+                return true;
+            }
+
         };
 
 
@@ -155,10 +185,36 @@ namespace Common
             return ret;
         }
 
-        bool IntersectP(const Core::Ray &ray, T *hitt0 = nullptr, T *hitt1 = nullptr) const;
-
         inline
-            bool IntersectP(const Core::Ray &ray, const Vector3f &invDir, const int dirIsNeg[3]) const;
+            bool IntersectP(const Core::Ray &ray, const Vec3f &inv_dir, const int dir_is_neg[3]) const
+        {
+            const Bounds3f &bounds = *this;
+
+            /// Check for ray intersection against $x$ and $y$ slabs
+            Float t_min = (bounds[dir_is_neg[0]].x - ray.o.x) * inv_dir.x;
+            Float t_max = (bounds[1 - dir_is_neg[0]].x - ray.o.x) * inv_dir.x;
+            Float ty_min = (bounds[dir_is_neg[1]].y - ray.o.y) * inv_dir.y;
+            Float ty_max = (bounds[1 - dir_is_neg[1]].y - ray.o.y) * inv_dir.y;
+
+            /// Update _t_max_ and _ty_max_ to ensure robust bounds intersection
+            t_max *= 1 + 2 * Gamma(3);
+            ty_max *= 1 + 2 * Gamma(3);
+            if (t_min > ty_max || ty_min > t_max) return false;
+            if (ty_min > t_min) t_min = ty_min;
+            if (ty_max < t_max) t_max = ty_max;
+
+            /// Check for ray intersection against $z$ slab
+            Float tz_min = (bounds[dir_is_neg[2]].z - ray.o.z) * inv_dir.z;
+            Float tz_max = (bounds[1 - dir_is_neg[2]].z - ray.o.z) * inv_dir.z;
+
+            /// Update _tz_max_ to ensure robust bounds intersection
+            tz_max *= 1 + 2 * Gamma(3);
+            if (t_min > tz_max || tz_min > t_max) return false;
+            if (tz_min > t_min) t_min = tz_min;
+            if (tz_max < t_max) t_max = tz_max;
+
+            return (t_min < ray.t_max) && (t_max > 0);
+        }
 
 
         template <typename T>

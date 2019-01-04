@@ -28,7 +28,7 @@ namespace Objects
             this->radius = radius;
         }
 
-        virtual bool Hit(const Core::Ray<Float>& ray, double& tMin)
+        virtual bool Hit(const Core::Ray<Float>& ray, double& t_min)
         {
             Vec3f oc = (ray.origin - GetCenter());
             double a = LengthSquared(ray.dir);
@@ -49,7 +49,7 @@ namespace Objects
 
                 if (t > 0)
                 {
-                    tMin = t;
+                    t_min = t;
                     return true;
                 }
             }

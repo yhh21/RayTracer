@@ -49,15 +49,15 @@ namespace Common
                     Core::Ray<Float> *ray = new Core::Ray<Float>(eye, Vec3f(r - row / 2, c - col / 2, col / 2));
 
                     bool isHit = false;
-                    double tMin;
+                    double t_min;
                     double t;
                     for (size_t i = 0; i < objsLength; ++i)
                     {
-                        if (objs[i]->Hit(*ray, t) && (!isHit || t < tMin))
+                        if (objs[i]->Hit(*ray, t) && (!isHit || t < t_min))
                         {
                             pColor = &(objs[i]->GetColor());
                             isHit = true;
-                            tMin = t;
+                            t_min = t;
                         #ifdef DEBUG
                             ++hit_num;
                         #endif //DEBUG

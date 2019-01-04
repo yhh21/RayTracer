@@ -44,6 +44,16 @@ namespace Common
             {
                 return Transform(Transpose(t.mat4), Transpose(t.inv_mat4));
             }
+
+
+            bool SwapsHandedness() const
+            {
+                Float det = mat4.mat[0][0] * (mat4.mat[1][1] * mat4.mat[2][2] - mat4.mat[1][2] * mat4.mat[2][1])
+                    - mat4.mat[0][1] * (mat4.mat[1][0] * mat4.mat[2][2] - mat4.mat[1][2] * mat4.mat[2][0])
+                    + mat4.mat[0][2] * (mat4.mat[1][0] * mat4.mat[2][1] - mat4.mat[1][1] * mat4.mat[2][0]);
+
+                return det < 0;
+            }
         }
 
 
@@ -173,8 +183,8 @@ namespace Common
             Vec3<T> oError;
             Vec3<T> origin = (*this)(ray.origin, &oError);
             Vec3<T> dir = (*this)(ray.dir);
-            /// <Offset ray origin to edge of error bounds and compute tMax 233>
-            return Core::Ray(origin, dir, tMax, ray.time, ray.medium);
+            /// <Offset ray origin to edge of error bounds and compute t_max 233>
+            return Core::Ray(origin, dir, t_max, ray.time, ray.medium);
         }
 
         template <typename T> inline
