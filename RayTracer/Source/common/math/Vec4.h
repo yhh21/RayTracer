@@ -2,9 +2,9 @@
 
 #include "Constants.h"
 
-namespace Common
+namespace common
 {
-    namespace Math
+    namespace math
     {
         template<typename T>
         struct Vec4
@@ -277,8 +277,50 @@ namespace Common
         /// Select
         ////////////////////////////////////////////////////////////////////////////////
 
+        template<typename T> __forceinline
+            int MaxDim(const Vec4<T>& a)
+        {
+            int ret = 0;
+            for (int i = 1; i < a.SIZE; ++i)
+            {
+                if (a[ret] < a[i])
+                {
+                    ret = i;
+                }
+            }
+
+            return ret;
+        }
+
+        template<typename T> __forceinline
+            int MinDim(const Vec4<T>& a)
+        {
+            int ret = 0;
+            for (int i = 1; i < a.SIZE; ++i)
+            {
+                if (a[ret] > a[i])
+                {
+                    ret = i;
+                }
+            }
+
+            return ret;
+        }
+
+        template<typename T> __forceinline
+            int MaxComponent(const Vec4<T>& a)
+        {
+            return a[MaxDim(a)];
+        }
+
+        template<typename T> __forceinline
+            int MinComponent(const Vec4<T>& a)
+        {
+            return a[MinDim(a)];
+        }
+
         template <typename T> __forceinline
-            Vec4<T> Permute(const Vec4<T> &a, size_t x, size_t y, size_t z, size_t w)
+            Vec4<T> Permute(const Vec4<T> &a, const size_t &x, const size_t &y, const size_t &z, const size_t &w)
         {
             return Vec4<T>(a[x], a[y], a[z], a[w]);
         }

@@ -2,9 +2,9 @@
 
 #include "Constants.h"
 
-namespace Common
+namespace common
 {
-    namespace Math
+    namespace math
     {
         template<typename T>
         struct Vec3
@@ -159,6 +159,13 @@ namespace Common
                 , (a.z * b.x) - (a.x * b.z)
                 , (a.x * b.y) - (a.y * b.x));
         }
+
+        template<typename T> __forceinline
+            Vec3<T> Faceforward(const Vec3<T> &v, const Vec3<T> &v2)
+        {
+            return (Dot(v, v2) < static_cast<T>(0.0F)) ? -v : v;
+        }
+
 
         ////////////////////////////////////////////////////////////////////////////////
         /// Binary Operators
@@ -336,12 +343,38 @@ namespace Common
             }
         }
 
+        template<typename T> __forceinline
+            int MaxComponent(const Vec3<T>& a)
+        {
+            return a[MaxDim(a)];
+        }
+
+        template<typename T> __forceinline
+            int MinComponent(const Vec3<T>& a)
+        {
+            return a[MinDim(a)];
+        }
+
         template <typename T> __forceinline
-            Vec3<T> Permute(const Vec3<T> &a, size_t x, size_t y, size_t z)
+            Vec3<T> Permute(const Vec3<T> &a, const size_t &x, const size_t &y, const size_t &z)
         {
             return Vec3<T>(a[x], a[y], a[z]);
         }
 
+        template <typename T> __forceinline
+            void CoordinateSystem(const Vec3<T> &v1, Vec3<T> *v2, Vec3<T> *v3)
+        {
+            if (std::abs(v1.x) > std::abs(v1.y))
+            {
+                *v2 = Vec3<T>(-v1.z, 0, v1.x) / std::sqrt(v1.x * v1.x + v1.z * v1.z);
+            }
+            else
+            {
+                *v2 = Vec3<T>(0, v1.z, -v1.y) / std::sqrt(v1.y * v1.y + v1.z * v1.z);
+            }
+
+            *v3 = Cross(v1, *v2);
+        }
         ////////////////////////////////////////////////////////////////////////////////
         /// Output Operators
         ////////////////////////////////////////////////////////////////////////////////

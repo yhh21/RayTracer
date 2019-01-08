@@ -2,9 +2,9 @@
 
 #include "Constants.h"
 
-namespace Common
+namespace common
 {
-    namespace Math
+    namespace math
     {
         template<typename T>
         struct Vec2
@@ -49,7 +49,7 @@ namespace Common
 
 
             template<typename T1> __forceinline
-                void Clone(const Vec3<T1>& other)
+                void Clone(const Vec2<T1>& other)
             {
                 x = other.x; y = other.y;
             }
@@ -292,8 +292,20 @@ namespace Common
             else return 1;
         }
 
+        template<typename T> __forceinline
+            int MaxComponent(const Vec2<T>& a)
+        {
+            return a[MaxDim(a)];
+        }
+
+        template<typename T> __forceinline
+            int MinComponent(const Vec2<T>& a)
+        {
+            return a[MinDim(a)];
+        }
+
         template <typename T> __forceinline
-            Vec2<T> Permute(const Vec2<T> &a, size_t x, size_t y)
+            Vec2<T> Permute(const Vec2<T> &a, const size_t &x, const size_t &y)
         {
             return Vec2<T>(a[x], a[y]);
         }

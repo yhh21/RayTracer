@@ -3,9 +3,9 @@
 #include "Constants.h"
 #include "Vec2.h"
 
-namespace Common
+namespace common
 {
-    namespace Math
+    namespace math
     {
         template<typename T>
         class Bounds2
@@ -19,8 +19,8 @@ namespace Common
 
             Bounds2()
             {
-                T min_num = std::numeric_limits<T>::min();
-                T max_num = std::numeric_limits<T>::max();
+                T min_num = std::numeric_limits<T>::lowest();
+                T max_num = (std::numeric_limits<T>::max)();
                 point_min = Vec2<T>(min_num);
                 point_max = Vec2<T>(max_num);
             }
@@ -196,7 +196,7 @@ namespace Common
         /// Default template instantiations
         ////////////////////////////////////////////////////////////////////////////////
 
-        typedef Bounds2<Float> Bounds2f;
         typedef Bounds2<int> Bounds2i;
+        typedef Bounds2<Float> Bounds2f;
     }
 }

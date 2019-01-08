@@ -9,7 +9,7 @@
 
 using namespace std;
 
-namespace Common
+namespace common
 {
     namespace ImageManager
     {

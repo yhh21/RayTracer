@@ -2,9 +2,9 @@
 
 #include "CoefficientSpectrum.h"
 
-namespace Core
+namespace core
 {
-    namespace Color
+    namespace color
     {
         class SampledSpectrum : public CoefficientSpectrum<SPECTRAL_SAMPLES_NUMBER>
         {
@@ -14,7 +14,10 @@ namespace Core
             /// Construction
             ////////////////////////////////////////////////////////////////////////////////
 
-            SampledSpectrum(Float v = static_cast<Float>(0.0F)) : CoefficientSpectrum<SPECTRAL_SAMPLES_NUMBER>(v)
+            SampledSpectrum(Float v = FLOAT_0) : CoefficientSpectrum<SPECTRAL_SAMPLES_NUMBER>(v)
+            {}
+
+            SampledSpectrum(CoefficientSpectrum<SPECTRAL_SAMPLES_NUMBER> v) : CoefficientSpectrum<SPECTRAL_SAMPLES_NUMBER>(v)
             {}
 
             SampledSpectrum(const RGBSpectrum &r, SpectrumType type = SpectrumType::Reflectance)
@@ -27,7 +30,7 @@ namespace Core
 
             static SampledSpectrum FromSampled(const Float *lambda, const Float *v, int n)
             {
-                // Sort samples if unordered, use sorted for returned spectrum
+                /// Sort samples if unordered, use sorted for returned spectrum
                 if (!SpectrumSamplesSorted(lambda, v, n))
                 {
                     std::vector<Float> slambda(&lambda[0], &lambda[n]);
@@ -38,11 +41,12 @@ namespace Core
                 SampledSpectrum r;
                 for (int i = 0; i < SPECTRAL_SAMPLES_NUMBER; ++i)
                 {
-                    // Compute average value of given SPD over $i$th sample's range
-                    Float lambda0 = Lerp(Float(i) / Float(SPECTRAL_SAMPLES_NUMBER),
-                        SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
-                    Float lambda1 = Lerp(Float(i + 1) / Float(SPECTRAL_SAMPLES_NUMBER),
-                        SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
+                    /// Compute average value of given SPD over $i$th sample's range
+                    Float lambda0 = common::math::Lerp(static_cast<Float>(i) / static_cast<Float>(SPECTRAL_SAMPLES_NUMBER)
+                        , SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
+                    Float lambda1 = common::math::Lerp(static_cast<Float>(i + 1) / static_cast<Float>(SPECTRAL_SAMPLES_NUMBER)
+                        , SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
+
                     r.c[i] = AverageSpectrumSamples(lambda, v, n, lambda0, lambda1);
                 }
                 return r;
@@ -50,96 +54,88 @@ namespace Core
 
             static void Init()
             {
-                // Compute XYZ matching functions for _SampledSpectrum_
+                /// Compute XYZ matching functions for _SampledSpectrum_
                 for (int i = 0; i < SPECTRAL_SAMPLES_NUMBER; ++i)
                 {
-                    Float wl0 = Lerp(Float(i) / Float(SPECTRAL_SAMPLES_NUMBER),
-                        SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
-                    Float wl1 = Lerp(Float(i + 1) / Float(SPECTRAL_SAMPLES_NUMBER),
-                        SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
-                    X.c[i] = AverageSpectrumSamples(CIE_lambda, CIE_X, CIE_SAMPLES_NUMBER, wl0,
-                        wl1);
-                    Y.c[i] = AverageSpectrumSamples(CIE_lambda, CIE_Y, CIE_SAMPLES_NUMBER, wl0,
-                        wl1);
-                    Z.c[i] = AverageSpectrumSamples(CIE_lambda, CIE_Z, CIE_SAMPLES_NUMBER, wl0,
-                        wl1);
+                    Float wl0 = common::math::Lerp(static_cast<Float>(i) / static_cast<Float>(SPECTRAL_SAMPLES_NUMBER)
+                        , SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
+                    Float wl1 = common::math::Lerp(static_cast<Float>(i + 1) / static_cast<Float>(SPECTRAL_SAMPLES_NUMBER)
+                        , SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
+
+                    X.c[i] = AverageSpectrumSamples(CIE_lambda, CIE_X, CIE_SAMPLES_NUMBER, wl0, wl1);
+                    Y.c[i] = AverageSpectrumSamples(CIE_lambda, CIE_Y, CIE_SAMPLES_NUMBER, wl0, wl1);
+                    Z.c[i] = AverageSpectrumSamples(CIE_lambda, CIE_Z, CIE_SAMPLES_NUMBER, wl0, wl1);
                 }
 
-                // Compute RGB to spectrum functions for _SampledSpectrum_
+                /// Compute RGB to spectrum functions for _SampledSpectrum_
                 for (int i = 0; i < SPECTRAL_SAMPLES_NUMBER; ++i)
                 {
-                    Float wl0 = Lerp(Float(i) / Float(SPECTRAL_SAMPLES_NUMBER),
-                        SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
-                    Float wl1 = Lerp(Float(i + 1) / Float(SPECTRAL_SAMPLES_NUMBER),
-                        SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
-                    rgbRefl2SpectWhite.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_WHITE,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbRefl2SpectCyan.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_CYAN,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbRefl2SpectMagenta.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_MAGENTA,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbRefl2SpectYellow.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_YELLOW,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbRefl2SpectRed.c[i] = AverageSpectrumSamples(
-                        RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_RED, RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbRefl2SpectGreen.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_GREEN,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbRefl2SpectBlue.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_BLUE,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    Float wl0 = common::math::Lerp(static_cast<Float>(i) / static_cast<Float>(SPECTRAL_SAMPLES_NUMBER)
+                        , SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
+                    Float wl1 = common::math::Lerp(static_cast<Float>(i + 1) / static_cast<Float>(SPECTRAL_SAMPLES_NUMBER)
+                        , SAMPLED_LAMBDA_START, SAMPLED_LAMBDA_END);
 
-                    rgbIllum2SpectWhite.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_WHITE,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbIllum2SpectCyan.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_CYAN,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbIllum2SpectMagenta.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_MAGENTA,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbIllum2SpectYellow.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_YELLOW,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbIllum2SpectRed.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_RED,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbIllum2SpectGreen.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_GREEN,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
-                    rgbIllum2SpectBlue.c[i] =
-                        AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_BLUE,
-                            RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbRefl2SpectWhite.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_WHITE
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbRefl2SpectCyan.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_CYAN
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbRefl2SpectMagenta.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_MAGENTA
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbRefl2SpectYellow.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_YELLOW
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbRefl2SpectRed.c[i] = AverageSpectrumSamples( RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_RED
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbRefl2SpectGreen.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_GREEN
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbRefl2SpectBlue.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_REFL_2_SPECT_BLUE
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+
+                    rgbIllum2SpectWhite.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_WHITE
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbIllum2SpectCyan.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_CYAN
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbIllum2SpectMagenta.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_MAGENTA
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbIllum2SpectYellow.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_YELLOW
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbIllum2SpectRed.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_RED
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbIllum2SpectGreen.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_GREEN
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
+                    rgbIllum2SpectBlue.c[i] = AverageSpectrumSamples(RGB_2_SPECT_LAMBDA, RGB_ILLUM_2_SPECT_BLUE
+                        , RGB_2_SPECT_SAMPLES_NUMBER, wl0, wl1);
                 }
             }
 
 
+            Float y() const
+            {
+                Float yy = FLOAT_0;
+                for (int i = 0; i < SPECTRAL_SAMPLES_NUMBER; ++i)
+                {
+                    yy += Y.c[i] * c[i];
+                }
+
+                return yy * static_cast<Float>(SAMPLED_LAMBDA_END - SAMPLED_LAMBDA_START)
+                    / static_cast<Float>(CIE_Y_INTEGRAL * SPECTRAL_SAMPLES_NUMBER);
+            }
+
             void ToXYZ(Float xyz[3]) const
             {
-                xyz[0] = xyz[1] = xyz[2] = 0.f;
+                xyz[0] = xyz[1] = xyz[2] = FLOAT_0;
                 for (int i = 0; i < SPECTRAL_SAMPLES_NUMBER; ++i)
                 {
                     xyz[0] += X.c[i] * c[i];
                     xyz[1] += Y.c[i] * c[i];
                     xyz[2] += Z.c[i] * c[i];
                 }
-                Float scale = Float(SAMPLED_LAMBDA_END - SAMPLED_LAMBDA_START) /
-                    Float(CIE_Y_INTEGRAL * SPECTRAL_SAMPLES_NUMBER);
+
+                Float scale = static_cast<Float>(SAMPLED_LAMBDA_END - SAMPLED_LAMBDA_START)
+                    / static_cast<Float>(CIE_Y_INTEGRAL * SPECTRAL_SAMPLES_NUMBER);
+
                 xyz[0] *= scale;
                 xyz[1] *= scale;
                 xyz[2] *= scale;
-            }
-
-            Float y() const
-            {
-                Float yy = 0.f;
-                for (int i = 0; i < SPECTRAL_SAMPLES_NUMBER; ++i) yy += Y.c[i] * c[i];
-                return yy * Float(SAMPLED_LAMBDA_END - SAMPLED_LAMBDA_START) /
-                    Float(CIE_Y_INTEGRAL * SPECTRAL_SAMPLES_NUMBER);
             }
 
             void ToRGB(Float rgb[3]) const
@@ -162,10 +158,10 @@ namespace Core
                 SampledSpectrum r;
                 if (type == SpectrumType::Reflectance)
                 {
-                    // Convert reflectance spectrum to RGB
+                    /// Convert reflectance spectrum to RGB
                     if (rgb[0] <= rgb[1] && rgb[0] <= rgb[2])
                     {
-                        // Compute reflectance _SampledSpectrum_ with _rgb[0]_ as minimum
+                        /// Compute reflectance _SampledSpectrum_ with _rgb[0]_ as minimum
                         r += rgb[0] * rgbRefl2SpectWhite;
                         if (rgb[1] <= rgb[2])
                         {
@@ -180,7 +176,7 @@ namespace Core
                     }
                     else if (rgb[1] <= rgb[0] && rgb[1] <= rgb[2])
                     {
-                        // Compute reflectance _SampledSpectrum_ with _rgb[1]_ as minimum
+                        /// Compute reflectance _SampledSpectrum_ with _rgb[1]_ as minimum
                         r += rgb[1] * rgbRefl2SpectWhite;
                         if (rgb[0] <= rgb[2])
                         {
@@ -195,7 +191,7 @@ namespace Core
                     }
                     else
                     {
-                        // Compute reflectance _SampledSpectrum_ with _rgb[2]_ as minimum
+                        /// Compute reflectance _SampledSpectrum_ with _rgb[2]_ as minimum
                         r += rgb[2] * rgbRefl2SpectWhite;
                         if (rgb[0] <= rgb[1])
                         {
@@ -208,14 +204,15 @@ namespace Core
                             r += (rgb[0] - rgb[1]) * rgbRefl2SpectRed;
                         }
                     }
-                    r *= .94;
+
+                    r *= static_cast<Float>(0.94F);
                 }
                 else
                 {
-                    // Convert illuminant spectrum to RGB
+                    /// Convert illuminant spectrum to RGB
                     if (rgb[0] <= rgb[1] && rgb[0] <= rgb[2])
                     {
-                        // Compute illuminant _SampledSpectrum_ with _rgb[0]_ as minimum
+                        /// Compute illuminant _SampledSpectrum_ with _rgb[0]_ as minimum
                         r += rgb[0] * rgbIllum2SpectWhite;
                         if (rgb[1] <= rgb[2])
                         {
@@ -230,7 +227,7 @@ namespace Core
                     }
                     else if (rgb[1] <= rgb[0] && rgb[1] <= rgb[2])
                     {
-                        // Compute illuminant _SampledSpectrum_ with _rgb[1]_ as minimum
+                        /// Compute illuminant _SampledSpectrum_ with _rgb[1]_ as minimum
                         r += rgb[1] * rgbIllum2SpectWhite;
                         if (rgb[0] <= rgb[2])
                         {
@@ -245,7 +242,7 @@ namespace Core
                     }
                     else
                     {
-                        // Compute illuminant _SampledSpectrum_ with _rgb[2]_ as minimum
+                        /// Compute illuminant _SampledSpectrum_ with _rgb[2]_ as minimum
                         r += rgb[2] * rgbIllum2SpectWhite;
                         if (rgb[0] <= rgb[1])
                         {
@@ -258,9 +255,11 @@ namespace Core
                             r += (rgb[0] - rgb[1]) * rgbIllum2SpectRed;
                         }
                     }
-                    r *= .86445f;
+
+                    r *= static_cast<Float>(0.86445F);
                 }
-                return r.Clamp();
+
+                return static_cast<SampledSpectrum>(core::color::Clamp(r));
             }
 
             static SampledSpectrum FromXYZ(
@@ -286,7 +285,7 @@ namespace Core
         inline SampledSpectrum Lerp(Float t, const SampledSpectrum &s1,
             const SampledSpectrum &s2)
         {
-            return (static_cast<Float>(1.0F) - t) * s1 + t * s2;
+            return static_cast<SampledSpectrum>((FLOAT_1 - t) * s1 + t * s2);
         }
 
     }

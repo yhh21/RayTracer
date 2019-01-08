@@ -3,11 +3,21 @@
 #include "Constants.h"
 #include "Mat4.h"
 #include "Vec3.h"
-#include "Core::Ray.h"
+#include "Bounds3.h"
+#include "Ray.h"
+#include "RayDifferential.h"
 
-namespace Common
+namespace core
 {
-    namespace Math
+    namespace interaction
+    {
+        class SurfaceInteraction;
+    }
+}
+
+namespace common
+{
+    namespace math
     {
         template<typename T>
         class Transform
@@ -54,7 +64,64 @@ namespace Common
 
                 return det < 0;
             }
-        }
+
+            inline
+                Vec3<T> operator()(const Vec3<T> &v) const
+            {
+                return Vec3<T>(mat4[0][0] * v.x + mat4[0][1] * v.y + mat4[0][2] * v.z
+                    , mat4[1][0] * v.x + mat4[1][1] * v.y + mat4[1][2] * v.z
+                    , mat4[2][0] * v.x + mat4[2][1] * v.y + mat4[2][2] * v.z);
+            }
+
+            Ray<T> operator()(const Ray<T> &ray) const
+            {
+                Vec3<T> origin_error;
+                Vec3<T> origin = (*this)(ray.origin, &origin_error);
+                Vec3<T> dir = (*this)(ray.dir);
+
+                // Offset ray origin to edge of error bounds and compute _tMax_
+                T length_squared = LengthSquared(dir);
+                T t_max = ray.t_max;
+                if (length_squared > static_cast<T>(0))
+                {
+                    T dt = Dot(Abs(dir), origin_error) / length_squared;
+                    origin += dir * dt;
+                    t_max -= dt;
+                }
+
+                return Ray(origin, dir, t_max, ray.t_min, ray.time, ray.medium);
+            }
+
+            RayDifferential<T> operator()(const RayDifferential<T> &ray_d) const
+            {
+                RayDifferential<T> ret((*this)(static_cast<Ray<T>>(ray_d)));
+
+                ret.has_differentials = ray_d.has_differentials;
+                ret.rx_origin = (*this)(ray_d.rx_origin);
+                ret.ry_origin = (*this)(ray_d.ry_origin);
+                ret.rx_direction = (*this)(ray_d.rx_direction);
+                ret.ry_direction = (*this)(ray_d.ry_direction);
+
+                return ret;
+            }
+
+            Bounds3<T> operator()(const Bounds3<T> &bounds) const
+            {
+                Bounds3<T> ret((*this)(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_min.z)));
+
+                ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_min.z)));
+                ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_min.z)));
+                ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_max.z)));
+                ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_max.z)));
+                ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_max.y, bounds.point_min.z)));
+                ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_max.z)));
+                ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_max.y, bounds.point_max.z)));
+
+                return ret;
+            }
+
+            core::interaction::SurfaceInteraction operator()(const core::interaction::SurfaceInteraction &si) const;
+        };
 
 
         template <typename T>
@@ -165,47 +232,28 @@ namespace Common
         }
 
 
-        template <typename T> inline
-            Vec3<T> operator()(const Transform<T> &trans, const Vec3<T> &p) const
-        {
-            T x_p = trans.mat4[0][0] * p[0] + trans.mat4[0][1] * p[1] + trans.mat4[0][2] * p[2] + trans.mat4[0][3];
-            T y_p = trans.mat4[1][0] * p[0] + trans.mat4[1][1] * p[1] + trans.mat4[1][2] * p[2] + trans.mat4[1][3];
-            T z_p = trans.mat4[2][0] * p[0] + trans.mat4[2][1] * p[1] + trans.mat4[2][2] * p[2] + trans.mat4[2][3];
-            T w_p = trans.mat4[3][0] * p[0] + trans.mat4[3][1] * p[1] + trans.mat4[3][2] * p[2] + trans.mat4[3][3];
-
-            if (w_p == static_cast<T>(1)) return Vec3<T>(x_p, y_p, z_p);
-            else return Vec3<T>(x_p, y_p, z_p) / w_p;
-        }
-
-        template <typename T> inline
-            Core::Ray<T> operator()(const Transform<T> &trans, const Core::Ray<T> &ray) const
-        {
-            Vec3<T> oError;
-            Vec3<T> origin = (*this)(ray.origin, &oError);
-            Vec3<T> dir = (*this)(ray.dir);
-            /// <Offset ray origin to edge of error bounds and compute t_max 233>
-            return Core::Ray(origin, dir, t_max, ray.time, ray.medium);
-        }
-
-        template <typename T> inline
-            Bounds3f operator()(const Transform<T> &trans, const Bounds3f<T> &bounds) const
-        {
-            Bounds3f ret(trans(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_min.z)));
-            ret = Union(ret, trans(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_min.z)));
-            ret = Union(ret, trans(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_min.z)));
-            ret = Union(ret, trans(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_max.z)));
-            ret = Union(ret, trans(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_max.z)));
-            ret = Union(ret, trans(Vec3<T>(bounds.point_max.x, bounds.point_max.y, bounds.point_min.z)));
-            ret = Union(ret, trans(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_max.z)));
-            ret = Union(ret, trans(Vec3<T>(bounds.point_max.x, bounds.point_max.y, bounds.point_max.z)));
-
-            return ret;
-        }
 
         template<typename T> __forceinline
             Transform<T> operator *(const Transform<T> &trans1, const Transform<T> &trans2)
         {
             return Transform<T>(trans1.mat4 * trans2.mat4, trans1.inv_mat4, trans2.inv_mat4);
         }
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Output Operators
+        ////////////////////////////////////////////////////////////////////////////////
+
+        template<typename T> inline
+            std::ostream& operator<<(std::ostream& cout, const Transform<T>& t)
+        {
+            return cout << t.mat4 << endl << t.inv_mat4;
+        }
+
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /// Default template instantiations
+        ////////////////////////////////////////////////////////////////////////////////
+
+        typedef Transform<Float> Transformf;
     }
 }

@@ -2,10 +2,11 @@
 
 #include "Constants.h"
 #include "Vec3.h"
+#include "Ray.h"
 
-namespace Common
+namespace common
 {
-    namespace Math
+    namespace math
     {
         template<typename T>
         class Bounds3
@@ -19,8 +20,8 @@ namespace Common
 
             Bounds3()
             {
-                T min_num = std::numeric_limits<T>::min();
-                T max_num = std::numeric_limits<T>::max();
+                T min_num = std::numeric_limits<T>::lowest();
+                T max_num = (std::numeric_limits<T>::max)();
                 point_min = Vec3<T>(min_num);
                 point_max = Vec3<T>(max_num);
             }
@@ -90,7 +91,7 @@ namespace Common
                 else return 2;
             }
 
-            Vec3<T> Lerp(const Point3f &t) const
+            Vec3<T> Lerp(const Vec3<T> &t) const
             {
                 return Vec3<T>(Lerp<T>(t.x, point_min.x, point_max.x)
                     , Lerp<T>(t.y, point_min.y, point_max.y)
@@ -122,32 +123,82 @@ namespace Common
             }
 
 
-            bool IntersectP(const Core::Ray &ray, T *hitt0 = nullptr, T *hitt1 = nullptr) const
+            bool IntersectP(const Rayf &ray, T *hitt0 = nullptr, T *hitt1 = nullptr) const
             {
-                Float t0 = 0, t1 = ray.t_max;
+                Float t0 = ray.t_min, t1 = ray.t_max;
                 for (int i = 0; i < 3; ++i)
                 {
                     /// Update interval for _i_th bounding box slab
-                    Float invRayDir = 1 / ray.d[i];
-                    Float tNear = (point_min[i] - ray.o[i]) * invRayDir;
-                    Float tFar = (point_max[i] - ray.o[i]) * invRayDir;
+                    Float inv_ray_dir = FLOAT_1 / ray.d[i];
+                    Float t_near = (point_min[i] - ray.o[i]) * inv_ray_dir;
+                    Float t_far = (point_max[i] - ray.o[i]) * inv_ray_dir;
 
                     /// Update parametric interval from slab intersection $t$ values
-                    if (tNear > tFar)
+                    if (t_near > t_far)
                     {
-                        std::swap(tNear, tFar);
+                        std::swap(t_near, t_far);
                     }
 
                     /// Update _tFar_ to ensure robust ray--bounds intersection
-                    tFar *= 1 + 2 * Gamma(3);
-                    t0 = tNear > t0 ? tNear : t0;
-                    t1 = tFar < t1 ? tFar : t1;
+                    t_far *= FLOAT_1 + static_cast<Float>(2.0F) * Gamma(3);
+                    t0 = t_near > t0 ? t_near : t0;
+                    t1 = t_far < t1 ? t_far : t1;
 
                     if (t0 > t1) return false;
                 }
-                if (hitt0) *hitt0 = t0;
-                if (hitt1) *hitt1 = t1;
+
+                if (nullptr != hitt0)
+                {
+                    *hitt0 = t0;
+                }
+                if (nullptr != hitt1)
+                {
+                    *hitt1 = t1;
+                }
+
                 return true;
+            }
+
+            bool IntersectP(const Rayf &ray, const Vec3f &inv_dir, const int dir_is_neg[3]) const
+            {
+                const Bounds3f &bounds = *this;
+
+                /// Check for ray intersection against $x$ and $y$ slabs
+                Float t_min = (bounds[dir_is_neg[0]].x - ray.o.x) * inv_dir.x;
+                Float t_max = (bounds[1 - dir_is_neg[0]].x - ray.o.x) * inv_dir.x;
+                Float ty_min = (bounds[dir_is_neg[1]].y - ray.o.y) * inv_dir.y;
+                Float ty_max = (bounds[1 - dir_is_neg[1]].y - ray.o.y) * inv_dir.y;
+
+                /// Update _t_max_ and _ty_max_ to ensure robust bounds intersection
+                t_max *= FLOAT_1 + static_cast<Float>(2.0F) * Gamma(3);
+                ty_max *= FLOAT_1 + static_cast<Float>(2.0F) * Gamma(3);
+                if (t_min > ty_max || ty_min > t_max) return false;
+                if (ty_min > t_min)
+                {
+                    t_min = ty_min;
+                }
+                if (ty_max < t_max)
+                {
+                    t_max = ty_max;
+                }
+
+                /// Check for ray intersection against $z$ slab
+                Float tz_min = (bounds[dir_is_neg[2]].z - ray.o.z) * inv_dir.z;
+                Float tz_max = (bounds[1 - dir_is_neg[2]].z - ray.o.z) * inv_dir.z;
+
+                /// Update _tz_max_ to ensure robust bounds intersection
+                tz_max *= FLOAT_1 + static_cast<Float>(2.0F) * Gamma(3);
+                if (t_min > tz_max || tz_min > t_max) return false;
+                if (tz_min > t_min)
+                {
+                    t_min = tz_min;
+                }
+                if (tz_max < t_max)
+                {
+                    t_max = tz_max;
+                }
+
+                return (t_min < ray.t_max) && (t_max > 0);
             }
 
         };
@@ -184,38 +235,6 @@ namespace Common
             ret.point_max = Min(b1.point_max, b2.point_max);
             return ret;
         }
-
-        inline
-            bool IntersectP(const Core::Ray &ray, const Vec3f &inv_dir, const int dir_is_neg[3]) const
-        {
-            const Bounds3f &bounds = *this;
-
-            /// Check for ray intersection against $x$ and $y$ slabs
-            Float t_min = (bounds[dir_is_neg[0]].x - ray.o.x) * inv_dir.x;
-            Float t_max = (bounds[1 - dir_is_neg[0]].x - ray.o.x) * inv_dir.x;
-            Float ty_min = (bounds[dir_is_neg[1]].y - ray.o.y) * inv_dir.y;
-            Float ty_max = (bounds[1 - dir_is_neg[1]].y - ray.o.y) * inv_dir.y;
-
-            /// Update _t_max_ and _ty_max_ to ensure robust bounds intersection
-            t_max *= 1 + 2 * Gamma(3);
-            ty_max *= 1 + 2 * Gamma(3);
-            if (t_min > ty_max || ty_min > t_max) return false;
-            if (ty_min > t_min) t_min = ty_min;
-            if (ty_max < t_max) t_max = ty_max;
-
-            /// Check for ray intersection against $z$ slab
-            Float tz_min = (bounds[dir_is_neg[2]].z - ray.o.z) * inv_dir.z;
-            Float tz_max = (bounds[1 - dir_is_neg[2]].z - ray.o.z) * inv_dir.z;
-
-            /// Update _tz_max_ to ensure robust bounds intersection
-            tz_max *= 1 + 2 * Gamma(3);
-            if (t_min > tz_max || tz_min > t_max) return false;
-            if (tz_min > t_min) t_min = tz_min;
-            if (tz_max < t_max) t_max = tz_max;
-
-            return (t_min < ray.t_max) && (t_max > 0);
-        }
-
 
         template <typename T>
         bool Overlaps(const Bounds3<T> &b1, const Bounds3<T> &b2)
@@ -263,7 +282,7 @@ namespace Common
         /// Default template instantiations
         ////////////////////////////////////////////////////////////////////////////////
 
-        typedef Bounds3<Float> Bounds3f;
         typedef Bounds3<int> Bounds3i;
+        typedef Bounds3<Float> Bounds3f;
     }
 }

@@ -3,30 +3,27 @@
 #include "Constants.h"
 #include "Vec4.h"
 
-namespace Common
+namespace common
 {
-    namespace Math
+    namespace math
     {
         template<typename T>
         struct Mat4
         {
-            T mat[SIZE][SIZE];
-
             static const size_t SIZE = 4;
+
+            T mat[SIZE][SIZE];
 
 
             ////////////////////////////////////////////////////////////////////////////////
             /// Construction
             ////////////////////////////////////////////////////////////////////////////////
 
-            Mat4()
-            {}
-
             template<typename T1>
-            Mat4(T1 a, T1 b, T1 c, T1 d
-                , T1 e, T1 f, T1 g, T1 h
-                , T1 i, T1 j, T1 k, T1 l
-                , T1 m, T1 n, T1 o, T1 p)
+            Mat4(T1 a = static_cast<T>(0), T1 b = static_cast<T>(0), T1 c = static_cast<T>(0), T1 d = static_cast<T>(0)
+                , T1 e = static_cast<T>(0), T1 f = static_cast<T>(0), T1 g = static_cast<T>(0), T1 h = static_cast<T>(0)
+                , T1 i = static_cast<T>(0), T1 j = static_cast<T>(0), T1 k = static_cast<T>(0), T1 l = static_cast<T>(0)
+                , T1 m = static_cast<T>(0), T1 n = static_cast<T>(0), T1 o = static_cast<T>(0), T1 p = static_cast<T>(0))
             {
                 mat[0][0] = static_cast<T>(a);
                 mat[0][1] = static_cast<T>(b);
@@ -58,8 +55,8 @@ namespace Common
             template<typename T1>
             Mat4(T1 **a)
             {
-                CHECK_LT((sizeof(a) / sizeof(*a)), SIZE);
-                CHECK_LT(sizeof(*a) / sizeof(**a)), SIZE);
+                CHECK_LT(sizeof(a) / sizeof(*a), SIZE);
+                CHECK_LT(sizeof(*a) / sizeof(**a), SIZE);
 
                 for (int i = 0; i < SIZE; ++i)
                 {
@@ -70,7 +67,8 @@ namespace Common
                 }
             }
 
-            Mat4(const Mat4<T> &other)
+            explicit
+                Mat4(const Mat4<T> &other)
             {
                 Clone(other);
             }
@@ -86,17 +84,6 @@ namespace Common
             {
                 Clone(other);
                 return *this;
-            }
-
-            explicit Mat4(const Mat4<T> &other)
-            {
-                for (int i = 0; i < SIZE; ++i)
-                {
-                    for (int j = 0; j < SIZE; ++j)
-                    {
-                        mat[i][j] = other[i][j];
-                    }
-                }
             }
 
 
@@ -127,15 +114,15 @@ namespace Common
             __forceinline
                 const T* operator[](size_t i) const
             {
-                CHECK_LT(index, SIZE);
-                return &(mat[index]);
+                CHECK_LT(i, SIZE);
+                return mat[i];
             }
 
             __forceinline
                 T* operator[](size_t i)
             {
-                CHECK_LT(index, SIZE);
-                return &(mat[index]);
+                CHECK_LT(i, SIZE);
+                return mat[i];
             }
 
             __forceinline
@@ -161,13 +148,13 @@ namespace Common
         ////////////////////////////////////////////////////////////////////////////////
 
         template<typename T> __forceinline
-            Mat4<T> operator+(const Mat4<T>& mat4) const
+            Mat4<T> operator+(const Mat4<T>& mat4)
         {
             return Mat4<T>(mat4);
         }
 
         template<typename T> __forceinline
-            Mat4<T> operator-(const Mat4<T>& mat4) const
+            Mat4<T> operator-(const Mat4<T>& mat4)
         {
             return Mat4<T>(-mat4[0][0], -mat4[0][1], -mat4[0][2], -mat4[0][3]
                 , -mat4[1][0], -mat4[1][1], -mat4[1][2], -mat4[1][3]
@@ -224,18 +211,22 @@ namespace Common
         template<typename T, typename T1> __forceinline
             Mat4<T> &operator*=(Mat4<T>& mat4, const Mat4<T1> &other)
         {
+            Mat4<T> ret;
+
             for (int i = 0; i < mat4.SIZE; ++i)
             {
                 for (int j = 0; j < mat4.SIZE; ++j)
                 {
-                    mat4[i][j] = mat4[i][0] * static_cast<T>(other[0][j])
-                        + mat4[i][1] * static_cast<T>(other[1][j])
-                        + mat4[i][2] * static_cast<T>(other[2][j])
-                        + mat4[i][3] * static_cast<T>(other[3][j]);
+                    for (int k = 0; k < mat4.SIZE; ++k)
+                    {
+                        ret[i][j] += mat4[i][k] * static_cast<T>(other[k][j]);
+                    }
                 }
-
-                return mat4;
             }
+
+            mat4.Clone(ret);
+
+            return mat4;
         }
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -243,8 +234,9 @@ namespace Common
         ////////////////////////////////////////////////////////////////////////////////
 
         /// TODO
+        /*
         template<typename T> __forceinline
-            Mat4 Inverse(Mat4<T>& mat4, T tolerance = 0) const
+            Mat4<T> Inverse(Mat4<T>& mat4, T tolerance = 0) const
         {
             //
             // inv [ A  | b ]  =  [ E  | f ]    A: 3x3, b: 3x1, c': 1x3 d: 1x1
@@ -407,9 +399,10 @@ namespace Common
             if (!invertible) OPENVDB_THROW(ArithmeticError, "Inversion of singular 4x4 matrix");
             return inv;
         }
-
+        */
+        
         template<typename T> __forceinline
-            Mat4 Transpose(Mat4<T>& mat4) const
+            Mat4<T> Transpose(Mat4<T>& mat4)
         {
             return Mat4<T>(mat4[0][0], mat4[1][0], mat4[2][0], mat4[3][0]
                 , mat4[0][1], mat4[1][1], mat4[2][1], mat4[3][1]

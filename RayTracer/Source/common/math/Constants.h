@@ -1,18 +1,20 @@
 #pragma once
 
-#include "pch.h"
+#include "../../pch.h"
 #include <cmath>
+#include <algorithm>
+#include <vector>
 
-namespace Common
+namespace common
 {
-    namespace Math
+    namespace math
     {
         static constexpr Float SHADOW_EPSILON = static_cast<Float>(0.0001F);
-        static constexpr Float MachineEpsilon = std::numeric_limits<Float>::epsilon() * static_cast<Float>(0.5F);
+        static constexpr Float MACHINE_EPSILON = std::numeric_limits<Float>::epsilon() * static_cast<Float>(0.5F);
 
         static constexpr Float PI = static_cast<Float>(3.14159265358979323846F);
         static constexpr Float TWO_PI = static_cast<Float>(2.0F) * PI;
-        static constexpr Float INV_PI = static_cast<Float>(1.0F) / PI;
+        static constexpr Float INV_PI = FLOAT_1 / PI;
         static constexpr Float INV_TWO_PI = static_cast<Float>(0.5F) * INV_PI;
         static constexpr Float INV_FOUR_PI = static_cast<Float>(0.25F) * INV_PI;
         static constexpr Float PI_DIV_TWO = static_cast<Float>(0.5F) * PI;
@@ -20,10 +22,10 @@ namespace Common
         static constexpr Float SQRT_TWO = static_cast<Float>(1.41421356237309504880F);
 
 
-        template<typename T> __forceinline
-            T Lerp(T t, T v1, T v2)
+        template<typename T, typename T1, typename T2> __forceinline
+            T Lerp(T t, T1 v1, T2 v2)
         {
-            return (static_cast<T>(1) - t) * v1 + t * v2;
+            return (static_cast<T>(1) - t) * static_cast<T>(v1) + t * static_cast<T>(v2);
         }
 
         template<typename T, typename T1, typename T2> __forceinline
@@ -80,8 +82,8 @@ namespace Common
         __forceinline
             Float Gamma(int n)
         {
-            return (static_cast<Float>(n) * MachineEpsilon)
-                / (static_cast<Float>(1.0F) - static_cast<Float>(n) * MachineEpsilon);
+            return (static_cast<Float>(n) * MACHINE_EPSILON)
+                / (FLOAT_1 - static_cast<Float>(n) * MACHINE_EPSILON);
         }
     }
 }

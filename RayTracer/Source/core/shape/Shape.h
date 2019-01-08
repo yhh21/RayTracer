@@ -1,18 +1,34 @@
 #pragma once
 
-#include "common/math/Transform.h"
+#include "../../pch.h"
 
-class SurfaceInteraction;
-
-namespace Core
+namespace common
 {
-    namespace Shape
+    namespace math
+    {
+        template<typename T>
+        class Transform;
+        template<typename T>
+        class Bounds3;
+        template<typename T>
+        class Ray;
+    }
+}
+
+namespace core
+{
+    namespace interaction
+    {
+        class SurfaceInteraction;
+    }
+
+    namespace shape
     {
         class Shape
         {
         public:
 
-            const Transform *object_to_world, *world_to_object;
+            const common::math::Transform<Float> *object_to_world, *world_to_object;
             const bool reverse_orientation;
             const bool transform_swaps_handedness;
 
@@ -20,30 +36,22 @@ namespace Core
             /// Construction
             ////////////////////////////////////////////////////////////////////////////////
 
-            Shape(const Transform *object_to_world, const Transform *world_to_object
-                , bool reverse_orientation)
-                : object_to_world(object_to_world), world_to_object(world_to_object)
-                , reverse_orientation(reverse_orientation), transform_swaps_handedness(object_to_world->SwapsHandedness())
-            {
-                //++nShapesCreated;
-            }
+            Shape::Shape(const common::math::Transform<Float> *object_to_world, const common::math::Transform<Float> *world_to_object
+                , bool reverse_orientation);
 
             virtual ~Shape()
             {}
 
 
-            virtual Bounds3f ObjectBound() const = 0;
+            virtual common::math::Bounds3<Float> ObjectBound() const = 0;
 
-            virtual Bounds3f WorldBound() const
-            {
-                return (*object_to_world)(ObjectBound());
-            }
+            virtual common::math::Bounds3<Float> WorldBound() const;
 
 
-            virtual bool Intersect(const Ray &ray, Float *tHit, SurfaceInteraction *isect
+            virtual bool Intersect(const common::math::Ray<Float> &ray, Float *tHit, core::interaction::SurfaceInteraction *isect
                 , bool testAlphaTexture = true) const = 0;
 
-            virtual bool IntersectP(const Ray &ray, bool testAlphaTexture = true) const
+            virtual bool IntersectP(const common::math::Ray<Float> &ray, bool testAlphaTexture = true) const
             {
                 return Intersect(ray, nullptr, nullptr, testAlphaTexture);
             }

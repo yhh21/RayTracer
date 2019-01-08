@@ -25,6 +25,8 @@
     <ClInclude Include="Source\common\math\Mat3.h" />
     <ClInclude Include="Source\common\math\Mat4.h" />
     <ClInclude Include="Source\common\math\Quaternion.h" />
+    <ClInclude Include="Source\common\math\Ray.h" />
+    <ClInclude Include="Source\common\math\RayDifferential.h" />
     <ClInclude Include="Source\common\math\Transform.h" />
     <ClInclude Include="Source\common\math\Vec2.h" />
     <ClInclude Include="Source\common\math\Vec3.h" />
@@ -33,20 +35,19 @@
     <ClInclude Include="Source\core\color\ColorExtern.h" />
     <ClInclude Include="Source\core\color\RGBSpectrum.h" />
     <ClInclude Include="Source\core\color\SampledSpectrum.h" />
-    <ClInclude Include="Source\core\Ray.h" />
+    <ClInclude Include="Source\core\interaction\Interaction.h" />
+    <ClInclude Include="Source\core\interaction\SurfaceInteraction.h" />
     <ClInclude Include="Source\common\tool\DebugTools.h" />
     <ClInclude Include="Source\core\shape\Shape.h" />
     <ClInclude Include="Source\core\shape\Triangle.h" />
-    <ClInclude Include="Source\Object.h" />
-    <ClInclude Include="Source\ObjectsManager.h" />
+    <ClInclude Include="Source\core\texture\Texture.h" />
     <ClInclude Include="Source\pch.h" />
     <ClInclude Include="Source\common\tool\ImageManager.h" />
-    <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\Sphere.h" />
-    <ClInclude Include="Source\TestCompiling.h" />
-    <ClInclude Include="Source\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\common\math\Transform.cpp" />
+    <ClCompile Include="Source\core\color\ColorExtern.cpp" />
+    <ClCompile Include="Source\core\shape\Shape.cpp" />
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -60,7 +61,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

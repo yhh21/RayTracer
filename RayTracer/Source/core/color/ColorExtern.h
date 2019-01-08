@@ -1,13 +1,12 @@
 #pragma once
 
-#include <vector>
-#include "common/math/Constants.h"
+#include "../../pch.h"
+#include "../../common/math/Constants.h"
+#include <algorithm>
 
-using namespace Common::Math;
-
-namespace Core
+namespace core
 {
-    namespace Color
+    namespace color
     {
         ////////////////////////////////////////////////////////////////////////////////
         /// extern
@@ -443,66 +442,66 @@ namespace Core
             , static_cast<Float>(0.00001620000f), static_cast<Float>(0.00001420000f), static_cast<Float>(0.00001213333f)
             , static_cast<Float>(0.00001000000f), static_cast<Float>(0.000007733333f), static_cast<Float>(0.000005400000f)
             , static_cast<Float>(0.000003200000f), static_cast<Float>(0.000001333333f), static_cast<Float>(0.000000000000f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)
-            , static_cast<Float>(0.0f), static_cast<Float>(0.0f), static_cast<Float>(0.0f)};
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0
+            , FLOAT_0, FLOAT_0, FLOAT_0};
 
         const Float CIE_lambda[CIE_SAMPLES_NUMBER] = {
             static_cast<Float>(360), static_cast<Float>(361), static_cast<Float>(362)
@@ -956,94 +955,12 @@ namespace Core
         }
 
 
-        bool SpectrumSamplesSorted(const Float *lambda, const Float * /*vals*/, int n)
-        {
-            for (int i = 0; i < n - 1; ++i)
-            {
-                if (lambda[i] > lambda[i + 1]) return false;
-            }
+        bool SpectrumSamplesSorted(const Float *lambda, const Float * /*vals*/, int n);
 
-            return true;
-        }
+        void SortSpectrumSamples(Float *lambda, Float *vals, int n);
 
-        void SortSpectrumSamples(Float *lambda, Float *vals, int n)
-        {
-            std::vector<std::pair<Float, Float>> sortVec;
-            sortVec.reserve(n);
-            for (int i = 0; i < n; ++i)
-            {
-                sortVec.push_back(std::make_pair(lambda[i], vals[i]));
-            }
-            std::sort(sortVec.begin(), sortVec.end());
-            for (int i = 0; i < n; ++i)
-            {
-                lambda[i] = sortVec[i].first;
-                vals[i] = sortVec[i].second;
-            }
-        }
+        Float AverageSpectrumSamples(const Float *lambda, const Float *vals, int n, Float lambdaStart, Float lambdaEnd);
 
-        /// TODO
-        Float AverageSpectrumSamples(const Float *lambda, const Float *vals, int n,
-            Float lambdaStart, Float lambdaEnd)
-        {
-        #ifdef DEBUG
-            for (int i = 0; i < n - 1; ++i)
-            {
-                CHECK_GT(lambda[i + 1], lambda[i]);
-            }
-            CHECK_LT(lambdaStart, lambdaEnd);
-        #endif // DEBUG
-            // Handle cases with out-of-bounds range or single sample only
-            if (lambdaEnd <= lambda[0]) return vals[0];
-            if (lambdaStart >= lambda[n - 1]) return vals[n - 1];
-            if (n == 1) return vals[0];
-            Float sum = static_cast<Float>(0.0F);
-            // Add contributions of constant segments before/after samples
-            if (lambdaStart < lambda[0]) sum += vals[0] * (lambda[0] - lambdaStart);
-            if (lambdaEnd > lambda[n - 1])
-                sum += vals[n - 1] * (lambdaEnd - lambda[n - 1]);
-
-            // Advance to first relevant wavelength segment
-            int i = 0;
-            for (; lambdaStart > lambda[i + 1]; ++i);
-        #ifdef DEBUG
-            CHECK_LT(i + 1, n);
-        #endif // DEBUG
-
-            // Loop over wavelength sample segments and add contributions
-            auto interp = [lambda, vals](Float w, int i)
-            {
-                return Lerp((w - lambda[i]) / (lambda[i + 1] - lambda[i]), vals[i],
-                    vals[i + 1]);
-            };
-            for (; i + 1 < n && lambdaEnd >= lambda[i]; ++i)
-            {
-                Float segLambdaStart = std::max(lambdaStart, lambda[i]);
-                Float segLambdaEnd = std::min(lambdaEnd, lambda[i + 1]);
-                sum += static_cast<Float>(0.5F) * (interp(segLambdaStart, i) + interp(segLambdaEnd, i)) *
-                    (segLambdaEnd - segLambdaStart);
-            }
-            return sum / (lambdaEnd - lambdaStart);
-        }
-
-        Float InterpolateSpectrumSamples(const Float *lambda, const Float *vals, int n,
-            Float l)
-        {
-        #ifdef DEBUG
-            for (int i = 0; i < n - 1; ++i)
-            {
-                CHECK_GT(lambda[i + 1], lambda[i]);
-            }
-        #endif
-            if (l <= lambda[0]) return vals[0];
-            if (l >= lambda[n - 1]) return vals[n - 1];
-            int offset = FindInterval(n, [&](int index)
-            {
-                return lambda[index] <= l;
-            });
-            CHECK(l >= lambda[offset] && l <= lambda[offset + 1]);
-            Float t = (l - lambda[offset]) / (lambda[offset + 1] - lambda[offset]);
-            return Lerp(t, vals[offset], vals[offset + 1]);
-        }
+        Float InterpolateSpectrumSamples(const Float *lambda, const Float *vals, int n, Float l);
     }
 }

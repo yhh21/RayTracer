@@ -19,11 +19,14 @@
     <Filter Include="Source\Common\Tool">
       <UniqueIdentifier>{b010eaa7-c6a5-4c67-9b0f-b7010339cba0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Core\Object">
-      <UniqueIdentifier>{87adc243-6125-4df4-a884-f5db42d5f17f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Core\Shape">
       <UniqueIdentifier>{6be75074-2ac8-41d6-946f-441c4622da86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Interaction">
+      <UniqueIdentifier>{f2bf3b7b-0d56-4724-ba57-ec36fdbeaf0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Texture">
+      <UniqueIdentifier>{2a8d0c61-20b9-43e8-915e-10e02900f451}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,9 +60,6 @@
     <ClInclude Include="Source\common\math\Quaternion.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\core\Ray.h">
-      <Filter>Source\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\core\color\CoefficientSpectrum.h">
       <Filter>Source\Core\Color</Filter>
     </ClInclude>
@@ -75,26 +75,8 @@
     <ClInclude Include="Source\common\tool\ImageManager.h">
       <Filter>Source\Common\Tool</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Window.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ObjectsManager.h">
-      <Filter>Source\Core\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object.h">
-      <Filter>Source\Core\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Sphere.h">
-      <Filter>Source\Core\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Source\core\color\RGBSpectrum.h">
       <Filter>Source\Core\Color</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\TestCompiling.h">
-      <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\core\color\ColorExtern.h">
       <Filter>Source\Core\Color</Filter>
@@ -105,10 +87,34 @@
     <ClInclude Include="Source\core\shape\Triangle.h">
       <Filter>Source\Core\Shape</Filter>
     </ClInclude>
+    <ClInclude Include="Source\core\interaction\Interaction.h">
+      <Filter>Source\Core\Interaction</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\interaction\SurfaceInteraction.h">
+      <Filter>Source\Core\Interaction</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Ray.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\RayDifferential.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\Texture.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\shape\Shape.cpp">
+      <Filter>Source\Core\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\color\ColorExtern.cpp">
+      <Filter>Source\Core\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\common\math\Transform.cpp">
+      <Filter>Source\Common\Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

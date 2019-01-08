@@ -12,10 +12,9 @@
 // ÃÌº”∂‘dbghelp.libµƒ±‡“Î“¿¿µ
 #pragma comment(lib, "dbghelp.lib")
 
-
 using namespace std;
 
-namespace Common
+namespace common
 {
     namespace DebugTools
     {
@@ -31,7 +30,7 @@ namespace Common
             WORD frames = CaptureStackBackTrace(0, MAX_STACK_FRAMES, pStack, NULL);
 
             std::ostringstream oss;
-            oss << "stack traceback: " << std::endl;
+            oss << "stack traceback: " << endl;
             for (WORD i = 0; i < frames; ++i)
             {
                 DWORD64 address = (DWORD64)(pStack[i]);
@@ -50,11 +49,12 @@ namespace Common
                 if (SymFromAddr(process, address, &displacementSym, pSymbol)
                     && SymGetLineFromAddr64(process, address, &displacementLine, &line))
                 {
-                    oss << "\t" << pSymbol->Name << " at " << line.FileName << ":" << line.LineNumber << "(0x" << std::hex << pSymbol->Address << std::dec << ")" << std::endl;
+                    oss << "\t" << pSymbol->Name << " at " << line.FileName << ":" << line.LineNumber << "(0x" 
+                        << std::hex << pSymbol->Address << std::dec << ")" << std::endl;
                 }
                 else
                 {
-                    oss << "\terror: " << GetLastError() << std::endl;
+                    oss << "\terror: " << GetLastError() << endl;
                 }
             }
             return oss.str();

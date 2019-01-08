@@ -3,29 +3,25 @@
 #include "Constants.h"
 #include "Vec3.h"
 
-namespace Common
+namespace common
 {
-    namespace Math
+    namespace math
     {
         template<typename T>
         struct Mat3
         {
-            T mat[SIZE][SIZE];
-
             static const size_t SIZE = 3;
 
+            T mat[SIZE][SIZE];
 
             ////////////////////////////////////////////////////////////////////////////////
             /// Construction
             ////////////////////////////////////////////////////////////////////////////////
 
-            Mat3()
-            {}
-
             template<typename T1>
-            Mat3(T1 a, T1 b, T1 c
-                , T1 d , T1 e, T1 f
-                , T1 g, T1 h , T1 i)
+            Mat3(T1 a = static_cast<T>(0), T1 b = static_cast<T>(0), T1 c = static_cast<T>(0)
+                , T1 d = static_cast<T>(0), T1 e = static_cast<T>(0), T1 f = static_cast<T>(0)
+                , T1 g = static_cast<T>(0), T1 h = static_cast<T>(0), T1 i = static_cast<T>(0))
             {
                 mat[0][0] = static_cast<T>(a);
                 mat[0][1] = static_cast<T>(b);
@@ -105,15 +101,15 @@ namespace Common
             __forceinline
                 const T* operator[](size_t i) const
             {
-                CHECK_LT(index, SIZE);
-                return &(mat[index]);
+                CHECK_LT(i, SIZE);
+                return mat[i];
             }
 
             __forceinline
                 T* operator[](size_t i)
             {
-                CHECK_LT(index, SIZE);
-                return &(mat[index]);
+                CHECK_LT(i, SIZE);
+                return mat[i];
             }
 
             __forceinline
@@ -198,24 +194,23 @@ namespace Common
             return mat3;
         }
 
-        /// TODO
         template<typename T, typename T1> __forceinline
             Mat3<T> &operator*=(Mat3<T>& mat3, const Mat3<T1> &other)
         {
-            T ret[mat3.SIZE][mat3.SIZE];
+            Mat3<T> ret;
 
-            for (int i = 0; i < mat3.SIZE; ++i)
+            for (int i = 0; i < ret.SIZE; ++i)
             {
-                for (int j = 0; j < mat3.SIZE; ++j)
+                for (int j = 0; j < ret.SIZE; ++j)
                 {
-                    for (int k = 0; k < mat3.SIZE; ++k)
+                    for (int k = 0; k < ret.SIZE; ++k)
                     {
-                        ret += mat3[i][k] * static_cast<T>(other[k][j]);
+                        ret[i][j] += mat3[i][k] * static_cast<T>(other[k][j]);
                     }
                 }
             }
 
-            mat3 = ret;
+            mat3.Clone(ret);
 
             return mat3;
         }
@@ -224,175 +219,69 @@ namespace Common
         /// Euclidian Space Operators
         ////////////////////////////////////////////////////////////////////////////////
 
-        /// TODO
         template<typename T> __forceinline
-            Mat3 Inverse(Mat3<T>& mat3, T tolerance = 0) const
+            Mat3<T> Inverse(Mat3<T>& mat3, T tolerance = 0) const
         {
-            CHECK_NE(Det(mat3), static_cast<T>(0));
-
-
-
-
-            //
-            // inv [ A  | b ]  =  [ E  | f ]    A: 3x3, b: 3x1, c': 1x3 d: 1x1
-            //     [ c' | d ]     [ g' | h ]
-            //
-            // If A is invertible use
-            //
-            //   E  = A^-1 + p*h*r
-            //   p  = A^-1 * b
-            //   f  = -p * h
-            //   g' = -h * c'
-            //   h  = 1 / (d - c'*p)
-            //   r' = c'*A^-1
-            //
-            // Otherwise use gauss-jordan elimination
-            //
-
-            //
-            // We create this alias to ourself so we can easily use own subscript
-            // operator.
-            const Mat3<T>& m(*this);
-
-            T m0011 = m[0][0] * m[1][1];
-            T m0012 = m[0][0] * m[1][2];
-            T m0110 = m[0][1] * m[1][0];
-            T m0210 = m[0][2] * m[1][0];
-            T m0120 = m[0][1] * m[2][0];
-            T m0220 = m[0][2] * m[2][0];
-
-            T detA = m0011 * m[2][2] - m0012 * m[2][1] - m0110 * m[2][2]
-                + m0210 * m[2][1] + m0120 * m[1][2] - m0220 * m[1][1];
-
-            bool hasPerspective =
-                (!isExactlyEqual(m[0][3], T(0.0)) ||
-                    !isExactlyEqual(m[1][3], T(0.0)) ||
-                    !isExactlyEqual(m[2][3], T(0.0)) ||
-                    !isExactlyEqual(m[3][3], T(1.0)));
-
-            T det;
-            if (hasPerspective)
+            if (!(mat3[0][2] == static_cast<T>(0) && mat3[1][2] == static_cast<T>(0) && mat3[2][2] == static_cast<T>(1)))
             {
-                det = m[0][3] * det3(m, 1, 2, 3, 0, 2, 1)
-                    + m[1][3] * det3(m, 2, 0, 3, 0, 2, 1)
-                    + m[2][3] * det3(m, 3, 0, 1, 0, 2, 1)
-                    + m[3][3] * detA;
+                Mat3<T> ret(x[1][1] * x[2][2] - x[2][1] * x[1][2],
+                    x[2][1] * x[0][2] - x[0][1] * x[2][2],
+                    x[0][1] * x[1][2] - x[1][1] * x[0][2],
+
+                    x[2][0] * x[1][2] - x[1][0] * x[2][2],
+                    x[0][0] * x[2][2] - x[2][0] * x[0][2],
+                    x[1][0] * x[0][2] - x[0][0] * x[1][2],
+
+                    x[1][0] * x[2][1] - x[2][0] * x[1][1],
+                    x[2][0] * x[0][1] - x[0][0] * x[2][1],
+                    x[0][0] * x[1][1] - x[1][0] * x[0][1]);
+
+                T det = x[0][0] * ret[0][0] + x[0][1] * ret[1][0] + x[0][2] * ret[2][0];
+            #ifdef DEBUG
+                CHECK_EQ(det, static_cast<T>(0));
+            #else
+                if (static_cast<T>(0) == det)
+                {
+                    return Mat3<T>();
+                }
+            #endif /// DEBUG
+
+                ret *= static_cast<T>(1) / det;
+
+                return ret;
             }
             else
             {
-                det = detA * m[3][3];
-            }
+                Mat3<T> ret(x[1][1], -x[0][1], static_cast<T>(0)
+                    , -x[1][0], x[0][0], static_cast<T>(0)
+                    , static_cast<T>(0), static_cast<T>(0), static_cast<T>(1));
 
-            Mat3<T> inv;
-            bool invertible;
+                T det = x[0][0] * x[1][1] - x[1][0] * x[0][1];
 
-            if (isApproxEqual(det, T(0.0), tolerance))
-            {
-                invertible = false;
-
-            }
-            else if (isApproxEqual(detA, T(0.0), T(1e-8)))
-            {
-                // det is too small to rely on inversion by subblocks
-                invertible = m.invert(inv, tolerance);
-
-            }
-            else
-            {
-                invertible = true;
-                detA = 1.0 / detA;
-
-                //
-                // Calculate A^-1
-                //
-                inv[0][0] = detA * (m[1][1] * m[2][2] - m[1][2] * m[2][1]);
-                inv[0][1] = detA * (-m[0][1] * m[2][2] + m[0][2] * m[2][1]);
-                inv[0][2] = detA * (m[0][1] * m[1][2] - m[0][2] * m[1][1]);
-
-                inv[1][0] = detA * (-m[1][0] * m[2][2] + m[1][2] * m[2][0]);
-                inv[1][1] = detA * (m[0][0] * m[2][2] - m0220);
-                inv[1][2] = detA * (m0210 - m0012);
-
-                inv[2][0] = detA * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
-                inv[2][1] = detA * (m0120 - m[0][0] * m[2][1]);
-                inv[2][2] = detA * (m0011 - m0110);
-
-                if (hasPerspective)
+            #ifdef DEBUG
+                CHECK_EQ(det, static_cast<T>(0));
+            #else
+                if (static_cast<T>(0) == det)
                 {
-                    //
-                    // Calculate r, p, and h
-                    //
-                    Vec3<T> r;
-                    r[0] = m[3][0] * inv[0][0] + m[3][1] * inv[1][0]
-                        + m[3][2] * inv[2][0];
-                    r[1] = m[3][0] * inv[0][1] + m[3][1] * inv[1][1]
-                        + m[3][2] * inv[2][1];
-                    r[2] = m[3][0] * inv[0][2] + m[3][1] * inv[1][2]
-                        + m[3][2] * inv[2][2];
+                    return Mat3<T>();
+                }
+            #endif /// DEBUG
 
-                    Vec3<T> p;
-                    p[0] = inv[0][0] * m[0][3] + inv[0][1] * m[1][3]
-                        + inv[0][2] * m[2][3];
-                    p[1] = inv[1][0] * m[0][3] + inv[1][1] * m[1][3]
-                        + inv[1][2] * m[2][3];
-                    p[2] = inv[2][0] * m[0][3] + inv[2][1] * m[1][3]
-                        + inv[2][2] * m[2][3];
+                T inv_det = static_cast<T>(1) / det;
 
-                    T h = m[3][3] - p.dot(Vec3<T>(m[3][0], m[3][1], m[3][2]));
-                    if (isApproxEqual(h, T(0.0), tolerance))
+                for (int i = 0; i < ret.SIZE - 1; ++i)
+                {
+                    for (int j = 0; j < ret.SIZE - 1; ++j)
                     {
-                        invertible = false;
-
-                    }
-                    else
-                    {
-                        h = 1.0 / h;
-
-                        //
-                        // Calculate h, g, and f
-                        //
-                        inv[3][3] = h;
-                        inv[3][0] = -h * r[0];
-                        inv[3][1] = -h * r[1];
-                        inv[3][2] = -h * r[2];
-
-                        inv[0][3] = -h * p[0];
-                        inv[1][3] = -h * p[1];
-                        inv[2][3] = -h * p[2];
-
-                        //
-                        // Calculate E
-                        //
-                        p *= h;
-                        inv[0][0] += p[0] * r[0];
-                        inv[0][1] += p[0] * r[1];
-                        inv[0][2] += p[0] * r[2];
-                        inv[1][0] += p[1] * r[0];
-                        inv[1][1] += p[1] * r[1];
-                        inv[1][2] += p[1] * r[2];
-                        inv[2][0] += p[2] * r[0];
-                        inv[2][1] += p[2] * r[1];
-                        inv[2][2] += p[2] * r[2];
+                        ret[i][j] *= inv_det;
                     }
                 }
-                else
-                {
-                    // Equations are much simpler in the non-perspective case
-                    inv[3][0] = -(m[3][0] * inv[0][0] + m[3][1] * inv[1][0]
-                        + m[3][2] * inv[2][0]);
-                    inv[3][1] = -(m[3][0] * inv[0][1] + m[3][1] * inv[1][1]
-                        + m[3][2] * inv[2][1]);
-                    inv[3][2] = -(m[3][0] * inv[0][2] + m[3][1] * inv[1][2]
-                        + m[3][2] * inv[2][2]);
-                    inv[0][3] = 0.0;
-                    inv[1][3] = 0.0;
-                    inv[2][3] = 0.0;
-                    inv[3][3] = 1.0;
-                }
-            }
 
-            if (!invertible) OPENVDB_THROW(ArithmeticError, "Inversion of singular 4x4 matrix");
-            return inv;
+                ret[2][0] = -x[2][0] * ret[0][0] - x[2][1] * ret[1][0];
+                ret[2][1] = -x[2][0] * ret[0][1] - x[2][1] * ret[1][1];
+
+                return ret;
+            }
         }
 
         template<typename T> __forceinline

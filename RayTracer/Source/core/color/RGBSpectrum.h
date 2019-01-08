@@ -2,9 +2,9 @@
 
 #include "CoefficientSpectrum.h"
 
-namespace Core
+namespace core
 {
-    namespace Color
+    namespace color
     {
         static constexpr int RGB_SAMPLES_NUMBER = 3;
 
@@ -15,7 +15,7 @@ namespace Core
             /// Construction
             ////////////////////////////////////////////////////////////////////////////////
 
-            RGBSpectrum(Float v = static_cast<Float>(0.0F)) : CoefficientSpectrum<RGB_SAMPLES_NUMBER>(v)
+            RGBSpectrum(Float v = FLOAT_0) : CoefficientSpectrum<RGB_SAMPLES_NUMBER>(v)
             {}
 
             RGBSpectrum(const CoefficientSpectrum<RGB_SAMPLES_NUMBER> &v)
@@ -88,7 +88,7 @@ namespace Core
         inline
             RGBSpectrum Lerp(Float t, const RGBSpectrum &s1, const RGBSpectrum &s2)
         {
-            return (static_cast<Float>(1.0F) - t) * s1 + t * s2;
+            return (FLOAT_1 - t) * s1 + t * s2;
         }
     }
 }

@@ -3,9 +3,9 @@
 #include "Constants.h"
 #include "Vec3.h"
 
-namespace Common
+namespace common
 {
-    namespace Math
+    namespace math
     {
         template<typename T>
         struct Quaternion

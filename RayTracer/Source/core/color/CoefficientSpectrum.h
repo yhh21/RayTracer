@@ -1,13 +1,12 @@
 #pragma once
 
 #include <vector>
+#include "../../common/math/Constants.h"
 #include "ColorExtern.h"
 
-using namespace Common::Math;
-
-namespace Core
+namespace core
 {
-    namespace Color
+    namespace color
     {
         template<int SPECTRUM_SAMPLES_NUMBER>
         class CoefficientSpectrum
@@ -19,7 +18,7 @@ namespace Core
             /// Construction
             ////////////////////////////////////////////////////////////////////////////////
 
-            CoefficientSpectrum(Float v = static_cast<Float>(0.0F))
+            CoefficientSpectrum(Float v = FLOAT_0)
             {
                 for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
                 {
@@ -43,7 +42,7 @@ namespace Core
             {
                 for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
                 {
-                    c[i] = s.c[i];
+                    (*this)[i] = s[i];
                 }
             }
 
@@ -66,7 +65,7 @@ namespace Core
             {
                 for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
                 {
-                    if (static_cast<Float>(0.0F) != c[i])  return false;
+                    if (FLOAT_0 != c[i])  return false;
                 }
 
                 return true;
@@ -87,7 +86,7 @@ namespace Core
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> ret;
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                ret.c[i] = std::sqrt(s.c[i]);
+                ret[i] = std::sqrt(s[i]);
             }
             return ret;
         }
@@ -99,7 +98,7 @@ namespace Core
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> ret;
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                s.c[i] = Clamp(s.c[i], low, high);
+                ret[i] = common::math::Clamp(s[i], low, high);
             }
 
             return ret;
@@ -116,7 +115,7 @@ namespace Core
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> ret;
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                ret.c[i] = s1.c[i] + s2.c[i];
+                ret[i] = s1[i] + s2[i];
             }
 
             return ret;
@@ -129,7 +128,7 @@ namespace Core
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> ret;
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                ret.c[i] = s1.c[i] - s2.c[i];
+                ret[i] = s1[i] - s2[i];
             }
 
             return ret;
@@ -139,12 +138,12 @@ namespace Core
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> operator/(const CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> &s1
                 , const CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> &s2)
         {
-            CHECK_EQ(s2.IsBlack(), true);
+            CHECK(!s2.IsBlack());
 
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> ret;
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                ret.c[i] = s1.c[i] / s2.c[i];
+                ret[i] = s1[i] / s2[i];
             }
 
             return ret;
@@ -157,7 +156,7 @@ namespace Core
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> ret;
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                ret.c[i] = s1.c[i] * s2.c[i];
+                ret[i] = s1[i] * s2[i];
             }
 
             return ret;
@@ -170,7 +169,7 @@ namespace Core
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> ret;
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                ret.c[i] = s1.c[i] * a;
+                ret[i] = s1[i] * a;
             }
 
             return ret;
@@ -187,12 +186,12 @@ namespace Core
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> operator/(const CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> &s1
                 , const Float &a)
         {
-            CHECK_NE(a, static_cast<Float>(0.0F));
+            CHECK_NE(a, FLOAT_0);
 
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> ret;
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                ret.c[i] = s1.c[i] / a;
+                ret[i] = s1[i] / a;
             }
 
             return ret;
@@ -208,7 +207,7 @@ namespace Core
         {
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                s1.c[i] += s2.c[i];
+                s1[i] += s2[i];
             }
 
             return s1;
@@ -220,7 +219,7 @@ namespace Core
         {
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                s1.c[i] *= s2.c[i];
+                s1[i] *= s2[i];
             }
 
             return s1;
@@ -232,7 +231,7 @@ namespace Core
         {
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                s1.c[i] *= a;
+                s1[i] *= a;
             }
 
             return s1;
@@ -242,11 +241,11 @@ namespace Core
             CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> operator/=(CoefficientSpectrum<SPECTRUM_SAMPLES_NUMBER> &s1
                 , const Float &a)
         {
-            CHECK_NE(a, static_cast<Float>(0.0F));
+            CHECK_NE(a, FLOAT_0);
 
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                s1.c[i] /= a;
+                s1[i] /= a;
             }
 
             return s1;
@@ -262,7 +261,7 @@ namespace Core
         {
             for (int i = 0; i < SPECTRUM_SAMPLES_NUMBER; ++i)
             {
-                if (s1.c[i] != s2.c[i]) return false;
+                if (s1[i] != s2[i]) return false;
             }
 
             return s1;
