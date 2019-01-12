@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoefficientSpectrum.h"
+#include "RGBSpectrum.h"
 
 namespace core
 {
