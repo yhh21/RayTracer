@@ -1,16 +1,20 @@
 #include "Transform.h"
 #include "../../Core/interaction/SurfaceInteraction.h"
 
-using namespace common::math;
+namespace common
+{
+namespace math
+{
+
 
 template<typename T>
 core::interaction::SurfaceInteraction Transform<T>::operator()(const core::interaction::SurfaceInteraction &si) const
 {
     core::interaction::SurfaceInteraction ret;
-    // Transform _p_ and _pError_ in _SurfaceInteraction_
+    /// Transform _p_ and _pError_ in _SurfaceInteraction_
     ret.p = (*this)(si.p, si.p_error, &ret.p_error);
 
-    // Transform remaining members of _SurfaceInteraction_
+    /// Transform remaining members of _SurfaceInteraction_
     ret.n = Normalize((*this)(si.n));
     ret.wo = Normalize((*this)(si.wo));
     ret.time = si.time;
@@ -46,4 +50,8 @@ core::interaction::SurfaceInteraction Transform<T>::operator()(const core::inter
     ret.face_index = si.face_index;
 
     return ret;
+}
+
+
+}
 }
