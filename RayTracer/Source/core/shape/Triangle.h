@@ -237,7 +237,7 @@ namespace core
                 Float delta_Y = Gamma(5) * (max_Yt + max_Zt);
 
                 /// Compute $\delta_e$ term for triangle $t$ error bounds
-                Float delta_E = static_cast<Float>(2.0F) * (Gamma(2) * max_Xt * max_Yt + delta_Y * max_Xt + delta_X * max_Yt);
+                Float delta_E = FLOAT_2 * (Gamma(2) * max_Xt * max_Yt + delta_Y * max_Xt + delta_X * max_Yt);
 
                 /// Compute $\delta_t$ term for triangle $t$ error bounds and check _t_
                 Float max_E = MaxComponent(Abs(Vec3f(e0, e1, e2)));
@@ -518,7 +518,7 @@ namespace core
                 Float delta_Y = Gamma(5) * (max_Yt + max_Zt);
 
                 /// Compute $\delta_e$ term for triangle $t$ error bounds
-                Float delta_E = static_cast<Float>(2.0F) * (Gamma(2) * max_Xt * max_Yt + delta_Y * max_Xt + delta_X * max_Yt);
+                Float delta_E = FLOAT_2 * (Gamma(2) * max_Xt * max_Yt + delta_Y * max_Xt + delta_X * max_Yt);
 
                 /// Compute $\delta_t$ term for triangle $t$ error bounds and check _t_
                 Float max_E = MaxComponent(Abs(Vec3f(e0, e1, e2)));
