@@ -41,24 +41,12 @@
 typedef double Float;
 #define FLOAT_0 0.0f
 #define FLOAT_1 1.0f
+#define FLOAT_2 2.0f
 #else
 typedef float Float;
 #define FLOAT_0 0.0F
 #define FLOAT_1 1.0F
+#define FLOAT_2 2.0F
 #endif
-
-
-template <int SPECTRUM_SAMPLE_NUMBER>
-class CoefficientSpectrum;
-class RGBSpectrum;
-class SampledSpectrum;
-
-#define SAMPLED_SPECTRUM
-#ifdef SAMPLED_SPECTRUM
-typedef SampledSpectrum Spectrum;
-#else
-typedef RGBSpectrum Spectrum;
-#endif
-
 
 using namespace std;

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\common\math\AnimatedTransform.h" />
     <ClInclude Include="Source\common\math\Bounds2.h" />
     <ClInclude Include="Source\common\math\Bounds3.h" />
     <ClInclude Include="Source\common\math\Constants.h" />
@@ -31,22 +32,35 @@
     <ClInclude Include="Source\common\math\Vec2.h" />
     <ClInclude Include="Source\common\math\Vec3.h" />
     <ClInclude Include="Source\common\math\Vec4.h" />
+    <ClInclude Include="Source\core\camera\Camera.h" />
+    <ClInclude Include="Source\core\film\Film.h" />
+    <ClInclude Include="Source\core\film\FilmTile.h" />
     <ClInclude Include="Source\core\color\CoefficientSpectrum.h" />
     <ClInclude Include="Source\core\color\ColorExtern.h" />
     <ClInclude Include="Source\core\color\RGBSpectrum.h" />
     <ClInclude Include="Source\core\color\SampledSpectrum.h" />
+    <ClInclude Include="Source\core\film\filter\Filter.h" />
     <ClInclude Include="Source\core\interaction\Interaction.h" />
     <ClInclude Include="Source\core\interaction\SurfaceInteraction.h" />
     <ClInclude Include="Source\common\tool\DebugTools.h" />
+    <ClInclude Include="Source\core\sampler\Sampler.h" />
     <ClInclude Include="Source\core\shape\Shape.h" />
     <ClInclude Include="Source\core\shape\Triangle.h" />
     <ClInclude Include="Source\core\texture\Texture.h" />
+    <ClInclude Include="Source\ForwardDeclaration.h" />
     <ClInclude Include="Source\pch.h" />
     <ClInclude Include="Source\common\tool\ImageManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\common\math\AnimatedTransform.cpp" />
+    <ClCompile Include="Source\common\math\Bounds2.cpp" />
+    <ClCompile Include="Source\common\math\Bounds3.cpp" />
+    <ClCompile Include="Source\common\math\Quaternion.cpp" />
     <ClCompile Include="Source\common\math\Transform.cpp" />
+    <ClCompile Include="Source\core\camera\Camera.cpp" />
+    <ClCompile Include="Source\core\film\Film.cpp" />
     <ClCompile Include="Source\core\color\ColorExtern.cpp" />
+    <ClCompile Include="Source\core\sampler\Sampler.cpp" />
     <ClCompile Include="Source\core\shape\Shape.cpp" />
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>

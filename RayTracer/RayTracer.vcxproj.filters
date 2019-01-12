@@ -28,6 +28,18 @@
     <Filter Include="Source\Core\Texture">
       <UniqueIdentifier>{2a8d0c61-20b9-43e8-915e-10e02900f451}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Core\Camera">
+      <UniqueIdentifier>{78fbd56f-896d-4124-b132-da85f6346d83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Sampler">
+      <UniqueIdentifier>{3faf6e1c-62d3-4ddb-b03b-607b57b9c5bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Film">
+      <UniqueIdentifier>{4d4214f9-c98e-4d97-b393-a584d562b0f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Film\Filter">
+      <UniqueIdentifier>{0455d5a3-9ce5-4fa7-b651-09b73d679538}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\common\math\Vec2.h">
@@ -102,6 +114,27 @@
     <ClInclude Include="Source\core\texture\Texture.h">
       <Filter>Source\Core\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Source\core\camera\Camera.h">
+      <Filter>Source\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\AnimatedTransform.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ForwardDeclaration.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\sampler\Sampler.h">
+      <Filter>Source\Core\Sampler</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\film\Film.h">
+      <Filter>Source\Core\Film</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\film\FilmTile.h">
+      <Filter>Source\Core\Film</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\film\filter\Filter.h">
+      <Filter>Source\Core\Film\Filter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -115,6 +148,27 @@
     </ClCompile>
     <ClCompile Include="Source\common\math\Transform.cpp">
       <Filter>Source\Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\camera\Camera.cpp">
+      <Filter>Source\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\common\math\AnimatedTransform.cpp">
+      <Filter>Source\Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\common\math\Quaternion.cpp">
+      <Filter>Source\Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\common\math\Bounds2.cpp">
+      <Filter>Source\Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\common\math\Bounds3.cpp">
+      <Filter>Source\Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\sampler\Sampler.cpp">
+      <Filter>Source\Core\Sampler</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\film\Film.cpp">
+      <Filter>Source\Core\Film</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
