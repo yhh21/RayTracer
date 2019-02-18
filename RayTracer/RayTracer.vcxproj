@@ -32,7 +32,21 @@
     <ClInclude Include="Source\common\math\Vec2.h" />
     <ClInclude Include="Source\common\math\Vec3.h" />
     <ClInclude Include="Source\common\math\Vec4.h" />
+    <ClInclude Include="Source\common\tool\MemoryArena.h" />
+    <ClInclude Include="Source\common\tool\MultiThread.h" />
+    <ClInclude Include="Source\common\tool\RandomNumberGenerator.h" />
+    <ClInclude Include="Source\core\bxdf\BSDF.h" />
+    <ClInclude Include="Source\core\bxdf\BxDF.h" />
+    <ClInclude Include="Source\core\bvh\BVHAccelerator.h" />
+    <ClInclude Include="Source\core\bvh\BVHBuildNode.h" />
+    <ClInclude Include="Source\core\bxdf\Fresnel.h" />
+    <ClInclude Include="Source\core\bxdf\FresnelSpecular.h" />
+    <ClInclude Include="Source\core\bxdf\LambertianReflection.h" />
+    <ClInclude Include="Source\core\bxdf\LambertianTransmission.h" />
+    <ClInclude Include="Source\core\bxdf\SpecularReflection.h" />
+    <ClInclude Include="Source\core\bxdf\SpecularTransmission.h" />
     <ClInclude Include="Source\core\camera\Camera.h" />
+    <ClInclude Include="Source\core\color\Spectrum.h" />
     <ClInclude Include="Source\core\film\Film.h" />
     <ClInclude Include="Source\core\film\FilmTile.h" />
     <ClInclude Include="Source\core\color\CoefficientSpectrum.h" />
@@ -41,11 +55,25 @@
     <ClInclude Include="Source\core\color\SampledSpectrum.h" />
     <ClInclude Include="Source\core\film\filter\Filter.h" />
     <ClInclude Include="Source\core\interaction\Interaction.h" />
+    <ClInclude Include="Source\core\interaction\Medium.h" />
+    <ClInclude Include="Source\core\interaction\MediumInteraction.h" />
     <ClInclude Include="Source\core\interaction\SurfaceInteraction.h" />
     <ClInclude Include="Source\common\tool\DebugTools.h" />
+    <ClInclude Include="Source\core\light\AreaLight.h" />
+    <ClInclude Include="Source\core\light\Light.h" />
+    <ClInclude Include="Source\core\light\VisibilityTester.h" />
+    <ClInclude Include="Source\core\material\Material.h" />
+    <ClInclude Include="Source\core\primitive\GeometricPrimitive.h" />
+    <ClInclude Include="Source\core\primitive\Primitive.h" />
+    <ClInclude Include="Source\core\sampler\GlobalSampler.h" />
+    <ClInclude Include="Source\core\sampler\PixelSampler.h" />
     <ClInclude Include="Source\core\sampler\Sampler.h" />
+    <ClInclude Include="Source\core\sampler\Sampling.h" />
+    <ClInclude Include="Source\core\sampler\StratifiedSampler.h" />
+    <ClInclude Include="Source\core\scene\Scene.h" />
     <ClInclude Include="Source\core\shape\Shape.h" />
     <ClInclude Include="Source\core\shape\Triangle.h" />
+    <ClInclude Include="Source\core\shape\TriangleMesh.h" />
     <ClInclude Include="Source\core\texture\Texture.h" />
     <ClInclude Include="Source\ForwardDeclaration.h" />
     <ClInclude Include="Source\pch.h" />
@@ -53,14 +81,34 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\common\math\AnimatedTransform.cpp" />
-    <ClCompile Include="Source\common\math\Bounds2.cpp" />
     <ClCompile Include="Source\common\math\Bounds3.cpp" />
     <ClCompile Include="Source\common\math\Quaternion.cpp" />
     <ClCompile Include="Source\common\math\Transform.cpp" />
+    <ClCompile Include="Source\core\bvh\BVHAccelerator.cpp" />
+    <ClCompile Include="Source\core\bxdf\BSDF.cpp" />
+    <ClCompile Include="Source\core\bxdf\BxDF.cpp" />
+    <ClCompile Include="Source\core\bxdf\Fresnel.cpp" />
+    <ClCompile Include="Source\core\bxdf\FresnelSpecular.cpp" />
+    <ClCompile Include="Source\core\bxdf\LambertianReflection.cpp" />
+    <ClCompile Include="Source\core\bxdf\LambertianTransmission.cpp" />
+    <ClCompile Include="Source\core\bxdf\SpecularReflection.cpp" />
+    <ClCompile Include="Source\core\bxdf\SpecularTransmission.cpp" />
     <ClCompile Include="Source\core\camera\Camera.cpp" />
     <ClCompile Include="Source\core\film\Film.cpp" />
     <ClCompile Include="Source\core\color\ColorExtern.cpp" />
+    <ClCompile Include="Source\core\interaction\Medium.cpp" />
+    <ClCompile Include="Source\core\interaction\SurfaceInteraction.cpp" />
+    <ClCompile Include="Source\core\light\AreaLight.cpp" />
+    <ClCompile Include="Source\core\light\Light.cpp" />
+    <ClCompile Include="Source\core\light\VisibilityTester.cpp" />
+    <ClCompile Include="Source\core\material\Material.cpp" />
+    <ClCompile Include="Source\core\primitive\GeometricPrimitive.cpp" />
+    <ClCompile Include="Source\core\sampler\GlobalSampler.cpp" />
+    <ClCompile Include="Source\core\sampler\PixelSampler.cpp" />
     <ClCompile Include="Source\core\sampler\Sampler.cpp" />
+    <ClCompile Include="Source\core\sampler\Sampling.cpp" />
+    <ClCompile Include="Source\core\sampler\StratifiedSampler.cpp" />
+    <ClCompile Include="Source\core\scene\Scene.cpp" />
     <ClCompile Include="Source\core\shape\Shape.cpp" />
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>
@@ -116,7 +164,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
