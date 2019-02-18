@@ -7,6 +7,9 @@
 #include "FilmTile.h"
 #include "filter/Filter.h"
 
+#include <atomic>
+#include <mutex>
+
 class ParamSet;
 
 namespace core
@@ -26,7 +29,7 @@ public:
     common::math::Bounds2i croppedPixelBounds;
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
     Film(const common::math::Vec2i &resolution, const common::math::Bounds2f &cropWindow,
@@ -47,7 +50,7 @@ public:
 
     void SetImage(const color::Spectrum *img) const;
 
-    void AddSplat(const common::math::Vec2f &p, Spectrum v);
+    void AddSplat(const common::math::Vec2f &p, color::Spectrum v);
 
     void WriteImage(Float splatScale = 1);
 
@@ -64,24 +67,40 @@ private:
         }
         Float xyz[3];
         Float filterWeightSum;
-        /// TODO
-        //AtomicFloat splatXYZ[3];
+        
+        std::atomic<Float> splatXYZ[3];
         Float pad;
     };
 
-    Pixel& GetPixel(const common::math::Vec2i &p);
+    Pixel& GetPixel(const int &x, const int &y)
+    {
+    #ifdef DEBUG
+        CHECK(InsideExclusive(common::math::Vec2i(x, y), croppedPixelBounds));
+    #endif
+        int width = croppedPixelBounds.point_max.x - croppedPixelBounds.point_min.x;
+        int offset = (x - croppedPixelBounds.point_min.x) + (y - croppedPixelBounds.point_min.y) * width;
+
+        return pixels[offset];
+    }
+
+    inline
+        Pixel& GetPixel(const common::math::Vec2i &p)
+    {
+        return GetPixel(p.x, p.y);
+    }
+
 
     std::unique_ptr<Pixel[]> pixels;
     static constexpr int filterTableWidth = 16;
     Float filterTable[filterTableWidth * filterTableWidth];
-    /// TODO
-    //std::mutex mutex;
+    
+    std::mutex _mutex;
     const Float scale;
     const Float maxSampleLuminance;
 };
 
-
-Film *CreateFilm(const ParamSet &params, std::unique_ptr<filter::Filter> filter);
+// TODO
+//Film *CreateFilm(const ParamSet &params, std::unique_ptr<filter::Filter> filter);
 
 }
 }

@@ -3,12 +3,7 @@
 #include "../../ForwardDeclaration.h"
 #include "../../common/math/Vec2.h"
 #include "../../common/math/Bounds2.h"
-#define SAMPLED_SPECTRUM
-#ifdef SAMPLED_SPECTRUM
-#include "../color/SampledSpectrum.h"
-#else
-#include "../color/RGBSpectrum.h"
-#endif
+#include "../color/Spectrum.h"
 
 class Filter;
 
@@ -30,14 +25,15 @@ class FilmTile
 public:
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
+
     FilmTile(const common::math::Bounds2i &pixelBounds, const common::math::Vec2f &filterRadius,
         const Float *filterTable, int filterTableSize,
         Float maxSampleLuminance)
         : pixelBounds(pixelBounds),
         filterRadius(filterRadius),
-        invFilterRadius(1 / filterRadius.x, 1 / filterRadius.y),
+        invFilterRadius(FLOAT_1 / filterRadius.x, FLOAT_1 / filterRadius.y),
         filterTable(filterTable),
         filterTableSize(filterTableSize),
         maxSampleLuminance(maxSampleLuminance)
@@ -47,13 +43,13 @@ public:
 
 
     void AddSample(const common::math::Vec2f &pFilm, color::Spectrum L,
-        Float sampleWeight = 1.)
+        Float sampleWeight = FLOAT_1)
     {
         //ProfilePhase _(Prof::AddFilmSample);
         if (L.y() > maxSampleLuminance)
             L *= maxSampleLuminance / L.y();
         // Compute sample's raster bounds
-        common::math::Vec2f pFilmDiscrete = pFilm - common::math::Vec2f(static_cast<Float>(0.5F));
+        common::math::Vec2f pFilmDiscrete = pFilm - common::math::Vec2f(FLOAT_INV_2);
         common::math::Vec2i p0 = (common::math::Vec2i)Ceil(pFilmDiscrete - filterRadius);
         common::math::Vec2i p1 = (common::math::Vec2i)Floor(pFilmDiscrete + filterRadius)
             + common::math::Vec2i(1, 1);
@@ -93,23 +89,39 @@ public:
         }
     }
 
+    FilmTilePixel &GetPixel(const int &x, const int &y)
+    {
+    #ifdef DEBUG
+        CHECK(InsideExclusive(common::math::Vec2i(x, y), pixelBounds));
+    #endif
+        int width = pixelBounds.point_max.x - pixelBounds.point_min.x;
+        int offset = (x - pixelBounds.point_min.x) + (y - pixelBounds.point_min.y) * width;
+        return pixels[offset];
+    }
+
+    const FilmTilePixel &GetPixel(const int &x, const int &y) const
+    {
+    #ifdef DEBUG
+        CHECK(InsideExclusive(common::math::Vec2i(x, y), pixelBounds));
+    #endif
+        int width = pixelBounds.point_max.x - pixelBounds.point_min.x;
+        int offset = (x - pixelBounds.point_min.x) + (y - pixelBounds.point_min.y) * width;
+        return pixels[offset];
+    }
+
+    inline
     FilmTilePixel &GetPixel(const common::math::Vec2i &p)
     {
-        CHECK(InsideExclusive(p, pixelBounds));
-        int width = pixelBounds.point_max.x - pixelBounds.point_min.x;
-        int offset = (p.x - pixelBounds.point_min.x) + (p.y - pixelBounds.point_min.y) * width;
-        return pixels[offset];
+        return GetPixel(p.x, p.y);
     }
 
+    inline
     const FilmTilePixel &GetPixel(const common::math::Vec2i &p) const
     {
-        CHECK(InsideExclusive(p, pixelBounds));
-        int width = pixelBounds.point_max.x - pixelBounds.point_min.x;
-        int offset = (p.x - pixelBounds.point_min.x) + (p.y - pixelBounds.point_min.y) * width;
-        return pixels[offset];
+        return GetPixel(p.x, p.y);
     }
 
-    common::math::Bounds2i GetPixelBounds() const
+    const common::math::Bounds2i GetPixelBounds() const
     {
         return pixelBounds;
     }
