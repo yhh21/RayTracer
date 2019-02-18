@@ -5,8 +5,11 @@
 #include "../../common/math/Bounds3.h"
 #include "../../core/interaction/SurfaceInteraction.h"
 
-using namespace common::math;
-using namespace core::shape;
+
+namespace core
+{
+namespace shape
+{
 
 
 Shape::Shape(const common::math::Transformf *object_to_world, const common::math::Transformf *world_to_object
@@ -16,8 +19,12 @@ Shape::Shape(const common::math::Transformf *object_to_world, const common::math
 {
     //++nShapesCreated;
 }
-        
+
 common::math::Bounds3f Shape::WorldBound() const
 {
     return (*object_to_world)(ObjectBound());
+}
+
+
+}
 }
