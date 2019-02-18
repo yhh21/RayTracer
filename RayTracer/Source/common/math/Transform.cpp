@@ -1,4 +1,8 @@
 #include "Transform.h"
+
+#include "Bounds3.h"
+#include "Ray.h"
+#include "RayDifferential.h"
 #include "../../Core/interaction/SurfaceInteraction.h"
 
 namespace common
@@ -8,13 +12,63 @@ namespace math
 
 
 template<typename T>
+Ray<T> Transform<T>::operator()(const Ray<T> &ray) const
+{
+    Vec3<T> origin_error;
+    Vec3<T> origin = (*this)(ray.origin, &origin_error);
+    Vec3<T> dir = (*this)(ray.dir);
+
+    // Offset ray origin to edge of error bounds and compute _tMax_
+    T length_squared = LengthSquared(dir);
+    T t_max = ray.t_max;
+    if (length_squared > static_cast<T>(0))
+    {
+        T dt = Dot(Abs(dir), origin_error) / length_squared;
+        origin += dir * dt;
+        t_max -= dt;
+    }
+
+    return Ray(origin, dir, t_max, ray.t_min, ray.time, ray.medium);
+}
+
+template<typename T>
+RayDifferential<T> Transform<T>::operator()(const RayDifferential<T> &ray_d) const
+{
+    RayDifferential<T> ret((*this)(static_cast<Ray<T>>(ray_d)));
+
+    ret.has_differentials = ray_d.has_differentials;
+    ret.rx_origin = (*this)(ray_d.rx_origin);
+    ret.ry_origin = (*this)(ray_d.ry_origin);
+    ret.rx_direction = (*this)(ray_d.rx_direction);
+    ret.ry_direction = (*this)(ray_d.ry_direction);
+
+    return ret;
+}
+
+template<typename T>
+Bounds3<T> Transform<T>::operator()(const Bounds3<T> &bounds) const
+{
+    Bounds3<T> ret((*this)(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_min.z)));
+
+    ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_min.z)));
+    ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_min.z)));
+    ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_max.z)));
+    ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_max.z)));
+    ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_max.y, bounds.point_min.z)));
+    ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_max.z)));
+    ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_max.y, bounds.point_max.z)));
+
+    return ret;
+}
+
+template<typename T>
 core::interaction::SurfaceInteraction Transform<T>::operator()(const core::interaction::SurfaceInteraction &si) const
 {
     core::interaction::SurfaceInteraction ret;
-    /// Transform _p_ and _pError_ in _SurfaceInteraction_
+    // Transform _p_ and _pError_ in _SurfaceInteraction_
     ret.p = (*this)(si.p, si.p_error, &ret.p_error);
 
-    /// Transform remaining members of _SurfaceInteraction_
+    // Transform remaining members of _SurfaceInteraction_
     ret.n = Normalize((*this)(si.n));
     ret.wo = Normalize((*this)(si.wo));
     ret.time = si.time;

@@ -14,8 +14,8 @@ Quaternion<T>::Quaternion(const Transform<T> &t)
     T trace = mat4[0][0] + mat4[1][1] + mat4[2][2];
     if (trace > static_cast<T>(0.0F))
     {
-        /// Compute w from matrix trace, then xyz
-        /// 4w^2 = m[0][0] + m[1][1] + m[2][2] + m[3][3] (but m[3][3] == 1)
+        // Compute w from matrix trace, then xyz
+        // 4w^2 = m[0][0] + m[1][1] + m[2][2] + m[3][3] (but m[3][3] == 1)
         T s = std::sqrt(trace + static_cast<T>(1.0F));
         w = s / static_cast<T>(2.0F);
         s = static_cast<T>(0.5F) / s;
@@ -26,7 +26,7 @@ Quaternion<T>::Quaternion(const Transform<T> &t)
     }
     else
     {
-        /// Compute largest of $x$, $y$, or $z$, then remaining components
+        // Compute largest of $x$, $y$, or $z$, then remaining components
         const int nxt[3] = {1, 2, 0};
         T q[3];
         int i = 0;

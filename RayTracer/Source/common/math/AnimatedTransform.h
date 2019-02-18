@@ -1,8 +1,10 @@
 #pragma once
 
 #include "../../ForwardDeclaration.h"
-#include <vector>
+#include "Constants.h"
 #include "Vec3.h"
+#include "Quaternion.h"
+#include "Mat4.h"
 
 namespace common
 {
@@ -15,7 +17,7 @@ class AnimatedTransform
 public:
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
     AnimatedTransform(const Transform<T> *p_start_transform, const T &start_time
@@ -50,19 +52,24 @@ private:
 
     bool has_rotation;
 
+
     struct DerivativeTerm
     {
         DerivativeTerm()
         {}
+
         DerivativeTerm(T c, T x, T y, T z)
             : kc(c), kx(x), ky(y), kz(z)
         {}
+
         T kc, kx, ky, kz;
+
         T Eval(const Vec3<T> &p) const
         {
             return kc + kx * p.x + ky * p.y + kz * p.z;
         }
     };
+
     DerivativeTerm c1[3], c2[3], c3[3], c4[3], c5[3];
 };
 

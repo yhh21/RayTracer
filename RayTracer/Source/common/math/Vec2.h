@@ -19,7 +19,7 @@ struct Vec2
     };
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
     __forceinline
@@ -56,7 +56,8 @@ struct Vec2
     template<typename T1> __forceinline
         void Clone(const Vec2<T1>& other)
     {
-        x = other.x; y = other.y;
+        x = static_cast<T>(other.x);
+        y = static_cast<T>(other.y);
     }
 
 
@@ -77,7 +78,7 @@ struct Vec2
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Unary Operators
+// Unary Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -129,7 +130,7 @@ Vec2<T> Ceil(const Vec2<T>& a)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Euclidian Space Operators
+// Euclidian Space Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -169,7 +170,7 @@ T Det(const Vec2<T>& a, const Vec2<T>& b)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Binary Operators
+// Binary Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -234,39 +235,43 @@ Vec2<T> Max(const Vec2<T>& a, const Vec2<T>& b)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Assignment Operators
+// Assignment Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
 Vec2<T>& operator +=(Vec2<T>& a, const Vec2<T>& b)
 {
-    a.x += b.x; a.y += b.y;
+    a.x += b.x;
+    a.y += b.y;
     return a;
 }
 
 template<typename T> __forceinline
 Vec2<T>& operator -=(Vec2<T>& a, const Vec2<T>& b)
 {
-    a.x -= b.x; a.y -= b.y;
+    a.x -= b.x;
+    a.y -= b.y;
     return a;
 }
 
 template<typename T> __forceinline
 Vec2<T>& operator *=(Vec2<T>& a, const T& b)
 {
-    a.x *= b; a.y *= b;
+    a.x *= b;
+    a.y *= b;
     return a;
 }
 
 template<typename T> __forceinline
 Vec2<T>& operator /=(Vec2<T>& a, const T& b)
 {
-    a.x /= b; a.y /= b;
+    a.x /= b;
+    a.y /= b;
     return a;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Comparison Operators
+// Comparison Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -284,27 +289,45 @@ bool operator !=(const Vec2<T>& a, const Vec2<T>& b)
 template<typename T> __forceinline
 bool operator < (const Vec2<T>& a, const Vec2<T>& b)
 {
-    if (a.x != b.x) return a.x < b.x;
-    if (a.y != b.y) return a.y < b.y;
+    if (a.x != b.x)
+    {
+        return a.x < b.x;
+    }
+    if (a.y != b.y)
+    {
+        return a.y < b.y;
+    }
     return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Select
+// Select
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
 int MaxDim(const Vec2<T>& a)
 {
-    if (a.x > a.y) return 0;
-    else return 1;
+    if (a.x > a.y)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 template<typename T> __forceinline
 int MinDim(const Vec2<T>& a)
 {
-    if (a.x <= a.y) return 0;
-    else return 1;
+    if (a.x <= a.y)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 template<typename T> __forceinline
@@ -326,7 +349,7 @@ Vec2<T> Permute(const Vec2<T> &a, const size_t &x, const size_t &y)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Output Operators
+// Output Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> inline

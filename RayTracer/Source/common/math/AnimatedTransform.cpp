@@ -1,8 +1,6 @@
 #include "AnimatedTransform.h"
 
 #include "Transform.h"
-#include "Quaternion.h"
-#include "Mat4.h"
 #include "RayDifferential.h"
 
 namespace common
@@ -27,7 +25,7 @@ AnimatedTransform<T>::AnimatedTransform(const Transform<T> *p_start_transform, c
     Decompose(p_start_transform->mat4, &(translations[0]), &(rotations[0]), &(scales[0]));
     Decompose(p_end_transform->mat4, &(translations[1]), &(rotations[1]), &(scales[1]));
 
-    /// Flip _R[1]_ if needed to select shortest path
+    // Flip _R[1]_ if needed to select shortest path
     if (Dot(rotations[0], rotations[1]) < static_cast<T>(0.0F))
     {
         rotations[1] = -rotations[1];
@@ -469,12 +467,12 @@ AnimatedTransform<T>::AnimatedTransform(const Transform<T> *p_start_transform, c
 template<typename T>
 void AnimatedTransform<T>::Decompose(const Mat4<T> &m, Vec3<T> *translation, Quaternion<T> *rotation_quat, Mat4<T> *scale)
 {
-    /// Extract translation _T_ from transformation matrix
+    // Extract translation _T_ from transformation matrix
     translation->x = m[0][3];
     translation->y = m[1][3];
     translation->z = m[2][3];
 
-    /// Compute new transformation matrix _M_ without translation
+    // Compute new transformation matrix _M_ without translation
     Mat4<T> M = m;
     for (int i = 0; i < 3; ++i)
     {
@@ -482,13 +480,13 @@ void AnimatedTransform<T>::Decompose(const Mat4<T> &m, Vec3<T> *translation, Qua
     }
     M[3][3] = static_cast<T>(1.0F);
 
-    /// Extract rotation _R_ from transformation matrix
+    // Extract rotation _R_ from transformation matrix
     T norm;
     int count = 0;
     Mat4<T> rotation = M;
     do
     {
-        /// Compute next matrix _Rnext_ in series
+        // Compute next matrix _Rnext_ in series
         Mat4<T> Rnext;
         Mat4<T> Rit = Inverse(Transpose(rotation));
         for (int i = 0; i < 4; ++i)
@@ -499,7 +497,7 @@ void AnimatedTransform<T>::Decompose(const Mat4<T> &m, Vec3<T> *translation, Qua
             }
         }
 
-        /// Compute norm of difference between _R_ and _Rnext_
+        // Compute norm of difference between _R_ and _Rnext_
         norm = static_cast<T>(0.0F);
         for (int i = 0; i < 3; ++i)
         {
@@ -511,17 +509,17 @@ void AnimatedTransform<T>::Decompose(const Mat4<T> &m, Vec3<T> *translation, Qua
         rotation = Rnext;
     }
     while (++count < 100 && norm > static_cast<T>(0.0001F));
-    /// XXX TODO FIXME deal with flip...
+    // XXX TODO FIXME deal with flip...
     *rotation_quat = Quaternion<T>(rotation);
 
-    /// Compute scale _S_ using rotation and original matrix
+    // Compute scale _S_ using rotation and original matrix
     *scale = Mul(Inverse(rotation), M);
 }
 
 template<typename T>
 void AnimatedTransform<T>::Interpolate(T time, Transform<T> *t) const
 {
-    /// Handle boundary conditions for matrix interpolation
+    // Handle boundary conditions for matrix interpolation
     if (!is_actually_animated || time <= start_time)
     {
         *t = *p_start_transform;
@@ -533,13 +531,13 @@ void AnimatedTransform<T>::Interpolate(T time, Transform<T> *t) const
         return;
     }
     T dt = (time - start_time) / (end_time - start_time);
-    /// Interpolate translation at _dt_
+    // Interpolate translation at _dt_
     Vec3<T> trans = (static_cast<T>(1.0F) - dt) * translations[0] + dt * translations[1];
 
-    /// Interpolate rotation at _dt_
+    // Interpolate rotation at _dt_
     Quaternion<T> rotate = Slerp(dt, rotations[0], rotations[1]);
 
-    /// Interpolate scale at _dt_
+    // Interpolate scale at _dt_
     Mat4<T> scale;
     for (int i = 0; i < 3; ++i)
     {
@@ -549,8 +547,8 @@ void AnimatedTransform<T>::Interpolate(T time, Transform<T> *t) const
         }
     }
 
-    /// Compute interpolated matrix as product of interpolated components
-    /// TOOO
+    // Compute interpolated matrix as product of interpolated components
+    // TOOO
     //*t = Translate(trans) * rotate.ToTransform() * Transform(scale);
 }
 
@@ -601,7 +599,7 @@ Bounds3<T> AnimatedTransform<T>::MotionBounds(const Bounds3<T> &b) const
     if (!is_actually_animated) return (*p_start_transform)(b);
     if (!has_rotation) return Union((*p_start_transform)(b), (*p_end_transform)(b));
 
-    /// Return motion bounds accounting for animated rotation
+    // Return motion bounds accounting for animated rotation
     Bounds3<T> bounds;
     for (int corner = 0; corner < 8; ++corner)
     {
@@ -620,10 +618,10 @@ Bounds3<T> AnimatedTransform<T>::BoundPointMotion(const Vec3<T> &p) const
     T theta = std::acos(Clamp(cos_theta, -1, 1));
     for (int c = 0; c < 3; ++c)
     {
-        /// Find any motion derivative zeros for the component _c_
+        // Find any motion derivative zeros for the component _c_
         T zeros[8];
         int zeros_number = 0;
-        /// TODO
+        // TODO
         /*
         IntervalFindZeros(c1[c].Eval(p), c2[c].Eval(p), c3[c].Eval(p),
             c4[c].Eval(p), c5[c].Eval(p), theta, Interval(0., 1.),
@@ -631,7 +629,7 @@ Bounds3<T> AnimatedTransform<T>::BoundPointMotion(const Vec3<T> &p) const
             */
         CHECK_LE(zeros_number, sizeof(zeros) / sizeof(zeros[0]));
 
-        /// Expand bounding box for any motion derivative zeros found
+        // Expand bounding box for any motion derivative zeros found
         for (int i = 0; i < zeros_number; ++i)
         {
             Vec3<T> pz = (*this)(Lerp(zeros[i], start_time, end_time), p);

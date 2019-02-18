@@ -17,7 +17,7 @@ public:
     Vec2<T> point_min, point_max;
 
     ////////////////////////////////////////////////////////////////////////////////
-    //// Construction
+    /// Construction
     ////////////////////////////////////////////////////////////////////////////////
 
     Bounds2()
@@ -134,10 +134,10 @@ Bounds2<T> Union(const Bounds2<T> &b, const Bounds2<T> &b2)
 template <typename T>
 Bounds2<T> Intersect(const Bounds2<T> &b1, const Bounds2<T> &b2)
 {
-    /// Important: assign to point_min/point_max directly and don't run the Bounds2()
-    /// constructor, since it takes min/max of the points passed to it.  In
-    /// turn, that breaks returning an invalid bound for the case where we
-    /// intersect non-overlapping bounds (as we'd like to happen).
+    // Important: assign to point_min/point_max directly and don't run the Bounds2()
+    // constructor, since it takes min/max of the points passed to it.  In
+    // turn, that breaks returning an invalid bound for the case where we
+    // intersect non-overlapping bounds (as we'd like to happen).
     Bounds2<T> ret;
     ret.point_min = Max(b1.point_min, b2.point_min);
     ret.point_max = Min(b1.point_max, b2.point_max);
@@ -173,7 +173,7 @@ Bounds2<T> Expand(const Bounds2<T> &b, U delta)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Output Operators
+// Output Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> inline

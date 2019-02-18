@@ -19,7 +19,7 @@ struct Vec4
     };
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
     __forceinline
@@ -56,7 +56,10 @@ struct Vec4
     template<typename T1> __forceinline
         void Clone(const Vec4<T1>& other)
     {
-        x = other.x; y = other.y; z = other.z; w = other.w;
+        x = static_cast<T>(other.x);
+        y = static_cast<T>(other.y);
+        z = static_cast<T>(other.z);
+        w = static_cast<T>(other.w);
     }
 
 
@@ -81,7 +84,7 @@ struct Vec4
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Unary Operators
+// Unary Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -122,7 +125,7 @@ Vec4<T> Sqrt(const Vec4<T>& a)
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Euclidian Space Operators
+// Euclidian Space Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -156,7 +159,7 @@ T Distance(const Vec4<T>& a, const Vec4<T>& b)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Binary Operators
+// Binary Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -221,39 +224,51 @@ Vec4<T> Max(const Vec4<T>& a, const Vec4<T>& b)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Assignment Operators
+// Assignment Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
 Vec4<T>& operator +=(Vec4<T>& a, const Vec4<T>& b)
 {
-    a.x += b.x; a.y += b.y; a.z += b.z; a.w += b.w;
+    a.x += b.x;
+    a.y += b.y;
+    a.z += b.z;
+    a.w += b.w;
     return a;
 }
 
 template<typename T> __forceinline
 Vec4<T>& operator -=(Vec4<T>& a, const Vec4<T>& b)
 {
-    a.x -= b.x; a.y -= b.y; a.z -= b.z; a.w -= b.w;
+    a.x -= b.x;
+    a.y -= b.y;
+    a.z -= b.z;
+    a.w -= b.w;
     return a;
 }
 
 template<typename T> __forceinline
 Vec4<T>& operator *=(Vec4<T>& a, const T& b)
 {
-    a.x *= b; a.y *= b; a.z *= b; a.w *= b;
+    a.x *= b;
+    a.y *= b;
+    a.z *= b;
+    a.w *= b;
     return a;
 }
 
 template<typename T> __forceinline
 Vec4<T>& operator /=(Vec4<T>& a, const T& b)
 {
-    a.x /= b; a.y /= b; a.z /= b; a.w /= b;
+    a.x /= b;
+    a.y /= b;
+    a.z /= b;
+    a.w /= b;
     return a;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Comparison Operators
+// Comparison Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -271,15 +286,27 @@ bool operator !=(const Vec4<T>& a, const Vec4<T>& b)
 template<typename T> __forceinline
 bool operator < (const Vec4<T>& a, const Vec4<T>& b)
 {
-    if (a.x != b.x) return a.x < b.x;
-    if (a.y != b.y) return a.y < b.y;
-    if (a.z != b.z) return a.z < b.z;
-    if (a.w != b.w) return a.w < b.w;
+    if (a.x != b.x)
+    {
+        return a.x < b.x;
+    }
+    if (a.y != b.y)
+    {
+        return a.y < b.y;
+    }
+    if (a.z != b.z)
+    {
+        return a.z < b.z;
+    }
+    if (a.w != b.w)
+    {
+        return a.w < b.w;
+    }
     return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Select
+// Select
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -331,7 +358,7 @@ Vec4<T> Permute(const Vec4<T> &a, const size_t &x, const size_t &y, const size_t
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Output Operators
+// Output Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> inline

@@ -19,7 +19,7 @@ struct Vec3
     };
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
     __forceinline
@@ -56,7 +56,9 @@ struct Vec3
     template<typename T1> __forceinline
         void Clone(const Vec3<T1>& other)
     {
-        x = other.x; y = other.y; z = other.z;
+        x = static_cast<T>(other.x);
+        y = static_cast<T>(other.y);
+        z = static_cast<T>(other.z);
     }
 
 
@@ -77,7 +79,7 @@ struct Vec3
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Unary Operators
+// Unary Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -118,7 +120,7 @@ Vec3<T> Sqrt(const Vec3<T>& a)
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Euclidian Space Operators
+// Euclidian Space Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -173,7 +175,7 @@ Vec3<T> Faceforward(const Vec3<T> &v, const Vec3<T> &v2)
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Binary Operators
+// Binary Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -251,46 +253,56 @@ Vec3<T> operator <<(const Vec3<T>& a, const int b)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Assignment Operators
+// Assignment Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
 const Vec3<T>& operator +=(Vec3<T>& a, const T b)
 {
-    a.x += b;   a.y += b;   a.z += b;
+    a.x += b;
+    a.y += b;
+    a.z += b;
     return a;
 }
 
 template<typename T> __forceinline
 const Vec3<T>& operator +=(Vec3<T>& a, const Vec3<T>& b)
 {
-    a.x += b.x; a.y += b.y; a.z += b.z;
+    a.x += b.x;
+    a.y += b.y;
+    a.z += b.z;
     return a;
 }
 
 template<typename T> __forceinline
 const Vec3<T>& operator -=(Vec3<T>& a, const Vec3<T>& b)
 {
-    a.x -= b.x; a.y -= b.y; a.z -= b.z;
+    a.x -= b.x;
+    a.y -= b.y;
+    a.z -= b.z;
     return a;
 }
 
 template<typename T> __forceinline
 const Vec3<T>& operator *=(Vec3<T>& a, const T& b)
 {
-    a.x *= b; a.y *= b; a.z *= b;
+    a.x *= b;
+    a.y *= b;
+    a.z *= b;
     return a;
 }
 
 template<typename T> __forceinline
 const Vec3<T>& operator /=(Vec3<T>& a, const T& b)
 {
-    a.x /= b; a.y /= b; a.z /= b;
+    a.x /= b;
+    a.y /= b;
+    a.z /= b;
     return a;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Comparison Operators
+// Comparison Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -308,14 +320,23 @@ bool operator !=(const Vec3<T>& a, const Vec3<T>& b)
 template<typename T> __forceinline
 bool operator < (const Vec3<T>& a, const Vec3<T>& b)
 {
-    if (a.x != b.x) return a.x < b.x;
-    if (a.y != b.y) return a.y < b.y;
-    if (a.z != b.z) return a.z < b.z;
+    if (a.x != b.x)
+    {
+        return a.x < b.x;
+    }
+    if (a.y != b.y)
+    {
+        return a.y < b.y;
+    }
+    if (a.z != b.z)
+    {
+        return a.z < b.z;
+    }
     return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Select
+// Select
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -323,13 +344,25 @@ int MaxDim(const Vec3<T>& a)
 {
     if (a.x > a.y)
     {
-        if (a.x > a.z) return 0;
-        else return 2;
+        if (a.x > a.z)
+        {
+            return 0;
+        }
+        else
+        {
+            return 2;
+        }
     }
     else
     {
-        if (a.y > a.z) return 1;
-        else return 2;
+        if (a.y > a.z)
+        {
+            return 1;
+        }
+        else
+        {
+            return 2;
+        }
     }
 }
 
@@ -338,13 +371,25 @@ int MinDim(const Vec3<T>& a)
 {
     if (a.x <= a.y)
     {
-        if (a.x <= a.z) return 0;
-        else return 2;
+        if (a.x <= a.z)
+        {
+            return 0;
+        }
+        else
+        {
+            return 2;
+        }
     }
     else
     {
-        if (a.y <= a.z) return 1;
-        else return 2;
+        if (a.y <= a.z)
+        {
+            return 1;
+        }
+        else
+        {
+            return 2;
+        }
     }
 }
 
@@ -380,8 +425,9 @@ void CoordinateSystem(const Vec3<T> &v1, Vec3<T> *v2, Vec3<T> *v3)
 
     *v3 = Cross(v1, *v2);
 }
+
 ////////////////////////////////////////////////////////////////////////////////
-/// Output Operators
+// Output Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> inline

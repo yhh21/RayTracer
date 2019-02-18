@@ -21,13 +21,13 @@ struct Mat4
 
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
-    Mat4(T a = static_cast<T>(0), T b = static_cast<T>(0), T c = static_cast<T>(0), T d = static_cast<T>(0)
-        , T e = static_cast<T>(0), T f = static_cast<T>(0), T g = static_cast<T>(0), T h = static_cast<T>(0)
-        , T i = static_cast<T>(0), T j = static_cast<T>(0), T k = static_cast<T>(0), T l = static_cast<T>(0)
-        , T m = static_cast<T>(0), T n = static_cast<T>(0), T o = static_cast<T>(0), T p = static_cast<T>(0))
+    Mat4(T a, T b, T c, T d
+        , T e, T f, T g, T h
+        , T i, T j, T k, T l
+        , T m, T n, T o, T p)
     {
         mat[0][0] = static_cast<T>(a);
         mat[0][1] = static_cast<T>(b);
@@ -140,7 +140,7 @@ struct Mat4
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Unary Operators
+// Unary Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -159,7 +159,7 @@ Mat4<T> operator-(const Mat4<T>& mat4)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Assignment Operators
+// Assignment Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T, typename T1> __forceinline
@@ -213,11 +213,10 @@ Mat4<T> &operator*=(Mat4<T>& mat4, const Mat4<T1> &other)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Euclidian Space Operators
+// Euclidian Space Operators
 ////////////////////////////////////////////////////////////////////////////////
 
-/// TODO
-
+// TODO
 template<typename T> __forceinline
     Mat4<T> Inverse(const Mat4<T>& mat4, T tolerance = 0)
 {
@@ -414,7 +413,7 @@ Mat4<T> Mul(const Mat4<T>& mat4, const Mat4<T>& mat4_2)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Output Operators
+// Output Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> inline
@@ -441,7 +440,7 @@ std::ostream& operator<<(std::ostream& cout, const Mat4<T>& mat4)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Default template instantiations
+// Default template instantiations
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef Mat4<bool> Mat4x4b;

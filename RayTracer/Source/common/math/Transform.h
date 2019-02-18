@@ -1,19 +1,9 @@
 #pragma once
 
+#include "../../ForwardDeclaration.h"
 #include "Constants.h"
 #include "Mat4.h"
 #include "Vec3.h"
-#include "Bounds3.h"
-#include "Ray.h"
-#include "RayDifferential.h"
-
-namespace core
-{
-    namespace interaction
-    {
-        class SurfaceInteraction;
-    }
-}
 
 namespace common
 {
@@ -29,7 +19,7 @@ public:
     Mat4<T> mat4, inv_mat4;
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
     Transform()
@@ -58,11 +48,11 @@ public:
 
     bool SwapsHandedness() const
     {
-        Float det = mat4.mat[0][0] * (mat4.mat[1][1] * mat4.mat[2][2] - mat4.mat[1][2] * mat4.mat[2][1])
+        T det = mat4.mat[0][0] * (mat4.mat[1][1] * mat4.mat[2][2] - mat4.mat[1][2] * mat4.mat[2][1])
             - mat4.mat[0][1] * (mat4.mat[1][0] * mat4.mat[2][2] - mat4.mat[1][2] * mat4.mat[2][0])
             + mat4.mat[0][2] * (mat4.mat[1][0] * mat4.mat[2][1] - mat4.mat[1][1] * mat4.mat[2][0]);
 
-        return det < 0;
+        return det < static_cast<T>(0);
     }
 
     inline
@@ -73,52 +63,11 @@ public:
             , mat4[2][0] * v.x + mat4[2][1] * v.y + mat4[2][2] * v.z);
     }
 
-    Ray<T> operator()(const Ray<T> &ray) const
-    {
-        Vec3<T> origin_error;
-        Vec3<T> origin = (*this)(ray.origin, &origin_error);
-        Vec3<T> dir = (*this)(ray.dir);
+    Ray<T> operator()(const Ray<T> &ray) const;
 
-        // Offset ray origin to edge of error bounds and compute _tMax_
-        T length_squared = LengthSquared(dir);
-        T t_max = ray.t_max;
-        if (length_squared > static_cast<T>(0))
-        {
-            T dt = Dot(Abs(dir), origin_error) / length_squared;
-            origin += dir * dt;
-            t_max -= dt;
-        }
+    RayDifferential<T> operator()(const RayDifferential<T> &ray_d) const;
 
-        return Ray(origin, dir, t_max, ray.t_min, ray.time, ray.medium);
-    }
-
-    RayDifferential<T> operator()(const RayDifferential<T> &ray_d) const
-    {
-        RayDifferential<T> ret((*this)(static_cast<Ray<T>>(ray_d)));
-
-        ret.has_differentials = ray_d.has_differentials;
-        ret.rx_origin = (*this)(ray_d.rx_origin);
-        ret.ry_origin = (*this)(ray_d.ry_origin);
-        ret.rx_direction = (*this)(ray_d.rx_direction);
-        ret.ry_direction = (*this)(ray_d.ry_direction);
-
-        return ret;
-    }
-
-    Bounds3<T> operator()(const Bounds3<T> &bounds) const
-    {
-        Bounds3<T> ret((*this)(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_min.z)));
-
-        ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_min.z)));
-        ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_min.z)));
-        ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_max.z)));
-        ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_max.z)));
-        ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_max.y, bounds.point_min.z)));
-        ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_max.z)));
-        ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_max.y, bounds.point_max.z)));
-
-        return ret;
-    }
+    Bounds3<T> operator()(const Bounds3<T> &bounds) const;
 
     core::interaction::SurfaceInteraction operator()(const core::interaction::SurfaceInteraction &si) const;
 };
@@ -162,17 +111,17 @@ Transform<T> Rotate(const T theta, const Vec3<T> &axis)
 {
     Vec3<T> normal_axis = Normalize(axis);
 
-    T sin_theta = std::sin(Radians(theta));
-    T cos_theta = std::cos(Radians(theta));
+    T sin_theta = std::sin(ConvertToRadians(theta));
+    T cos_theta = std::cos(ConvertToRadians(theta));
 
     Mat4<T> mat4;
-    /// Compute rotation of first basis vector
+    // Compute rotation of first basis vector
     mat4[0][0] = normal_axis[0] * normal_axis[0] + (1 - normal_axis[0] * normal_axis[0]) * cos_theta;
     mat4[0][1] = normal_axis[0] * normal_axis[1] * (1 - cos_theta) - normal_axis[2] * sin_theta;
     mat4[0][2] = normal_axis[0] * normal_axis[2] * (1 - cos_theta) + normal_axis[1] * sin_theta;
     mat4[0][3] = 0;
 
-    /// Compute rotations of second and third basis vectors
+    // Compute rotations of second and third basis vectors
     mat4[1][0] = normal_axis[0] * normal_axis[1] * (1 - cos_theta) + normal_axis[2] * sin_theta;
     mat4[1][1] = normal_axis[1] * normal_axis[1] + (1 - normal_axis[1] * normal_axis[1]) * cos_theta;
     mat4[1][2] = normal_axis[1] * normal_axis[2] * (1 - cos_theta) - normal_axis[0] * sin_theta;
@@ -191,13 +140,13 @@ template <typename T>
 Transform<T> LookAt(const Vec3<T> &pos, const Vec3<T> &look, const Vec3<T> &up)
 {
     Mat4<T> camera_to_world;
-    /// Initialize fourth column of viewing matrix
+    // Initialize fourth column of viewing matrix
     camera_to_world[0][3] = pos[0];
     camera_to_world[1][3] = pos[1];
     camera_to_world[2][3] = pos[2];
     camera_to_world[3][3] = 1;
 
-    /// Initialize first three columns of viewing matrix
+    // Initialize first three columns of viewing matrix
     Vec3<T> dir = Normalize(look - pos);
     if (Cross(Normalize(up), dir).Length() == 0)
     {
@@ -231,6 +180,22 @@ Transform<T> LookAt(const Vec3<T> &pos, const Vec3<T> &look, const Vec3<T> &up)
     return Transform<T>(Inverse(camera_to_world), camera_to_world);
 }
 
+template <typename T>
+bool SolveLinearSystem2x2(const T A[2][2], const T B[2], T *x0, T *x1)
+{
+    T det = A[0][0] * A[1][1] - A[0][1] * A[1][0];
+    if (std::abs(det) < static_cast<T>(1e-10f))
+    {
+        return false;
+    }
+    *x0 = (A[1][1] * B[0] - A[0][1] * B[1]) / det;
+    *x1 = (A[0][0] * B[1] - A[1][0] * B[0]) / det;
+    if (std::isnan(*x0) || std::isnan(*x1))
+    {
+        return false;
+    }
+    return true;
+}
 
 
 template<typename T> __forceinline
@@ -240,7 +205,7 @@ Transform<T> operator *(const Transform<T> &trans1, const Transform<T> &trans2)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Comparison Operators
+// Comparison Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -250,7 +215,10 @@ bool operator ==(const Transform<T>& a, const Transform<T>& b)
     {
         for (int j = 0; j < a.mat4.SIZE; ++j)
         {
-            if (a.mat4[i][j] != b.mat4[i][j]) return false;
+            if (a.mat4[i][j] != b.mat4[i][j])
+            {
+                return false;
+            }
         }
     }
 
@@ -264,7 +232,7 @@ bool operator !=(const Transform<T>& a, const Transform<T>& b)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Output Operators
+// Output Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> inline

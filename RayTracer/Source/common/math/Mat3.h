@@ -20,12 +20,12 @@ struct Mat3
     T mat[SIZE][SIZE];
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
-    Mat3(T a = static_cast<T>(0), T b = static_cast<T>(0), T c = static_cast<T>(0)
-        , T d = static_cast<T>(0), T e = static_cast<T>(0), T f = static_cast<T>(0)
-        , T g = static_cast<T>(0), T h = static_cast<T>(0), T i = static_cast<T>(0))
+    Mat3(T a, T b, T c
+        , T d, T e, T f
+        , T g, T h, T i)
     {
         mat[0][0] = static_cast<T>(a);
         mat[0][1] = static_cast<T>(b);
@@ -128,7 +128,7 @@ struct Mat3
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Unary Operators
+// Unary Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -146,7 +146,7 @@ Mat3<T> operator-(const Mat3<T>& mat3) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Assignment Operators
+// Assignment Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T, typename T1> __forceinline
@@ -213,7 +213,7 @@ Mat3<T> &operator*=(Mat3<T>& mat3, const Mat3<T1> &other)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Euclidian Space Operators
+// Euclidian Space Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> __forceinline
@@ -241,7 +241,7 @@ Mat3<T> Inverse(const Mat3<T>& mat3, T tolerance = 0) const
         {
             return Mat3<T>();
         }
-    #endif /// DEBUG
+    #endif // DEBUG
 
         ret *= static_cast<T>(1) / det;
 
@@ -262,7 +262,7 @@ Mat3<T> Inverse(const Mat3<T>& mat3, T tolerance = 0) const
         {
             return Mat3<T>();
         }
-    #endif /// DEBUG
+    #endif // DEBUG
 
         T inv_det = static_cast<T>(1) / det;
 
@@ -297,7 +297,7 @@ T Det(Mat3<T>& mat3) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Output Operators
+// Output Operators
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T> inline
