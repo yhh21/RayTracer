@@ -13,13 +13,13 @@ class Sampler
 {
 public:
 
-    const uint32_t samples_per_pixel;
+    const int64_t samples_per_pixel;
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
-    Sampler(uint32_t samples_per_pixel) : samples_per_pixel(samples_per_pixel)
+    Sampler(int64_t samples_per_pixel) : samples_per_pixel(samples_per_pixel)
     {}
 
     ~Sampler()
@@ -56,7 +56,7 @@ public:
 
     virtual bool SetSampleNumber(uint32_t sample_num);
 
-    uint32_t CurrentSampleNumber() const
+    int64_t CurrentSampleNumber() const
     {
         return current_pixel_sample_index;
     }
@@ -64,9 +64,13 @@ public:
 protected:
 
     common::math::Vec2i currentPixel;
-    uint32_t current_pixel_sample_index;
+
+    int64_t current_pixel_sample_index;
+
     std::vector<int> samples_1D_array_sizes, samples_2D_array_sizes;
+
     std::vector<std::vector<Float>> sample_array_1D;
+
     std::vector<std::vector<common::math::Vec2f>> sample_array_2D;
 
 private:

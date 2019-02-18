@@ -60,14 +60,14 @@ const common::math::Vec2f *Sampler::Get2DArray(int n)
 
 bool Sampler::StartNextSample()
 {
-    /// Reset array offsets for next pixel sample
+    // Reset array offsets for next pixel sample
     array_1D_offset = array_2D_offset = 0;
     return ++current_pixel_sample_index < samples_per_pixel;
 }
 
 bool Sampler::SetSampleNumber(uint32_t sample_num)
 {
-    /// Reset array offsets for next pixel sample
+    // Reset array offsets for next pixel sample
     array_1D_offset = array_2D_offset = 0;
     current_pixel_sample_index = sample_num;
     return current_pixel_sample_index < samples_per_pixel;
