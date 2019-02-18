@@ -5,9 +5,6 @@
 #include "../../common/math/Vec3.h"
 #include "../../common/math/AnimatedTransform.h"
 
-class Medium;
-class VisibilityTester;
-
 namespace core
 {
 namespace camera
@@ -27,15 +24,15 @@ public:
 
     common::math::AnimatedTransformf CameraToWorld;
     const Float shutterOpen, shutterClose;
-    film::Film *film;
-    const Medium *medium;
+    core::film::Film *film;
+    const interaction::Medium *medium;
 
     ////////////////////////////////////////////////////////////////////////////////
-    /// Construction
+    // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
     Camera(const common::math::AnimatedTransformf &CameraToWorld, Float shutterOpen,
-        Float shutterClose, film::Film *film, const Medium *medium);
+        Float shutterClose, core::film::Film *film, const interaction::Medium *medium);
 
     virtual ~Camera();
 
@@ -50,7 +47,8 @@ public:
 
     virtual color::Spectrum Sample_Wi(const interaction::Interaction &ref, const common::math::Vec2f &u
         , common::math::Vec3f *wi, Float *pdf
-        , common::math::Vec2f *pRaster, VisibilityTester *vis) const;
+        , common::math::Vec2f *pRaster
+        , core::light::VisibilityTester *vis) const;
 
 };
 

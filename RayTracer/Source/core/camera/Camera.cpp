@@ -2,6 +2,8 @@
 
 #include "../film/Film.h"
 #include "../interaction/Interaction.h"
+#include "../../common/math/Ray.h"
+#include "../../common/math/RayDifferential.h"
 
 namespace core
 {
@@ -9,14 +11,14 @@ namespace camera
 {
 
 Camera::Camera(const common::math::AnimatedTransformf &CameraToWorld, Float shutterOpen,
-    Float shutterClose, film::Film *film, const Medium *medium)
+    Float shutterClose, core::film::Film *film, const interaction::Medium *medium)
     : CameraToWorld(CameraToWorld),
     shutterOpen(shutterOpen),
     shutterClose(shutterClose),
     film(film),
     medium(medium)
 {
-    /// TODO
+    // TODO
     /*
     if (CameraToWorld.HasScale())
         Warning(
@@ -40,7 +42,7 @@ Float Camera::GenerateRayDifferential(const CameraSample &sample, common::math::
     if (FLOAT_0 == wt) return FLOAT_0;
 
     Float FLOAT_0_05 = static_cast<Float>(0.05F);
-    /// Find camera ray after shifting a fraction of a pixel in the $x$ direction
+    // Find camera ray after shifting a fraction of a pixel in the $x$ direction
     Float wtx;
     for (Float eps : { FLOAT_0_05, -FLOAT_0_05 })
     {
@@ -55,7 +57,7 @@ Float Camera::GenerateRayDifferential(const CameraSample &sample, common::math::
     }
     if (FLOAT_0 == wtx) return FLOAT_0;
 
-    /// Find camera ray after shifting a fraction of a pixel in the $y$ direction
+    // Find camera ray after shifting a fraction of a pixel in the $y$ direction
     Float wty;
     for (Float eps : { FLOAT_0_05, FLOAT_0_05 })
     {
@@ -87,10 +89,10 @@ void Camera::Pdf_We(const common::math::Rayf &ray, Float *pdfPos, Float *pdfDir)
 
 color::Spectrum Camera::Sample_Wi(const interaction::Interaction &ref, const common::math::Vec2f &u
     , common::math::Vec3f *wi, Float *pdf, common::math::Vec2f *pRaster
-    , VisibilityTester *vis) const
+    , core::light::VisibilityTester *vis) const
 {
     //LOG(FATAL) << "Camera::Sample_Wi() is not implemented!";
-    return Spectrum(FLOAT_0);
+    return color::Spectrum(FLOAT_0);
 }
 
 
