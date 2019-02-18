@@ -11,7 +11,7 @@ namespace color
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// extern
+// extern
 ////////////////////////////////////////////////////////////////////////////////
 
 enum class SpectrumType
@@ -25,7 +25,7 @@ enum class SpectrumType
 
 #define CIE_SAMPLES_NUMBER 471
 
-/// CIE X function values
+// CIE X function values
 const Float CIE_X[CIE_SAMPLES_NUMBER] = {
     static_cast<Float>(0.0001299000f), static_cast<Float>(0.0001458470f), static_cast<Float>(0.0001638021f)
     , static_cast<Float>(0.0001840037f), static_cast<Float>(0.0002066902f), static_cast<Float>(0.0002321000f)
@@ -185,7 +185,7 @@ const Float CIE_X[CIE_SAMPLES_NUMBER] = {
     , static_cast<Float>(0.000001776509f), static_cast<Float>(0.000001656215f), static_cast<Float>(0.000001544022f)
     , static_cast<Float>(0.000001439440f), static_cast<Float>(0.000001341977f), static_cast<Float>(0.000001251141f)};
 
-/// CIE Y function values
+// CIE Y function values
 const Float CIE_Y[CIE_SAMPLES_NUMBER] = {
     static_cast<Float>(0.000003917000f), static_cast<Float>(0.000004393581f), static_cast<Float>(0.000004929604f)
     , static_cast<Float>(0.000005532136f), static_cast<Float>(0.000006208245f), static_cast<Float>(0.000006965000f)
@@ -345,7 +345,7 @@ const Float CIE_Y[CIE_SAMPLES_NUMBER] = {
     , static_cast<Float>(0.0000006415300f), static_cast<Float>(0.0000005980895f), static_cast<Float>(0.0000005575746f)
     , static_cast<Float>(0.0000005198080f), static_cast<Float>(0.0000004846123f), static_cast<Float>(0.0000004518100f)};
 
-/// CIE Z function values
+// CIE Z function values
 const Float CIE_Z[CIE_SAMPLES_NUMBER] = {
     static_cast<Float>(0.0006061000f), static_cast<Float>(0.0006808792f), static_cast<Float>(0.0007651456f)
     , static_cast<Float>(0.0008600124f), static_cast<Float>(0.0009665928f), static_cast<Float>(0.001086000f)
