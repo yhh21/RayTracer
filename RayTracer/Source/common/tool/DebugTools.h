@@ -18,7 +18,7 @@ namespace common
 {
     namespace DebugTools
     {
-        /// copy from https://blog.csdn.net/windpenguin/article/details/80382344
+        // copy from https://blog.csdn.net/windpenguin/article/details/80382344
         static string TraceStack()
         {
             static const int MAX_STACK_FRAMES = 5;
