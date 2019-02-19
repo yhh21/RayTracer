@@ -22,10 +22,12 @@ public:
 
     Bounds2()
     {
+        /*
         T min_num = std::numeric_limits<T>::lowest();
         T max_num = (std::numeric_limits<T>::max)();
         point_min = Vec2<T>(min_num);
         point_max = Vec2<T>(max_num);
+        */
     }
 
     explicit Bounds2(const Vec2<T> &p) : point_min(p), point_max(p)

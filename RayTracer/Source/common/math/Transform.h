@@ -34,6 +34,17 @@ public:
     Transform(const Mat4<T> &m, const Mat4<T> &inv_m) : mat4(m), inv_mat4(inv_m)
     {}
 
+    Transform(const Transform &other) : mat4(other.mat4), inv_mat4(other.inv_mat4)
+    {}
+
+
+    Transform& operator =(const Transform& other)
+    {
+        mat4 = other.mat4;
+        inv_mat4 = other.inv_mat4;
+        return *this;
+    }
+
 
     friend Transform Inverse(const Transform &t)
     {
@@ -53,6 +64,15 @@ public:
             + mat4.mat[0][2] * (mat4.mat[1][0] * mat4.mat[2][1] - mat4.mat[1][1] * mat4.mat[2][0]);
 
         return det < static_cast<T>(0);
+    }
+
+
+    inline
+        Vec3<T> operator()(const Vec3<T> &v)
+    {
+        return Vec3<T>(mat4[0][0] * v.x + mat4[0][1] * v.y + mat4[0][2] * v.z
+            , mat4[1][0] * v.x + mat4[1][1] * v.y + mat4[1][2] * v.z
+            , mat4[2][0] * v.x + mat4[2][1] * v.y + mat4[2][2] * v.z);
     }
 
     inline
@@ -97,7 +117,7 @@ Transform<T> Scale(const Vec3<T> &scale)
         , static_cast<T>(0), static_cast<T>(0), scale[2], static_cast<T>(0)
         , static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(1));
 
-    Mat4<T> m(static_cast<T>(1) / scale[0], static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)
+    Mat4<T> inv_m(static_cast<T>(1) / scale[0], static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)
         , static_cast<T>(0), scale[1], static_cast<T>(0), static_cast<T>(0)
         , static_cast<T>(0), static_cast<T>(0), scale[2], static_cast<T>(0)
         , static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(1));
@@ -181,6 +201,17 @@ Transform<T> LookAt(const Vec3<T> &pos, const Vec3<T> &look, const Vec3<T> &up)
 }
 
 template <typename T>
+Transform<T> Orthographic(T z_near, T z_far)
+{
+#ifdef DEBUG
+    CHECK_EQ(z_near, z_far);
+#endif // DEBUG
+    return Scale(Vec3<T>(static_cast<T>(1), static_cast<T>(1), static_cast<T>(1) / (z_far - z_near)))
+        * Translate(Vec3<T>(static_cast<T>(0), static_cast<T>(0), -z_near));
+}
+
+// TODO
+template <typename T>
 bool SolveLinearSystem2x2(const T A[2][2], const T B[2], T *x0, T *x1)
 {
     T det = A[0][0] * A[1][1] - A[0][1] * A[1][0];
@@ -201,7 +232,7 @@ bool SolveLinearSystem2x2(const T A[2][2], const T B[2], T *x0, T *x1)
 template<typename T> __forceinline
 Transform<T> operator *(const Transform<T> &trans1, const Transform<T> &trans2)
 {
-    return Transform<T>(trans1.mat4 * trans2.mat4, trans1.inv_mat4, trans2.inv_mat4);
+    return Transform<T>(Mul(trans1.mat4, trans2.mat4), Mul(trans1.inv_mat4, trans2.inv_mat4));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

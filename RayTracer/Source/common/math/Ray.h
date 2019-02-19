@@ -44,8 +44,7 @@ public:
 
 // TODO
 template <typename T>
-inline Vec3<T> OffsetRayOrigin(const Vec3<T> &p, const Vec3<T> &p_error,
-    const Vec3<T> &n, const Vec3<T> &w)
+inline Vec3<T> OffsetRayOrigin(const Vec3<T> &p, const Vec3<T> &p_error, const Vec3<T> &n, const Vec3<T> &w)
 {
     T d = Dot(Abs(n), p_error);
 #ifdef FLOAT_AS_DOUBLE

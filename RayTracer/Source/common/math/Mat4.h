@@ -24,6 +24,9 @@ struct Mat4
     // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
+    Mat4()
+    {}
+
     Mat4(T a, T b, T c, T d
         , T e, T f, T g, T h
         , T i, T j, T k, T l
@@ -69,7 +72,7 @@ struct Mat4
         }
     }
 
-    Mat4(const Mat4<T> &other)
+    Mat4(const Mat4 &other)
     {
         Clone(other);
     }
@@ -394,7 +397,7 @@ Mat4<T> Transpose(Mat4<T>& mat4)
 }
 
 template<typename T> __forceinline
-Mat4<T> Mul(const Mat4<T>& mat4, const Mat4<T>& mat4_2)
+Mat4<T> Mul(const Mat4<T>& mat4, const Mat4<T>& other)
 {
     Mat4<T> ret;
 

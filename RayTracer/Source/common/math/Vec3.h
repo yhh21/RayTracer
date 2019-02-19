@@ -141,6 +141,13 @@ T LengthSquared(const Vec3<T>& a)
     return Dot(a, a);
 }
 
+template <typename T> __forceinline
+T DistanceSquared(const Vec3<T> &a, const Vec3<T> &b)
+{
+    return LengthSquared(a - b);
+}
+
+
 template<typename T> __forceinline
 T Length(const Vec3<T>& a)
 {

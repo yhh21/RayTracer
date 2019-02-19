@@ -22,10 +22,12 @@ public:
 
     Bounds3()
     {
+        /*
         T min_num = std::numeric_limits<T>::lowest();
         T max_num = (std::numeric_limits<T>::max)();
         point_min = Vec3<T>(min_num);
         point_max = Vec3<T>(max_num);
+        */
     }
 
     explicit Bounds3(const Vec3<T> &p) : point_min(p), point_max(p)
