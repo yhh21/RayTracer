@@ -7,6 +7,7 @@ namespace core
 namespace bxdf
 {
 
+
 color::Spectrum BxDF::Sample_f(const common::math::Vec3f &wo, common::math::Vec3f *wi, const common::math::Vec2f &u,
     Float *pdf, BxDFType *sampledType) const
 {
