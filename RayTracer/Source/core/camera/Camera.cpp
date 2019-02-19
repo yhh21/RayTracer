@@ -10,6 +10,7 @@ namespace core
 namespace camera
 {
 
+
 Camera::Camera(const common::math::AnimatedTransformf &CameraToWorld, Float shutterOpen,
     Float shutterClose, core::film::Film *film, const interaction::Medium *medium)
     : CameraToWorld(CameraToWorld),
