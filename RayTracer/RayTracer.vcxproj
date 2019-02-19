@@ -46,6 +46,8 @@
     <ClInclude Include="Source\core\bxdf\SpecularReflection.h" />
     <ClInclude Include="Source\core\bxdf\SpecularTransmission.h" />
     <ClInclude Include="Source\core\camera\Camera.h" />
+    <ClInclude Include="Source\core\camera\OrthographicCamera.h" />
+    <ClInclude Include="Source\core\camera\ProjectiveCamera.h" />
     <ClInclude Include="Source\core\color\Spectrum.h" />
     <ClInclude Include="Source\core\film\Film.h" />
     <ClInclude Include="Source\core\film\FilmTile.h" />
@@ -61,6 +63,7 @@
     <ClInclude Include="Source\common\tool\DebugTools.h" />
     <ClInclude Include="Source\core\light\AreaLight.h" />
     <ClInclude Include="Source\core\light\Light.h" />
+    <ClInclude Include="Source\core\light\PointLight.h" />
     <ClInclude Include="Source\core\light\VisibilityTester.h" />
     <ClInclude Include="Source\core\material\Material.h" />
     <ClInclude Include="Source\core\primitive\GeometricPrimitive.h" />
@@ -94,12 +97,14 @@
     <ClCompile Include="Source\core\bxdf\SpecularReflection.cpp" />
     <ClCompile Include="Source\core\bxdf\SpecularTransmission.cpp" />
     <ClCompile Include="Source\core\camera\Camera.cpp" />
+    <ClCompile Include="Source\core\camera\OrthographicCamera.cpp" />
     <ClCompile Include="Source\core\film\Film.cpp" />
     <ClCompile Include="Source\core\color\ColorExtern.cpp" />
     <ClCompile Include="Source\core\interaction\Medium.cpp" />
     <ClCompile Include="Source\core\interaction\SurfaceInteraction.cpp" />
     <ClCompile Include="Source\core\light\AreaLight.cpp" />
     <ClCompile Include="Source\core\light\Light.cpp" />
+    <ClCompile Include="Source\core\light\PointLight.cpp" />
     <ClCompile Include="Source\core\light\VisibilityTester.cpp" />
     <ClCompile Include="Source\core\material\Material.cpp" />
     <ClCompile Include="Source\core\primitive\GeometricPrimitive.cpp" />

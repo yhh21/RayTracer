@@ -13,9 +13,6 @@
     <Filter Include="Source\Core">
       <UniqueIdentifier>{d64c2730-5226-467c-bf40-c68833b6881f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Core\Color">
-      <UniqueIdentifier>{cf8280ab-dabf-4d3b-9367-f02631c67764}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Common\Tool">
       <UniqueIdentifier>{b010eaa7-c6a5-4c67-9b0f-b7010339cba0}</UniqueIdentifier>
     </Filter>
@@ -57,6 +54,9 @@
     </Filter>
     <Filter Include="Source\Core\Scene">
       <UniqueIdentifier>{022f38e3-50c2-4646-a276-50ba71889563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Color">
+      <UniqueIdentifier>{cf8280ab-dabf-4d3b-9367-f02631c67764}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +237,15 @@
     <ClInclude Include="Source\core\scene\Scene.h">
       <Filter>Source\Core\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\core\light\PointLight.h">
+      <Filter>Source\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\camera\ProjectiveCamera.h">
+      <Filter>Source\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\camera\OrthographicCamera.h">
+      <Filter>Source\Core\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -331,6 +340,12 @@
     </ClCompile>
     <ClCompile Include="Source\core\scene\Scene.cpp">
       <Filter>Source\Core\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\light\PointLight.cpp">
+      <Filter>Source\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\camera\OrthographicCamera.cpp">
+      <Filter>Source\Core\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
