@@ -78,7 +78,6 @@ Float AverageSpectrumSamples(const Float *lambda, const Float *vals, int n,
     return sum / (lambdaEnd - lambdaStart);
 }
 
-// TODO
 Float InterpolateSpectrumSamples(const Float *lambda, const Float *vals, int n,
     Float l)
 {
@@ -91,12 +90,10 @@ Float InterpolateSpectrumSamples(const Float *lambda, const Float *vals, int n,
     if (l <= lambda[0]) return vals[0];
     if (l >= lambda[n - 1]) return vals[n - 1];
     int offset = 0;
-    /* TODO
-    FindInterval(n, [&](int index)
+    common::math::FindInterval(n, [&](int index)
     {
         return lambda[index] <= l;
     });
-    */
 #ifdef DEBUG
     CHECK(l >= lambda[offset] && l <= lambda[offset + 1]);
 #endif
