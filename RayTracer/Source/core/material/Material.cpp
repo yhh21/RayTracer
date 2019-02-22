@@ -10,7 +10,6 @@ namespace material
 {
 
 
-
 void Material::Bump(const std::shared_ptr<texture::Texture<Float> > &d,
     interaction::SurfaceInteraction *si)
 {
