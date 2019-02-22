@@ -58,6 +58,9 @@
     <Filter Include="Source\Core\Color">
       <UniqueIdentifier>{cf8280ab-dabf-4d3b-9367-f02631c67764}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Core\BxDF\Distribution">
+      <UniqueIdentifier>{4fcfb7cc-33f7-488b-b90c-d00c298264a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\common\math\Vec2.h">
@@ -246,6 +249,45 @@
     <ClInclude Include="Source\core\camera\OrthographicCamera.h">
       <Filter>Source\Core\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Source\core\material\MatteMaterial.h">
+      <Filter>Source\Core\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\material\PlasticMaterial.h">
+      <Filter>Source\Core\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\material\MixMaterial.h">
+      <Filter>Source\Core\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\material\FourierMaterial.h">
+      <Filter>Source\Core\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\ScaledBxDF.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\OrenNayar.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\distribution\BeckmannDistribution.h">
+      <Filter>Source\Core\BxDF\Distribution</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\distribution\MicrofacetDistribution.h">
+      <Filter>Source\Core\BxDF\Distribution</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\distribution\TrowbridgeReitzDistribution.h">
+      <Filter>Source\Core\BxDF\Distribution</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\MicrofacetReflection.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\MicrofacetTransmission.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\FourierBSDF.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\Interpolation.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -346,6 +388,45 @@
     </ClCompile>
     <ClCompile Include="Source\core\camera\OrthographicCamera.cpp">
       <Filter>Source\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\material\MatteMaterial.cpp">
+      <Filter>Source\Core\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\material\PlasticMaterial.cpp">
+      <Filter>Source\Core\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\material\MixMaterial.cpp">
+      <Filter>Source\Core\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\material\FourierMaterial.cpp">
+      <Filter>Source\Core\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\ScaledBxDF.cpp">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\OrenNayar.cpp">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\distribution\BeckmannDistribution.cpp">
+      <Filter>Source\Core\BxDF\Distribution</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\distribution\MicrofacetDistribution.cpp">
+      <Filter>Source\Core\BxDF\Distribution</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\distribution\TrowbridgeReitzDistribution.cpp">
+      <Filter>Source\Core\BxDF\Distribution</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\MicrofacetReflection.cpp">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\MicrofacetTransmission.cpp">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\FourierBSDF.cpp">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\Interpolation.cpp">
+      <Filter>Source\Core\BxDF</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

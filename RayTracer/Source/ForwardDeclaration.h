@@ -7,12 +7,14 @@ typedef double Float;
 #define FLOAT_0 0.0f
 #define FLOAT_1 1.0f
 #define FLOAT_2 2.0f
+#define FLOAT_3 3.0f
 #define FLOAT_INV_2 0.5f
 #else
 typedef float Float;
 #define FLOAT_0 0.0F
 #define FLOAT_1 1.0F
 #define FLOAT_2 2.0F
+#define FLOAT_3 3.0F
 #define FLOAT_INV_2 0.5F
 #endif
 
@@ -169,6 +171,16 @@ namespace bxdf
 
 class BxDF;
 class BSDF;
+struct FourierBSDFTable;
+class FourierBSDF;
+class LambertianReflection;
+class OrenNayar;
+class ScaledBxDF;
+
+class Fresnel;
+class FresnelConductor;
+class FresnelDielectric;
+class FresnelNoOp;
 
 }
 
@@ -239,8 +251,8 @@ namespace light
 {
 
 class Light;
-class VisibilityTester;
 class AreaLight;
+class VisibilityTester;
 
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -249,6 +261,7 @@ namespace material
 {
 
 class Material;
+class MixMaterial;
 
 }
 
