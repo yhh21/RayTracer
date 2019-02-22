@@ -167,7 +167,7 @@ public:
 
         // Compute $\delta_t$ term for triangle $t$ error bounds and check _t_
         Float max_E = MaxComponent(Abs(common::math::Vec3f(e0, e1, e2)));
-        Float delta_T = static_cast<Float>(3.0F) * (Gamma(3) * max_E * max_Zt + delta_E * max_Zt
+        Float delta_T = FLOAT_3 * (Gamma(3) * max_E * max_Zt + delta_E * max_Zt
             + delta_Z * max_E) * std::abs(inv_det);
         if (t <= delta_T) return false;
 
@@ -451,7 +451,7 @@ public:
 
         // Compute $\delta_t$ term for triangle $t$ error bounds and check _t_
         Float max_E = MaxComponent(Abs(common::math::Vec3f(e0, e1, e2)));
-        Float delta_T = static_cast<Float>(3.0F) * (Gamma(3) * max_E * max_Zt + delta_E * max_Zt
+        Float delta_T = FLOAT_3 * (Gamma(3) * max_E * max_Zt + delta_E * max_Zt
             + delta_Z * max_E) * std::abs(inv_det);
         if (t <= delta_T) return false;
 
