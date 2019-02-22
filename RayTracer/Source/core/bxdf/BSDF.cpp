@@ -1,8 +1,5 @@
 #include "BSDF.h"
 
-#include "../color/SampledSpectrum.h"
-#include "../color/RGBSpectrum.h"
-
 namespace core
 {
 namespace bxdf

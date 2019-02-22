@@ -1,6 +1,5 @@
 #include "SpecularReflection.h"
 
-
 namespace core
 {
 namespace bxdf

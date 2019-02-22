@@ -1,9 +1,7 @@
 #pragma once
 
-#include "../../ForwardDeclaration.h"
 #include "BxDF.h"
 #include "Fresnel.h"
-#include "../color/Spectrum.h"
 
 namespace core
 {

@@ -1,6 +1,5 @@
 #include "LambertianReflection.h"
 
-
 namespace core
 {
 namespace bxdf

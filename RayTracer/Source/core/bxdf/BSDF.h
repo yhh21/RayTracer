@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../ForwardDeclaration.h"
 #include "BxDF.h"
 #include "../interaction/SurfaceInteraction.h"
 
@@ -67,17 +66,17 @@ public:
         BxDFType flags = BSDF_ALL) const;
 
 private:
-    // BSDF Private Methods
+
     ~BSDF()
     {}
 
-    // BSDF Private Data
+
     const common::math::Vec3f ns, ng;
     const common::math::Vec3f ss, ts;
     int nBxDFs = 0;
     static constexpr int MaxBxDFs = 8;
     BxDF *bxdfs[MaxBxDFs];
-    friend class MixMaterial;
+    friend class core::material::MixMaterial;
 };
 
 

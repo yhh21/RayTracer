@@ -1,5 +1,4 @@
 #include "BxDF.h"
-#include "../color/Spectrum.h"
 #include "../sampler/Sampling.h"
 
 namespace core

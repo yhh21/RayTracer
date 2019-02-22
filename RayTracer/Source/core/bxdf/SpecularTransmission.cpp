@@ -1,6 +1,5 @@
 #include "SpecularTransmission.h"
 
-
 namespace core
 {
 namespace bxdf

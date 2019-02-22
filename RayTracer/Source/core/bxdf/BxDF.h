@@ -4,6 +4,7 @@
 #include "../../common/math/Vec2.h"
 #include "../../common/math/Vec3.h"
 #include "../../common/math/Constants.h"
+#include "../color/Spectrum.h"
 
 namespace core
 {
@@ -68,14 +69,17 @@ inline Float CosTheta(const common::math::Vec3f &w)
 {
     return w.z;
 }
+
 inline Float Cos2Theta(const common::math::Vec3f &w)
 {
     return w.z * w.z;
 }
+
 inline Float AbsCosTheta(const common::math::Vec3f &w)
 {
     return std::abs(w.z);
 }
+
 inline Float Sin2Theta(const common::math::Vec3f &w)
 {
     return (std::max)(FLOAT_0, FLOAT_1 - Cos2Theta(w));
