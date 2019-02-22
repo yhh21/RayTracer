@@ -433,6 +433,32 @@ void CoordinateSystem(const Vec3<T> &v1, Vec3<T> *v2, Vec3<T> *v3)
     *v3 = Cross(v1, *v2);
 }
 
+template <typename T> __forceinline
+Vec3<T> SphericalDirection(T sinTheta, T cosTheta, T phi)
+{
+    return Vec3<T>(sinTheta * std::cos(phi), sinTheta * std::sin(phi), cosTheta);
+}
+
+template <typename T> __forceinline
+Vec3<T> SphericalDirection(Float sinTheta, Float cosTheta, Float phi,
+    const Vec3<T> &x, const Vec3<T> &y, const Vec3<T> &z)
+{
+    return sinTheta * std::cos(phi) * x + sinTheta * std::sin(phi) * y + cosTheta * z;
+}
+
+template <typename T> __forceinline
+Float SphericalTheta(const Vec3<T> &v)
+{
+    return std::acos(Clamp(v.z, static_cast<T>(-1), static_cast<T>(1)));
+}
+
+template <typename T> __forceinline
+Float SphericalPhi(const Vec3<T> &v)
+{
+    T p = std::atan2(v.y, v.x);
+    return (p < static_cast<T>(0)) ? (p + static_cast<T>(2) * PI) : p;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Output Operators
 ////////////////////////////////////////////////////////////////////////////////
