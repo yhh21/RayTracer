@@ -88,12 +88,5 @@ public:
 };
 
 
-inline
-RGBSpectrum Lerp(Float t, const RGBSpectrum &s1, const RGBSpectrum &s2)
-{
-    return (FLOAT_1 - t) * s1 + t * s2;
-}
-
-
 }
 }

@@ -286,12 +286,5 @@ private:
 };
 
 
-inline SampledSpectrum Lerp(Float t, const SampledSpectrum &s1,
-    const SampledSpectrum &s2)
-{
-    return static_cast<SampledSpectrum>((FLOAT_1 - t) * s1 + t * s2);
-}
-
-
 }
 }
