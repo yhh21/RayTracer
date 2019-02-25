@@ -3,6 +3,9 @@
 #include "../math/Vec2.h"
 #include "MemoryArena.h"
 #include "MultiThread.h"
+#include "../../core/color/RGBSpectrum.h"
+#include "../../core/color/SampledSpectrum.h"
+#include "../../core/texture/Texture.h"
 
 namespace common
 {
@@ -72,7 +75,7 @@ private:
             for (int j = 0; j < 4; ++j)
             {
                 Float pos = wt[i].firstTexel + j + FLOAT_INV_2;
-                wt[i].weight[j] = Lanczos((pos - center) / filterwidth);
+                wt[i].weight[j] = core::texture::Lanczos((pos - center) / filterwidth);
             }
 
             // Normalize filter weights for texel resampling
@@ -89,6 +92,17 @@ private:
     {
         return v < FLOAT_0 ? FLOAT_0 : v;
     }
+
+    core::color::RGBSpectrum clamp(core::color::RGBSpectrum v)
+    {
+        return v.Clamp();
+    }
+
+    core::color::SampledSpectrum clamp(core::color::SampledSpectrum v)
+    {
+        return v.Clamp();
+    }
+
 
     T triangle(int level, const common::math::Vec2f &st) const;
 
@@ -156,8 +170,7 @@ MIPMap<T>::MIPMap(const common::math::Vec2i &res, const T *img, bool doTrilinear
         }, resolution[1], 16);
 
         // Resample image in $t$ direction
-        std::unique_ptr<ResampleWeight[]> tWeights =
-            resampleWeights(resolution[1], resPow2[1]);
+        std::unique_ptr<ResampleWeight[]> tWeights = resampleWeights(resolution[1], resPow2[1]);
         std::vector<T *> resampleBufs;
         int nThreads = common::tool::MaxThreadIndex();
         for (int i = 0; i < nThreads; ++i)
@@ -204,8 +217,7 @@ MIPMap<T>::MIPMap(const common::math::Vec2i &res, const T *img, bool doTrilinear
     pyramid.resize(nLevels);
 
     // Initialize most detailed level of MIPMap
-    pyramid[0].reset(
-        new common::tool::BlockedArray<T>(resolution[0], resolution[1],
+    pyramid[0].reset(new common::tool::BlockedArray<T>(resolution[0], resolution[1],
             resampledImage ? resampledImage.get() : img));
     for (int i = 1; i < nLevels; ++i)
     {
@@ -289,7 +301,7 @@ T MIPMap<T>::Lookup(const common::math::Vec2f &st, Float width) const
     }
     else
     {
-        int iLevel = std::floor(level);
+        int iLevel = static_cast<int>(std::floor(level));
         Float delta = level - iLevel;
         return common::math::Lerp(delta, triangle(iLevel, st), triangle(iLevel + 1, st));
     }
@@ -301,7 +313,7 @@ T MIPMap<T>::triangle(int level, const common::math::Vec2f &st) const
     level = common::math::Clamp(level, 0, Levels() - 1);
     Float s = st[0] * pyramid[level]->uSize() - FLOAT_INV_2;
     Float t = st[1] * pyramid[level]->vSize() - FLOAT_INV_2;
-    int s0 = std::floor(s), t0 = std::floor(t);
+    int s0 = static_cast<int>(std::floor(s)), t0 = static_cast<int>(std::floor(t));
     Float ds = s - s0, dt = t - t0;
     return (FLOAT_1 - ds) * (FLOAT_1 - dt) * Texel(level, s0, t0)
         + (FLOAT_1 - ds) * dt * Texel(level, s0, t0 + 1)
@@ -342,7 +354,7 @@ T MIPMap<T>::Lookup(const common::math::Vec2f &st, common::math::Vec2f dst0, com
 
     // Choose level of detail for EWA lookup and perform EWA filtering
     Float lod = (std::max)(FLOAT_0, Levels() - FLOAT_1 + common::math::Log2(minorLength));
-    int ilod = std::floor(lod);
+    int ilod = static_cast<int>(std::floor(lod));
     return common::math::Lerp(lod - static_cast<Float>(ilod)
         , EWA(ilod, st, dst0, dst1), EWA(ilod + 1, st, dst0, dst1));
 }

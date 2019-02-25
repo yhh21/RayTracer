@@ -22,7 +22,7 @@ int NumSystemCores()
 
 int MaxThreadIndex()
 {
-    NumSystemCores();
+    return NumSystemCores();
 }
 
 
