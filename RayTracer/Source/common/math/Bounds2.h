@@ -107,10 +107,16 @@ public:
         return o;
     }
 
+    void BoundingSphere(Vec2<T> *center, T *radius) const
+    {
+        *center = (point_min + point_max) * static_cast<T>(0.5);
+        *radius = Inside(*center, *this) ? Distance(*center, point_max) : static_cast<T>(0);
+    }
+
     void GetBoundingSphere(Vec2<T> *center, T *radius) const
     {
         *center = (point_min + point_max) * static_cast<T>(0.5);
-        *radius = Inside(*center, *this) ? Distance(*center, point_max) : 0;
+        *radius = Inside(*center, *this) ? Distance(*center, point_max) : static_cast<T>(0);
     }
 };
 

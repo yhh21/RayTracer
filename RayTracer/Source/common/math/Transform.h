@@ -57,6 +57,16 @@ public:
     }
 
 
+    bool HasScale() const
+    {
+        T la2 = LengthSquared((*this)(Vec3<T>(1, 0, 0)));
+        T lb2 = LengthSquared((*this)(Vec3<T>(0, 1, 0)));
+        T lc2 = LengthSquared((*this)(Vec3<T>(0, 0, 1)));
+    #define NOT_ONE(x) ((x) < static_cast<T>(0.999F) || (x) > static_cast<T>(1.001F))
+        return (NOT_ONE(la2) || NOT_ONE(lb2) || NOT_ONE(lc2));
+    #undef NOT_ONE
+    }
+
     bool SwapsHandedness() const
     {
         T det = mat4.mat[0][0] * (mat4.mat[1][1] * mat4.mat[2][2] - mat4.mat[1][2] * mat4.mat[2][1])
@@ -208,6 +218,21 @@ Transform<T> Orthographic(T z_near, T z_far)
 #endif // DEBUG
     return Scale(Vec3<T>(static_cast<T>(1), static_cast<T>(1), static_cast<T>(1) / (z_far - z_near)))
         * Translate(Vec3<T>(static_cast<T>(0), static_cast<T>(0), -z_near));
+}
+
+template <typename T>
+Transform<T> Perspective(T fov, T z_near, T z_far)
+{
+    // Perform projective divide for perspective projection
+    Mat4<T> persp(
+        static_cast<T>(1), static_cast<T>(0), static_cast<T>(0), static_cast<T>(0),
+        static_cast<T>(0), static_cast<T>(1), static_cast<T>(0), static_cast<T>(0),
+        static_cast<T>(0), static_cast<T>(0), z_far / (z_far - z_near), -z_far * z_near / (z_far - z_near),
+        static_cast<T>(0), static_cast<T>(0), static_cast<T>(1), static_cast<T>(0));
+
+    // Scale canonical perspective view to specified field of view
+    T invTanAng = static_cast<T>(1) / std::tan(ConvertToRadians(fov) / static_cast<T>(2));
+    return Scale(Vec3<T>(invTanAng, invTanAng, static_cast<T>(1))) * Transform<T>(persp);
 }
 
 // TODO

@@ -28,6 +28,11 @@ public:
 
     void Interpolate(T time, Transform<T> *t) const;
 
+    bool HasScale() const
+    {
+        return p_start_transform->HasScale() || p_end_transform->HasScale();
+    }
+
 
     Ray<T> operator()(const Ray<T> &r) const;
 
