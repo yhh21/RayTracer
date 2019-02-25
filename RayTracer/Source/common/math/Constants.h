@@ -25,26 +25,27 @@ static constexpr Float PI_DIV_FOUR = FLOAT_INV_2 * FLOAT_INV_2 * PI;
 static constexpr Float SQRT_TWO = static_cast<Float>(1.41421356237309504880F);
 
 
-template<typename T, typename T1, typename T2> __forceinline
-T Lerp(T t, T1 v1, T2 v2)
+template<typename T, typename T1, typename T2> inline
+T1 Lerp(T t, T1 v1, T2 v2)
 {
-    return (static_cast<T>(1) - t) * static_cast<T>(v1) + t * static_cast<T>(v2);
+    return v1 * (static_cast<T>(1) - t) + static_cast<T1>(v2) * t;
 }
 
+
 template<typename T, typename T1, typename T2> __forceinline
-T Clamp(T t, T1 min, T2 max)
+T1 Clamp(T t, T1 min, T2 max)
 {
-    if (t < static_cast<T>(min))
+    if (static_cast<T1>(t) < min)
     {
-        return static_cast<T>(min);
+        return static_cast<T1>(min);
     }
-    else if (t > static_cast<T>(max))
+    else if (static_cast<T1>(t) > static_cast<T1>(max))
     {
-        return static_cast<T>(max);
+        return static_cast<T1>(max);
     }
     else
     {
-        return t;
+        return static_cast<T1>(t);
     }
 }
 
