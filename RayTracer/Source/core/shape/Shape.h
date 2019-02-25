@@ -2,7 +2,6 @@
 
 #include "../../ForwardDeclaration.h"
 #include "../../common/math/Ray.h"
-#include "../../common/math/Transform.h"
 
 namespace core
 {
@@ -44,6 +43,29 @@ public:
 
 
     virtual Float Area() const = 0;
+
+
+    virtual interaction::Interaction Sample(const common::math::Vec2f &u, Float *pdf) const = 0;
+
+    virtual Float Pdf(const interaction::Interaction &) const
+    {
+        return FLOAT_1 / Area();
+    }
+
+    // Sample a point on the shape given a reference point |ref| and
+    // return the PDF with respect to solid angle from |ref|.
+    virtual interaction::Interaction Sample(const interaction::Interaction &ref, const common::math::Vec2f &u,
+        Float *pdf) const;
+
+    virtual Float Pdf(const interaction::Interaction &ref, const common::math::Vec3f &wi) const;
+
+    // Returns the solid angle subtended by the shape w.r.t. the reference
+    // point p, given in world space. Some shapes compute this value in
+    // closed-form, while the default implementation uses Monte Carlo
+    // integration; the nSamples parameter determines how many samples are
+    // used in this case.
+    virtual Float SolidAngle(const common::math::Vec3f &p, int nSamples = 512) const;
+
 };
 
 
