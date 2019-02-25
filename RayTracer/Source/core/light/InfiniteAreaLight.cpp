@@ -48,7 +48,7 @@ InfiniteAreaLight::InfiniteAreaLight(const common::math::Transformf &LightToWorl
     int width = 2 * Lmap->Width(), height = 2 * Lmap->Height();
     std::unique_ptr<Float[]> img(new Float[width * height]);
     float fwidth = FLOAT_INV_2 / (std::min)(width, height);
-    common::tool::ParallelFor( [&](int64_t v)
+    common::tool::ParallelFor([&](int64_t v)
     {
         Float vp = (v + FLOAT_INV_2) / (Float)height;
         Float sinTheta = std::sin(common::math::PI * (v + FLOAT_INV_2) / height);
