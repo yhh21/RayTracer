@@ -9,7 +9,7 @@ namespace texture
 template <typename Tmemory, typename Treturn>
 ImageTexture<Tmemory, Treturn>::ImageTexture(
     std::unique_ptr<TextureMapping2D> mapping, const std::string &filename,
-    bool doTrilinear, Float maxAniso, ImageWrap wrapMode, Float scale,
+    bool doTrilinear, Float maxAniso, common::tool::ImageWrap wrapMode, Float scale,
     bool gamma)
     : mapping(std::move(mapping))
 {
@@ -17,9 +17,9 @@ ImageTexture<Tmemory, Treturn>::ImageTexture(
 }
 
 template <typename Tmemory, typename Treturn>
-MIPMap<Tmemory> *ImageTexture<Tmemory, Treturn>::GetTexture(
+common::tool::MIPMap<Tmemory> *ImageTexture<Tmemory, Treturn>::GetTexture(
     const std::string &filename, bool doTrilinear, Float maxAniso,
-    ImageWrap wrap, Float scale, bool gamma)
+    common::tool::ImageWrap wrap, Float scale, bool gamma)
 {
     // Return _MIPMap_ from texture cache if present
     TexInfo texInfo(filename, doTrilinear, maxAniso, wrap, scale, gamma);
@@ -55,7 +55,7 @@ MIPMap<Tmemory> *ImageTexture<Tmemory, Treturn>::GetTexture(
         }
     }
 
-    MIPMap<Tmemory> *mipmap = nullptr;
+    common::tool::MIPMap<Tmemory> *mipmap = nullptr;
     if (texels)
     {
         // Convert texels to type _Tmemory_ and create _MIPMap_
@@ -65,14 +65,14 @@ MIPMap<Tmemory> *ImageTexture<Tmemory, Treturn>::GetTexture(
         {
             convertIn(texels[i], &convertedTexels[i], scale, gamma);
         }
-        mipmap = new MIPMap<Tmemory>(resolution, convertedTexels.get(),
+        mipmap = new common::tool::MIPMap<Tmemory>(resolution, convertedTexels.get(),
             doTrilinear, maxAniso, wrap);
     }
     else
     {
         // Create one-valued _MIPMap_
         Tmemory oneVal = scale;
-        mipmap = new MIPMap<Tmemory>(common::math::Vec2f(1, 1), &oneVal);
+        mipmap = new common::tool::MIPMap<Tmemory>(common::math::Vec2f(FLOAT_1, FLOAT_1), &oneVal);
     }
     textures[texInfo].reset(mipmap);
     return mipmap;

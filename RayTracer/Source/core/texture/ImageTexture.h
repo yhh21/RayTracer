@@ -2,7 +2,9 @@
 
 #include "Texture.h"
 #include "TextureMapping2D.h"
-#include "MIPMap.h"
+#include "../../common/tool/MIPMap.h"
+#include "../color/Spectrum.h"
+#include "../color/RGBSpectrum.h"
 #include "../interaction/SurfaceInteraction.h"
 #include <map>
 
@@ -18,7 +20,7 @@ struct TexInfo
     // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
-    TexInfo(const std::string &filename, bool dt, Float ma, ImageWrap wm, Float sc,
+    TexInfo(const std::string &filename, bool dt, Float ma, common::tool::ImageWrap wm, Float sc,
         bool gamma)
         : filename(filename),
         doTrilinear(dt),
@@ -32,7 +34,7 @@ struct TexInfo
     std::string filename;
     bool doTrilinear;
     Float maxAniso;
-    ImageWrap wrapMode;
+    common::tool::ImageWrap wrapMode;
     Float scale;
     bool gamma;
 
@@ -74,7 +76,7 @@ public:
 
     ImageTexture(std::unique_ptr<TextureMapping2D> m,
         const std::string &filename, bool doTri, Float maxAniso,
-        ImageWrap wm, Float scale, bool gamma);
+        common::tool::ImageWrap wm, Float scale, bool gamma);
 
 
     static void ClearCache()
@@ -94,9 +96,9 @@ public:
 
 private:
 
-    static MIPMap<Tmemory> *GetTexture(const std::string &filename,
+    static common::tool::MIPMap<Tmemory> *GetTexture(const std::string &filename,
         bool doTrilinear, Float maxAniso,
-        ImageWrap wm, Float scale, bool gamma);
+        common::tool::ImageWrap wm, Float scale, bool gamma);
 
     static void convertIn(const core::color::RGBSpectrum &from, core::color::RGBSpectrum *to
         , Float scale, bool gamma)
@@ -126,12 +128,12 @@ private:
     }
 
     std::unique_ptr<TextureMapping2D> mapping;
-    MIPMap<Tmemory> *mipmap;
-    static std::map<TexInfo, std::unique_ptr<MIPMap<Tmemory>>> textures;
+    common::tool::MIPMap<Tmemory> *mipmap;
+    static std::map<TexInfo, std::unique_ptr<common::tool::MIPMap<Tmemory>>> textures;
 };
 
 template <typename Tmemory, typename Treturn>
-std::map<TexInfo, std::unique_ptr<MIPMap<Tmemory>>> ImageTexture<Tmemory, Treturn>::textures;
+std::map<TexInfo, std::unique_ptr<common::tool::MIPMap<Tmemory>>> ImageTexture<Tmemory, Treturn>::textures;
 
 extern template class ImageTexture<Float, Float>;
 extern template class ImageTexture<core::color::RGBSpectrum, core::color::Spectrum>;
