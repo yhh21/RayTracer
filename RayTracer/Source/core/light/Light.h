@@ -21,7 +21,8 @@ enum class LightFlags : int
 inline
 bool IsDeltaLight(int flags)
 {
-    return (flags & (int)LightFlags::DeltaPosition) || (flags & (int)LightFlags::DeltaDirection);
+    return (flags & static_cast<int>(LightFlags::DeltaPosition))
+        || (flags & static_cast<int>(LightFlags::DeltaDirection));
 }
 
 
@@ -31,14 +32,14 @@ public:
 
     const int flags;
     const int nSamples;
-    const interaction::MediumInterface mediumInterface;
+    const interaction::MediumInterface medium_interface;
 
     ////////////////////////////////////////////////////////////////////////////////
     // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
     Light(int flags, const common::math::Transformf &LightToWorld,
-        const interaction::MediumInterface &mediumInterface, int nSamples = 1);
+        const interaction::MediumInterface &medium_interface, int nSamples = 1);
 
     virtual ~Light();
 

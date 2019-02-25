@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../ForwardDeclaration.h"
 #include "Light.h"
 
 namespace core

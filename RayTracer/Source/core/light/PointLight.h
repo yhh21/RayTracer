@@ -1,11 +1,8 @@
 #pragma once
 
-#include "../../ForwardDeclaration.h"
 #include "Light.h"
-#include "../../common/math/Vec2.h"
 #include "../../common/math/Vec3.h"
 #include "../color/Spectrum.h"
-#include "../interaction/MediumInteraction.h"
 
 namespace core
 {
@@ -22,11 +19,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////
 
     PointLight(const common::math::Transformf &LightToWorld,
-        const core::interaction::MediumInterface &mediumInterface, const color::Spectrum &I)
-        : Light((int)LightFlags::DeltaPosition, LightToWorld, mediumInterface),
-        pLight(LightToWorld(common::math::Vec3f(FLOAT_0, FLOAT_0, FLOAT_0))),
-        I(I)
-    {}
+        const core::interaction::MediumInterface &medium_interface, const color::Spectrum &I);
 
 
     color::Spectrum Sample_Li(const core::interaction::Interaction &ref, const common::math::Vec2f &u, common::math::Vec3f *wi,

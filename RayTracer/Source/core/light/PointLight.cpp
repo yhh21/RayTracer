@@ -2,6 +2,7 @@
 #include "VisibilityTester.h"
 #include "../../common/math/Constants.h"
 #include "../sampler/Sampling.h"
+#include "../interaction/MediumInteraction.h"
 
 namespace core
 {
@@ -9,7 +10,13 @@ namespace light
 {
 
 
-// PointLight Method Definitions
+PointLight::PointLight(const common::math::Transformf &LightToWorld,
+    const core::interaction::MediumInterface &medium_interface, const color::Spectrum &I)
+    : Light(static_cast<int>(LightFlags::DeltaPosition), LightToWorld, medium_interface),
+    pLight(LightToWorld(common::math::Vec3f(FLOAT_0, FLOAT_0, FLOAT_0))),
+    I(I)
+{}
+
 color::Spectrum PointLight::Sample_Li(const core::interaction::Interaction &ref, const common::math::Vec2f &u,
     common::math::Vec3f *wi, Float *pdf,
     VisibilityTester *vis) const
@@ -17,7 +24,7 @@ color::Spectrum PointLight::Sample_Li(const core::interaction::Interaction &ref,
     //ProfilePhase _(Prof::LightSample);
     *wi = Normalize(pLight - ref.p);
     *pdf = FLOAT_1;
-    *vis = VisibilityTester(ref, core::interaction::Interaction(pLight, ref.time, mediumInterface));
+    *vis = VisibilityTester(ref, core::interaction::Interaction(pLight, ref.time, medium_interface));
     return I / DistanceSquared(pLight, ref.p);
 }
 
@@ -37,7 +44,7 @@ color::Spectrum PointLight::Sample_Le(const common::math::Vec2f &u1, const commo
 {
     //ProfilePhase _(Prof::LightSample);
     *ray = common::math::Rayf(pLight, core::sampler::UniformSampleSphere(u1), (std::numeric_limits<Float>::max)(), FLOAT_0, time,
-        mediumInterface.inside);
+        medium_interface.inside);
     *nLight = (common::math::Vec3f)ray->dir;
     *pdfPos = FLOAT_1;
     *pdfDir = core::sampler::UniformSpherePdf();
