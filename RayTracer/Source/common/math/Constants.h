@@ -77,6 +77,98 @@ T ConvertToDegrees(T rad)
 }
 
 
+template <typename T> __forceinline
+T Mod(T a, T b)
+{
+    T result = a - (a / b) * b;
+    return  static_cast<T>((result < static_cast<T>(0)) ? result + b : result);
+}
+
+template <> __forceinline
+Float Mod(Float a, Float b)
+{
+    return std::fmod(a, b);
+}
+
+template<typename T> __forceinline
+T Log2(T x)
+{
+    const T invLog2 = static_cast<T>(1.442695040888963387004650940071F);
+    return std::log(x) * invLog2;
+}
+
+__forceinline
+int Log2Int(uint32_t v)
+{
+    unsigned long lz = 0;
+    if (_BitScanReverse(&lz, v))
+    {
+        return lz;
+    }
+    return 0;
+}
+
+__forceinline
+int Log2Int(int32_t v)
+{
+    return Log2Int(static_cast<uint32_t>(v));
+}
+
+inline int Log2Int(uint64_t v)
+{
+    unsigned long lz = 0;
+#ifdef _WIN64
+    _BitScanReverse64(&lz, v);
+#else
+    if (_BitScanReverse(&lz, v >> 32))
+    {
+        lz += 32;
+    }
+    else
+    {
+        _BitScanReverse(&lz, v & 0xffffffff);
+    }
+#endif // _WIN64
+    return lz;
+}
+
+inline int Log2Int(int64_t v)
+{
+    return Log2Int((uint64_t)v);
+}
+
+template <typename T> __forceinline
+bool IsPowerOf2(T v)
+{
+    return v && !(v & (v - 1));
+}
+
+__forceinline
+int32_t RoundUpPow2(int32_t v)
+{
+    v--;
+    v |= v >> 1;
+    v |= v >> 2;
+    v |= v >> 4;
+    v |= v >> 8;
+    v |= v >> 16;
+    return v + 1;
+}
+
+__forceinline
+int64_t RoundUpPow2(int64_t v)
+{
+    v--;
+    v |= v >> 1;
+    v |= v >> 2;
+    v |= v >> 4;
+    v |= v >> 8;
+    v |= v >> 16;
+    v |= v >> 32;
+    return v + 1;
+}
+
+
 __forceinline
 Float Gamma(int n)
 {
@@ -84,6 +176,28 @@ Float Gamma(int n)
         / (FLOAT_1 - static_cast<Float>(n) * MACHINE_EPSILON);
 }
 
+__forceinline
+Float GammaCorrect(Float value)
+{
+    if (value <= static_cast<Float>(0.0031308F))
+    {
+        return static_cast<Float>(12.92F) * value;
+    }
+
+    return static_cast<Float>(1.055F) * std::pow(value, FLOAT_1 / static_cast<Float>(2.4F))
+        - static_cast<Float>(0.055F);
+}
+
+__forceinline
+Float InverseGammaCorrect(Float value)
+{
+    if (value <= static_cast<Float>(0.04045F))
+    {
+        return value * FLOAT_1 / static_cast<Float>(12.92F);
+    }
+    return std::pow((value + static_cast<Float>(0.055F)) * FLOAT_1
+        / static_cast<Float>(1.055F), static_cast<Float>(2.4F));
+}
 
 template <typename Predicate>
 int FindInterval(int size, const Predicate &pred)

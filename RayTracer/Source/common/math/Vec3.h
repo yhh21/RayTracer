@@ -141,29 +141,28 @@ T LengthSquared(const Vec3<T>& a)
     return Dot(a, a);
 }
 
-template <typename T> __forceinline
-T DistanceSquared(const Vec3<T> &a, const Vec3<T> &b)
-{
-    return LengthSquared(a - b);
-}
-
-
 template<typename T> __forceinline
 T Length(const Vec3<T>& a)
 {
     return sqrt(LengthSquared(a));
 }
 
-template<typename T> __forceinline
-Vec3<T> Normalize(const Vec3<T>& a)
+template <typename T> __forceinline
+T DistanceSquared(const Vec3<T> &a, const Vec3<T> &b)
 {
-    return a / Length(a);
+    return LengthSquared(a - b);
 }
 
 template<typename T> __forceinline
 T Distance(const Vec3<T>& a, const Vec3<T>& b)
 {
     return Length(a - b);
+}
+
+template<typename T> __forceinline
+Vec3<T> Normalize(const Vec3<T>& a)
+{
+    return a / Length(a);
 }
 
 template<typename T> __forceinline
@@ -237,13 +236,13 @@ Vec3<T> operator /(const Vec3<T>& a, const Vec3<T>& b)
 template<typename T> __forceinline
 Vec3<T> Min(const Vec3<T>& a, const Vec3<T>& b)
 {
-    return Vec3<T>(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z));
+    return Vec3<T>((std::min)(a.x, b.x), (std::min)(a.y, b.y), (std::min)(a.z, b.z));
 }
 
 template<typename T> __forceinline
 Vec3<T> Max(const Vec3<T>& a, const Vec3<T>& b)
 {
-    return Vec3<T>(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z));
+    return Vec3<T>((std::max)(a.x, b.x), (std::max)(a.y, b.y), (std::max)(a.z, b.z));
 }
 
 
