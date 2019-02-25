@@ -34,7 +34,8 @@ public:
         // Compute projective camera transformations
 
         // Compute projective camera screen transformations
-        ScreenToRaster = Scale(common::math::Vec3f(film->fullResolution.x, film->fullResolution.y, FLOAT_1))
+        ScreenToRaster = Scale(common::math::Vec3f(static_cast<Float>(film->fullResolution.x)
+            , static_cast<Float>(film->fullResolution.y), FLOAT_1))
             * Scale(common::math::Vec3f(FLOAT_1 / (screenWindow.point_max.x - screenWindow.point_min.x)
                 , FLOAT_1 / (screenWindow.point_min.y - screenWindow.point_max.y), FLOAT_1))
             * Translate(common::math::Vec3f(-screenWindow.point_min.x, -screenWindow.point_max.y, FLOAT_0));
