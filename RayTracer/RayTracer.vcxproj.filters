@@ -324,8 +324,29 @@
     <ClInclude Include="Source\core\texture\ImageTexture.h">
       <Filter>Source\Core\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Source\core\texture\MIPMap.h">
-      <Filter>Source\Core\Texture</Filter>
+    <ClInclude Include="Source\core\bxdf\FresnelBlend.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\light\SpotLight.h">
+      <Filter>Source\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\light\ProjectionLight.h">
+      <Filter>Source\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\light\GonioPhotometricLight.h">
+      <Filter>Source\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\light\DistantLight.h">
+      <Filter>Source\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\light\DiffuseAreaLight.h">
+      <Filter>Source\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\light\InfiniteAreaLight.h">
+      <Filter>Source\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\tool\MIPMap.h">
+      <Filter>Source\Common\Tool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -505,6 +526,30 @@
     </ClCompile>
     <ClCompile Include="Source\core\texture\Texture.cpp">
       <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\FresnelBlend.cpp">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\shape\Triangle.cpp">
+      <Filter>Source\Core\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\light\SpotLight.cpp">
+      <Filter>Source\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\light\ProjectionLight.cpp">
+      <Filter>Source\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\light\GonioPhotometricLight.cpp">
+      <Filter>Source\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\light\DistantLight.cpp">
+      <Filter>Source\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\light\DiffuseAreaLight.cpp">
+      <Filter>Source\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\light\InfiniteAreaLight.cpp">
+      <Filter>Source\Core\Light</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

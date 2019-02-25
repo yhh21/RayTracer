@@ -184,6 +184,15 @@ class FresnelConductor;
 class FresnelDielectric;
 class FresnelNoOp;
 
+namespace distribution
+{
+
+class MicrofacetDistribution;
+class BeckmannDistribution;
+class TrowbridgeReitzDistribution;
+
+}
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -254,6 +263,13 @@ namespace light
 
 class Light;
 class AreaLight;
+class DiffuseAreaLight;
+class DistantLight;
+class GonioPhotometricLight;
+class InfiniteAreaLight;
+class PointLight;
+class ProjectionLight;
+class SpotLight;
 class VisibilityTester;
 
 }
@@ -286,6 +302,9 @@ class Sampler;
 class GlobalSampler;
 class PixelSampler;
 class StratifiedSampler;
+
+struct Distribution1D;
+class Distribution2D;
 
 }
 

@@ -42,6 +42,7 @@
     <ClInclude Include="Source\core\bvh\BVHBuildNode.h" />
     <ClInclude Include="Source\core\bxdf\FourierBSDF.h" />
     <ClInclude Include="Source\core\bxdf\Fresnel.h" />
+    <ClInclude Include="Source\core\bxdf\FresnelBlend.h" />
     <ClInclude Include="Source\core\bxdf\FresnelSpecular.h" />
     <ClInclude Include="Source\core\bxdf\Interpolation.h" />
     <ClInclude Include="Source\core\bxdf\LambertianReflection.h" />
@@ -71,8 +72,14 @@
     <ClInclude Include="Source\core\interaction\SurfaceInteraction.h" />
     <ClInclude Include="Source\common\tool\DebugTools.h" />
     <ClInclude Include="Source\core\light\AreaLight.h" />
+    <ClInclude Include="Source\core\light\DiffuseAreaLight.h" />
+    <ClInclude Include="Source\core\light\DistantLight.h" />
+    <ClInclude Include="Source\core\light\GonioPhotometricLight.h" />
+    <ClInclude Include="Source\core\light\InfiniteAreaLight.h" />
     <ClInclude Include="Source\core\light\Light.h" />
     <ClInclude Include="Source\core\light\PointLight.h" />
+    <ClInclude Include="Source\core\light\ProjectionLight.h" />
+    <ClInclude Include="Source\core\light\SpotLight.h" />
     <ClInclude Include="Source\core\light\VisibilityTester.h" />
     <ClInclude Include="Source\core\material\FourierMaterial.h" />
     <ClInclude Include="Source\core\material\Material.h" />
@@ -94,7 +101,7 @@
     <ClInclude Include="Source\core\texture\ConstantTexture.h" />
     <ClInclude Include="Source\core\texture\CylindricalMapping2D.h" />
     <ClInclude Include="Source\core\texture\ImageTexture.h" />
-    <ClInclude Include="Source\core\texture\MIPMap.h" />
+    <ClInclude Include="Source\common\tool\MIPMap.h" />
     <ClInclude Include="Source\core\texture\MixTexture.h" />
     <ClInclude Include="Source\core\texture\PlanarMapping2D.h" />
     <ClInclude Include="Source\core\texture\ScaleTexture.h" />
@@ -119,6 +126,7 @@
     <ClCompile Include="Source\core\bxdf\BxDF.cpp" />
     <ClCompile Include="Source\core\bxdf\FourierBSDF.cpp" />
     <ClCompile Include="Source\core\bxdf\Fresnel.cpp" />
+    <ClCompile Include="Source\core\bxdf\FresnelBlend.cpp" />
     <ClCompile Include="Source\core\bxdf\FresnelSpecular.cpp" />
     <ClCompile Include="Source\core\bxdf\Interpolation.cpp" />
     <ClCompile Include="Source\core\bxdf\LambertianReflection.cpp" />
@@ -138,8 +146,14 @@
     <ClCompile Include="Source\core\interaction\Medium.cpp" />
     <ClCompile Include="Source\core\interaction\SurfaceInteraction.cpp" />
     <ClCompile Include="Source\core\light\AreaLight.cpp" />
+    <ClCompile Include="Source\core\light\DiffuseAreaLight.cpp" />
+    <ClCompile Include="Source\core\light\DistantLight.cpp" />
+    <ClCompile Include="Source\core\light\GonioPhotometricLight.cpp" />
+    <ClCompile Include="Source\core\light\InfiniteAreaLight.cpp" />
     <ClCompile Include="Source\core\light\Light.cpp" />
     <ClCompile Include="Source\core\light\PointLight.cpp" />
+    <ClCompile Include="Source\core\light\ProjectionLight.cpp" />
+    <ClCompile Include="Source\core\light\SpotLight.cpp" />
     <ClCompile Include="Source\core\light\VisibilityTester.cpp" />
     <ClCompile Include="Source\core\material\FourierMaterial.cpp" />
     <ClCompile Include="Source\core\material\Material.cpp" />
@@ -154,6 +168,7 @@
     <ClCompile Include="Source\core\sampler\StratifiedSampler.cpp" />
     <ClCompile Include="Source\core\scene\Scene.cpp" />
     <ClCompile Include="Source\core\shape\Shape.cpp" />
+    <ClCompile Include="Source\core\shape\Triangle.cpp" />
     <ClCompile Include="Source\core\texture\BilerpTexture.cpp" />
     <ClCompile Include="Source\core\texture\ConstantTexture.cpp" />
     <ClCompile Include="Source\core\texture\CylindricalMapping2D.cpp" />
