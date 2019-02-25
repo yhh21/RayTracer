@@ -327,7 +327,7 @@ Float SampleFourier(const Float *ak, const Float *recip, int m, Float u, Float *
     }
     *pdf = static_cast<Float>(common::math::INV_TWO_PI * f / ak[0]);
     *phiPtr = static_cast<Float>(phi);
-    return f;
+    return static_cast<Float>(f);
 }
 
 
