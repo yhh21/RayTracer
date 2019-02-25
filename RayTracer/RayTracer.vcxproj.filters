@@ -288,6 +288,45 @@
     <ClInclude Include="Source\core\bxdf\Interpolation.h">
       <Filter>Source\Core\BxDF</Filter>
     </ClInclude>
+    <ClInclude Include="Source\core\texture\TextureMapping2D.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\UVMapping2D.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\SphericalMapping2D.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\CylindricalMapping2D.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\PlanarMapping2D.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\TextureMapping3D.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\IdentityMapping3D.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\ConstantTexture.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\ScaleTexture.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\MixTexture.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\BilerpTexture.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\ImageTexture.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\texture\MIPMap.h">
+      <Filter>Source\Core\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -427,6 +466,45 @@
     </ClCompile>
     <ClCompile Include="Source\core\bxdf\Interpolation.cpp">
       <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\TextureMapping2D.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\UVMapping2D.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\SphericalMapping2D.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\CylindricalMapping2D.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\PlanarMapping2D.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\TextureMapping3D.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\IdentityMapping3D.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\ConstantTexture.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\ScaleTexture.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\MixTexture.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\BilerpTexture.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\ImageTexture.cpp">
+      <Filter>Source\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\texture\Texture.cpp">
+      <Filter>Source\Core\Texture</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
