@@ -63,12 +63,12 @@ core::color::Spectrum FourierBSDF::f(const common::math::Vec3f &wo, const common
     Float scale = muI != FLOAT_0 ? (FLOAT_1 / std::abs(muI)) : FLOAT_0;
 
     // Update _scale_ to account for adjoint light transport
-    if (mode == core::material::TransportMode::Radiance && muI * muO > FLOAT_0)
+    if (core::material::TransportMode::Radiance == mode && muI * muO > FLOAT_0)
     {
         float eta = muI > FLOAT_0 ? FLOAT_1 / bsdfTable.eta : bsdfTable.eta;
         scale *= eta * eta;
     }
-    if (bsdfTable.nChannels == 1)
+    if (1 == bsdfTable.nChannels)
     {
         return core::color::Spectrum(Y * scale);
     }
@@ -169,7 +169,10 @@ core::color::Spectrum FourierBSDF::Sample_f(const common::math::Vec3f &wo, commo
         scale *= eta * eta;
     }
 
-    if (bsdfTable.nChannels == 1) return core::color::Spectrum(Y * scale);
+    if (bsdfTable.nChannels == 1)
+    {
+        return core::color::Spectrum(Y * scale);
+    }
     Float R = Fourier(ak + 1 * bsdfTable.mMax, mMax, cosPhi);
     Float B = Fourier(ak + 2 * bsdfTable.mMax, mMax, cosPhi);
     Float G = static_cast<Float>(1.39829F) * Y - static_cast<Float>(0.100913F) * B
