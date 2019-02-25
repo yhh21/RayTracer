@@ -50,7 +50,7 @@ common::tool::MIPMap<Tmemory> *ImageTexture<Tmemory, Treturn>::GetTexture(
         for (int x = 0; x < resolution.x; ++x)
         {
             int o1 = y * resolution.x + x;
-            int o2 = (resolution.y - FLOAT_1 - y) * resolution.x + x;
+            int o2 = (resolution.y - 1 - y) * resolution.x + x;
             std::swap(texels[o1], texels[o2]);
         }
     }
