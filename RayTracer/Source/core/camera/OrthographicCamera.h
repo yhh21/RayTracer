@@ -11,6 +11,7 @@ namespace camera
 class OrthographicCamera : public ProjectiveCamera
 {
 public:
+
     ////////////////////////////////////////////////////////////////////////////////
     // Construction
     ////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +44,6 @@ private:
 OrthographicCamera *CreateOrthographicCamera(const ParamSet &params,
     const AnimatedTransform &cam2world,
     Film *film, const Medium *medium);
-
 }
 */
 
