@@ -65,64 +65,76 @@ public:
 // BSDF Inline Functions
 ////////////////////////////////////////////////////////////////////////////////
 
-inline Float CosTheta(const common::math::Vec3f &w)
+inline
+Float CosTheta(const common::math::Vec3f &w)
 {
     return w.z;
 }
 
-inline Float Cos2Theta(const common::math::Vec3f &w)
+inline
+Float Cos2Theta(const common::math::Vec3f &w)
 {
     return w.z * w.z;
 }
 
-inline Float AbsCosTheta(const common::math::Vec3f &w)
+inline
+Float AbsCosTheta(const common::math::Vec3f &w)
 {
     return std::abs(w.z);
 }
 
-inline Float Sin2Theta(const common::math::Vec3f &w)
+inline
+Float Sin2Theta(const common::math::Vec3f &w)
 {
     return (std::max)(FLOAT_0, FLOAT_1 - Cos2Theta(w));
 }
 
-inline Float SinTheta(const common::math::Vec3f &w)
+inline
+Float SinTheta(const common::math::Vec3f &w)
 {
     return std::sqrt(Sin2Theta(w));
 }
 
-inline Float TanTheta(const common::math::Vec3f &w)
+inline
+Float TanTheta(const common::math::Vec3f &w)
 {
     return SinTheta(w) / CosTheta(w);
 }
 
-inline Float Tan2Theta(const common::math::Vec3f &w)
+inline
+Float Tan2Theta(const common::math::Vec3f &w)
 {
     return Sin2Theta(w) / Cos2Theta(w);
 }
 
-inline Float CosPhi(const common::math::Vec3f &w)
+inline
+Float CosPhi(const common::math::Vec3f &w)
 {
     Float sinTheta = SinTheta(w);
     return (sinTheta == FLOAT_0) ? FLOAT_1 : common::math::Clamp(w.x / sinTheta, -FLOAT_1, FLOAT_1);
 }
 
-inline Float SinPhi(const common::math::Vec3f &w)
+inline
+Float SinPhi(const common::math::Vec3f &w)
 {
     Float sinTheta = SinTheta(w);
     return (sinTheta == FLOAT_0) ? FLOAT_0 : common::math::Clamp(w.y / sinTheta, -FLOAT_1, FLOAT_1);
 }
 
-inline Float Cos2Phi(const common::math::Vec3f &w)
+inline
+Float Cos2Phi(const common::math::Vec3f &w)
 {
     return CosPhi(w) * CosPhi(w);
 }
 
-inline Float Sin2Phi(const common::math::Vec3f &w)
+inline
+Float Sin2Phi(const common::math::Vec3f &w)
 {
     return SinPhi(w) * SinPhi(w);
 }
 
-inline Float CosDPhi(const common::math::Vec3f &wa, const common::math::Vec3f &wb)
+inline
+Float CosDPhi(const common::math::Vec3f &wa, const common::math::Vec3f &wb)
 {
     return common::math::Clamp(
         (wa.x * wb.x + wa.y * wb.y) / std::sqrt((wa.x * wa.x + wa.y * wa.y) *
@@ -130,12 +142,14 @@ inline Float CosDPhi(const common::math::Vec3f &wa, const common::math::Vec3f &w
         -FLOAT_1, FLOAT_1);
 }
 
-inline common::math::Vec3f Reflect(const common::math::Vec3f &wo, const common::math::Vec3f &n)
+inline
+common::math::Vec3f Reflect(const common::math::Vec3f &wo, const common::math::Vec3f &n)
 {
     return -wo + FLOAT_2 * Dot(wo, n) * n;
 }
 
-inline bool Refract(const common::math::Vec3f &wi, const common::math::Vec3f &n, Float eta,
+inline
+bool Refract(const common::math::Vec3f &wi, const common::math::Vec3f &n, Float eta,
     common::math::Vec3f *wt)
 {
     // Compute $\cos \theta_\roman{t}$ using Snell's law
@@ -144,13 +158,14 @@ inline bool Refract(const common::math::Vec3f &wi, const common::math::Vec3f &n,
     Float sin2ThetaT = eta * eta * sin2ThetaI;
 
     // Handle total internal reflection for transmission
-    if (sin2ThetaT >= 1) return false;
+    if (sin2ThetaT >= FLOAT_1) return false;
     Float cosThetaT = std::sqrt(FLOAT_1 - sin2ThetaT);
     *wt = eta * -wi + (eta * cosThetaI - cosThetaT) * common::math::Vec3f(n);
     return true;
 }
 
-inline bool SameHemisphere(const common::math::Vec3f &w, const common::math::Vec3f &wp)
+inline
+bool SameHemisphere(const common::math::Vec3f &w, const common::math::Vec3f &wp)
 {
     return w.z * wp.z > FLOAT_0;
 }

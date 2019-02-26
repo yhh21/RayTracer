@@ -163,7 +163,10 @@ Float BSDF::Pdf(const common::math::Vec3f &woWorld, const common::math::Vec3f &w
     BxDFType flags) const
 {
     //ProfilePhase pp(Prof::BSDFPdf);
-    if (nBxDFs == FLOAT_0) return FLOAT_0;
+    if (FLOAT_0 == nBxDFs)
+    {
+        return FLOAT_0;
+    }
     common::math::Vec3f wo = WorldToLocal(woWorld), wi = WorldToLocal(wiWorld);
     if (FLOAT_0 == wo.z)
     {
