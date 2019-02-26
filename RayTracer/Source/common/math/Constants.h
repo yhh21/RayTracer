@@ -19,9 +19,9 @@ static constexpr Float PI = static_cast<Float>(3.14159265358979323846F);
 static constexpr Float TWO_PI = FLOAT_2 * PI;
 static constexpr Float INV_PI = FLOAT_1 / PI;
 static constexpr Float INV_TWO_PI = FLOAT_INV_2 * INV_PI;
-static constexpr Float INV_FOUR_PI = FLOAT_INV_2 * FLOAT_INV_2 * INV_PI;
+static constexpr Float INV_FOUR_PI = FLOAT_INV_2 * INV_TWO_PI;
 static constexpr Float PI_DIV_TWO = FLOAT_INV_2 * PI;
-static constexpr Float PI_DIV_FOUR = FLOAT_INV_2 * FLOAT_INV_2 * PI;
+static constexpr Float PI_DIV_FOUR = FLOAT_INV_2 * PI_DIV_TWO;
 static constexpr Float SQRT_TWO = static_cast<Float>(1.41421356237309504880F);
 
 
@@ -49,6 +49,36 @@ T1 Clamp(T t, T1 min, T2 max)
     }
 }
 
+__forceinline
+bool Quadratic(Float a, Float b, Float c, Float *t0, Float *t1)
+{
+    // Find quadratic discriminant
+    double discrim = static_cast<double>(b) * static_cast<double>(b)
+        - 4.0f * static_cast<double>(a) * static_cast<double>(c);
+    if (discrim < 0.0f)
+    {
+        return false;
+    }
+    double rootDiscrim = std::sqrt(discrim);
+
+    // Compute quadratic _t_ values
+    double q;
+    if (b < FLOAT_0)
+    {
+        q = -0.5f * (b - rootDiscrim);
+    }
+    else
+    {
+        q = -0.5f * (b + rootDiscrim);
+    }
+    *t0 = static_cast<Float>(q / a);
+    *t1 = static_cast<Float>(c / q);
+    if (*t0 > *t1)
+    {
+        std::swap(*t0, *t1);
+    }
+    return true;
+}
 
 template<typename T> __forceinline
 T rcp(T t)

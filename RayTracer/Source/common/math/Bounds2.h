@@ -82,14 +82,13 @@ public:
     int MaximumExtent() const
     {
         Vec2<T> d = Diagonal();
-        if (d.x > d.y) return 0;
-        else return 1;
+        return d.x > d.y ? 0 : 1;
     }
 
-    Vec2<T> Lerp(const Vec3<T> &t) const
+    Vec2<T> Lerp(const Vec2<T> &t) const
     {
-        return Vec2<T>(Lerp<T>(t.x, point_min.x, point_max.x)
-            , Lerp<T>(t.y, point_min.y, point_max.y));
+        return Vec2<T>(common::math::Lerp(t.x, point_min.x, point_max.x)
+            , common::math::Lerp(t.y, point_min.y, point_max.y));
     }
 
     Vec2<T> Offset(const Vec2<T> &p) const
@@ -176,8 +175,8 @@ bool InsideExclusive(const Vec2<T> &pt, const Bounds2<T> &b)
 template <typename T, typename U>
 Bounds2<T> Expand(const Bounds2<T> &b, U delta)
 {
-    return Bounds2<T>(b.point_min - Vec2<T>(delta, delta)
-        , b.point_max + Vec2<T>(delta, delta));
+    return Bounds2<T>(b.point_min - Vec2<T>(static_cast<T>(delta), static_cast<T>(delta))
+        , b.point_max + Vec2<T>(static_cast<T>(delta), static_cast<T>(delta)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
