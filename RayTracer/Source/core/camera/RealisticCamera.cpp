@@ -650,7 +650,7 @@ common::math::Bounds2f RealisticCamera::BoundExitPupil(Float pFilmX0, Float pFil
     }
 
     // Return entire element bounds if no rays made it through the lens system
-    if (nExitingRays == 0)
+    if (0 == nExitingRays)
     {
         /* TODO
         LOG(INFO) << StringPrintf("Unable to find exit pupil in x = [%f,%f] on film.",
