@@ -35,6 +35,8 @@
     <ClInclude Include="Source\common\tool\MemoryArena.h" />
     <ClInclude Include="Source\common\tool\MultiThread.h" />
     <ClInclude Include="Source\common\tool\RandomNumberGenerator.h" />
+    <ClInclude Include="Source\core\bxdf\BSSRDF.h" />
+    <ClInclude Include="Source\core\bxdf\BSSRDFTable.h" />
     <ClInclude Include="Source\core\bxdf\distribution\BeckmannDistribution.h" />
     <ClInclude Include="Source\core\bxdf\BSDF.h" />
     <ClInclude Include="Source\core\bxdf\BxDF.h" />
@@ -52,9 +54,12 @@
     <ClInclude Include="Source\core\bxdf\MicrofacetTransmission.h" />
     <ClInclude Include="Source\core\bxdf\OrenNayar.h" />
     <ClInclude Include="Source\core\bxdf\ScaledBxDF.h" />
+    <ClInclude Include="Source\core\bxdf\SeparableBSSRDF.h" />
+    <ClInclude Include="Source\core\bxdf\SeparableBSSRDFAdapter.h" />
     <ClInclude Include="Source\core\bxdf\SpecularReflection.h" />
     <ClInclude Include="Source\core\bxdf\SpecularTransmission.h" />
     <ClInclude Include="Source\core\bxdf\distribution\TrowbridgeReitzDistribution.h" />
+    <ClInclude Include="Source\core\bxdf\TabulatedBSSRDF.h" />
     <ClInclude Include="Source\core\camera\Camera.h" />
     <ClInclude Include="Source\core\camera\EnvironmentCamera.h" />
     <ClInclude Include="Source\core\camera\OrthographicCamera.h" />
@@ -124,6 +129,8 @@
     <ClCompile Include="Source\common\math\Quaternion.cpp" />
     <ClCompile Include="Source\common\math\Transform.cpp" />
     <ClCompile Include="Source\core\bvh\BVHAccelerator.cpp" />
+    <ClCompile Include="Source\core\bxdf\BSSRDF.cpp" />
+    <ClCompile Include="Source\core\bxdf\BSSRDFTable.cpp" />
     <ClCompile Include="Source\core\bxdf\distribution\BeckmannDistribution.cpp" />
     <ClCompile Include="Source\core\bxdf\BSDF.cpp" />
     <ClCompile Include="Source\core\bxdf\BxDF.cpp" />
@@ -139,9 +146,11 @@
     <ClCompile Include="Source\core\bxdf\MicrofacetTransmission.cpp" />
     <ClCompile Include="Source\core\bxdf\OrenNayar.cpp" />
     <ClCompile Include="Source\core\bxdf\ScaledBxDF.cpp" />
+    <ClCompile Include="Source\core\bxdf\SeparableBSSRDF.cpp" />
     <ClCompile Include="Source\core\bxdf\SpecularReflection.cpp" />
     <ClCompile Include="Source\core\bxdf\SpecularTransmission.cpp" />
     <ClCompile Include="Source\core\bxdf\distribution\TrowbridgeReitzDistribution.cpp" />
+    <ClCompile Include="Source\core\bxdf\TabulatedBSSRDF.cpp" />
     <ClCompile Include="Source\core\camera\Camera.cpp" />
     <ClCompile Include="Source\core\camera\EnvironmentCamera.cpp" />
     <ClCompile Include="Source\core\camera\OrthographicCamera.cpp" />

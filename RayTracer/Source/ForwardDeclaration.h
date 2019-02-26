@@ -179,6 +179,11 @@ class LambertianReflection;
 class OrenNayar;
 class ScaledBxDF;
 
+class BSSRDF;
+class BSSRDFTable;
+class SeparableBSSRDF;
+class TabulatedBSSRDF;
+
 class Fresnel;
 class FresnelConductor;
 class FresnelDielectric;

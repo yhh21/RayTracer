@@ -357,6 +357,21 @@
     <ClInclude Include="Source\core\camera\RealisticCamera.h">
       <Filter>Source\Core\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Source\core\bxdf\BSSRDF.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\SeparableBSSRDF.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\TabulatedBSSRDF.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\BSSRDFTable.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\bxdf\SeparableBSSRDFAdapter.h">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -568,6 +583,18 @@
     </ClCompile>
     <ClCompile Include="Source\core\camera\RealisticCamera.cpp">
       <Filter>Source\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\SeparableBSSRDF.cpp">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\TabulatedBSSRDF.cpp">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\BSSRDFTable.cpp">
+      <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\bxdf\BSSRDF.cpp">
+      <Filter>Source\Core\BxDF</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
