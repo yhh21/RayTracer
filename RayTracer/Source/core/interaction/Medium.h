@@ -1,12 +1,20 @@
 #pragma once
 
 #include "../../ForwardDeclaration.h"
+#include "../../common/math/Constants.h"
 
 namespace core
 {
 namespace interaction
 {
 
+
+inline
+Float PhaseHG(Float cosTheta, Float g)
+{
+    Float denom = FLOAT_1 + g * g + FLOAT_2 * g * cosTheta;
+    return common::math::INV_FOUR_PI * (FLOAT_1 - g * g) / (denom * std::sqrt(denom));
+}
 
 class PhaseFunction
 {
