@@ -348,6 +348,15 @@
     <ClInclude Include="Source\common\tool\MIPMap.h">
       <Filter>Source\Common\Tool</Filter>
     </ClInclude>
+    <ClInclude Include="Source\core\camera\PerspectiveCamera.h">
+      <Filter>Source\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\camera\EnvironmentCamera.h">
+      <Filter>Source\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\camera\RealisticCamera.h">
+      <Filter>Source\Core\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -550,6 +559,15 @@
     </ClCompile>
     <ClCompile Include="Source\core\light\InfiniteAreaLight.cpp">
       <Filter>Source\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\camera\PerspectiveCamera.cpp">
+      <Filter>Source\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\camera\EnvironmentCamera.cpp">
+      <Filter>Source\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\camera\RealisticCamera.cpp">
+      <Filter>Source\Core\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
