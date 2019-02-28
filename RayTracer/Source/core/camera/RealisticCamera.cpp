@@ -634,7 +634,7 @@ common::math::Bounds2f RealisticCamera::BoundExitPupil(Float pFilmX0, Float pFil
         common::math::Vec3f pFilm(common::math::Lerp((i + FLOAT_INV_2) / nSamples, pFilmX0, pFilmX1)
             , FLOAT_0, FLOAT_0);
         /* TODO
-        Float u[2] = {RadicalInverse(0, i), RadicalInverse(1, i)};
+        Float u[2] = {core::sampler::RadicalInverse(0, i), core::sampler::RadicalInverse(1, i)};
         common::math::Vec3f pRear(common::math::Lerp(u[0], projRearBounds.point_min.x, projRearBounds.point_max.x),
             common::math::Lerp(u[1], projRearBounds.point_min.y, projRearBounds.point_max.y),
             LensRearZ());
