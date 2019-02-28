@@ -15,7 +15,7 @@ namespace film
 
 struct FilmTilePixel
 {
-    color::Spectrum contribSum = FLOAT_0;
+    color::Spectrum contribSum = color::Spectrum(FLOAT_0);
     Float filterWeightSum = FLOAT_0;
 };
 
@@ -89,36 +89,22 @@ public:
         }
     }
 
-    FilmTilePixel &GetPixel(const int &x, const int &y)
-    {
-    #ifdef DEBUG
-        CHECK(InsideExclusive(common::math::Vec2i(x, y), pixelBounds));
-    #endif
-        int width = pixelBounds.point_max.x - pixelBounds.point_min.x;
-        int offset = (x - pixelBounds.point_min.x) + (y - pixelBounds.point_min.y) * width;
-        return pixels[offset];
-    }
-
-    const FilmTilePixel &GetPixel(const int &x, const int &y) const
-    {
-    #ifdef DEBUG
-        CHECK(InsideExclusive(common::math::Vec2i(x, y), pixelBounds));
-    #endif
-        int width = pixelBounds.point_max.x - pixelBounds.point_min.x;
-        int offset = (x - pixelBounds.point_min.x) + (y - pixelBounds.point_min.y) * width;
-        return pixels[offset];
-    }
-
     inline
     FilmTilePixel &GetPixel(const common::math::Vec2i &p)
     {
-        return GetPixel(p.x, p.y);
+        CHECK(InsideExclusive(p, pixelBounds));
+        int width = pixelBounds.point_max.x - pixelBounds.point_min.x;
+        int offset = (p.x - pixelBounds.point_min.x) + (p.y - pixelBounds.point_min.y) * width;
+        return pixels[offset];
     }
 
     inline
     const FilmTilePixel &GetPixel(const common::math::Vec2i &p) const
     {
-        return GetPixel(p.x, p.y);
+        CHECK(InsideExclusive(p, pixelBounds));
+        int width = pixelBounds.point_max.x - pixelBounds.point_min.x;
+        int offset = (p.x - pixelBounds.point_min.x) + (p.y - pixelBounds.point_min.y) * width;
+        return pixels[offset];
     }
 
     const common::math::Bounds2i GetPixelBounds() const

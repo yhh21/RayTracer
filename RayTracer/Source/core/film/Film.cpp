@@ -13,7 +13,7 @@ namespace film
 
 
 Film::Film(const common::math::Vec2i &resolution, const common::math::Bounds2f &cropWindow,
-    std::unique_ptr<filter::Filter> filt, Float diagonal,
+    std::unique_ptr<core::sampler::filter::Filter> filt, Float diagonal,
     const std::string &filename, Float scale, Float maxSampleLuminance)
     : fullResolution(resolution),
     diagonal(diagonal * static_cast<Float>(0.001F)),
@@ -93,26 +93,17 @@ void Film::MergeFilmTile(std::unique_ptr<FilmTile> tile)
     //VLOG(1) << "Merging film tile " << tile->pixelBounds;
     std::lock_guard<std::mutex> lock(_mutex);
 
-    auto pixelBounds = tile->GetPixelBounds();
-    const int &min_x = pixelBounds.point_min.x;
-    const int &min_y = pixelBounds.point_min.y;
-    const int &max_x = pixelBounds.point_max.x;
-    const int &max_y = pixelBounds.point_max.y;
-
-    for (int i = min_x; i < max_x; ++i)
+    for (auto point : tile->GetPixelBounds())
     {
-        for (int j = min_y; j < max_y; ++j)
+        const FilmTilePixel &tilePixel = tile->GetPixel(point);
+        Pixel &mergePixel = GetPixel(point);
+        Float xyz[3];
+        tilePixel.contribSum.ToXYZ(xyz);
+        for (int i = 0; i < 3; ++i)
         {
-            const FilmTilePixel &tilePixel = tile->GetPixel(i, j);
-            Pixel &mergePixel = GetPixel(i, j);
-            Float xyz[3];
-            tilePixel.contribSum.ToXYZ(xyz);
-            for (int i = 0; i < 3; ++i)
-            {
-                mergePixel.xyz[i] += xyz[i];
-            }
-            mergePixel.filterWeightSum += tilePixel.filterWeightSum;
+            mergePixel.xyz[i] += xyz[i];
         }
+        mergePixel.filterWeightSum += tilePixel.filterWeightSum;
     }
 }
 
@@ -181,43 +172,35 @@ void Film::WriteImage(Float splatScale)
     std::unique_ptr<Float[]> rgb(new Float[3 * croppedPixelBounds.Area()]);
     int offset = 0;
 
-    const int &min_x = croppedPixelBounds.point_min.x;
-    const int &min_y = croppedPixelBounds.point_min.y;
-    const int &max_x = croppedPixelBounds.point_max.x;
-    const int &max_y = croppedPixelBounds.point_max.y;
-
-    for (int i = min_x; i < max_x; ++i)
+    for (auto point : croppedPixelBounds)
     {
-        for (int j = min_y; j < max_y; ++j)
+        // Convert pixel XYZ color to RGB
+        Pixel &pixel = GetPixel(point);
+        color::XYZToRGB(pixel.xyz, &rgb[3 * offset]);
+
+        // Normalize pixel with weight sum
+        Float filterWeightSum = pixel.filterWeightSum;
+        if (FLOAT_0 != filterWeightSum)
         {
-            // Convert pixel XYZ color to RGB
-            Pixel &pixel = GetPixel(i, j);
-            color::XYZToRGB(pixel.xyz, &rgb[3 * offset]);
-
-            // Normalize pixel with weight sum
-            Float filterWeightSum = pixel.filterWeightSum;
-            if (FLOAT_0 != filterWeightSum)
-            {
-                Float invWt = FLOAT_1 / filterWeightSum;
-                rgb[3 * offset] = (std::max)(FLOAT_0, rgb[3 * offset] * invWt);
-                rgb[3 * offset + 1] = (std::max)(FLOAT_0, rgb[3 * offset + 1] * invWt);
-                rgb[3 * offset + 2] = (std::max)(FLOAT_0, rgb[3 * offset + 2] * invWt);
-            }
-
-            // Add splat value at pixel
-            Float splatRGB[3];
-            Float splatXYZ[3] = {pixel.splatXYZ[0], pixel.splatXYZ[1], pixel.splatXYZ[2]};
-            color::XYZToRGB(splatXYZ, splatRGB);
-            rgb[3 * offset] += splatScale * splatRGB[0];
-            rgb[3 * offset + 1] += splatScale * splatRGB[1];
-            rgb[3 * offset + 2] += splatScale * splatRGB[2];
-
-            // Scale pixel value by _scale_
-            rgb[3 * offset] *= scale;
-            rgb[3 * offset + 1] *= scale;
-            rgb[3 * offset + 2] *= scale;
-            ++offset;
+            Float invWt = FLOAT_1 / filterWeightSum;
+            rgb[3 * offset] = (std::max)(FLOAT_0, rgb[3 * offset] * invWt);
+            rgb[3 * offset + 1] = (std::max)(FLOAT_0, rgb[3 * offset + 1] * invWt);
+            rgb[3 * offset + 2] = (std::max)(FLOAT_0, rgb[3 * offset + 2] * invWt);
         }
+
+        // Add splat value at pixel
+        Float splatRGB[3];
+        Float splatXYZ[3] = {pixel.splatXYZ[0], pixel.splatXYZ[1], pixel.splatXYZ[2]};
+        color::XYZToRGB(splatXYZ, splatRGB);
+        rgb[3 * offset] += splatScale * splatRGB[0];
+        rgb[3 * offset + 1] += splatScale * splatRGB[1];
+        rgb[3 * offset + 2] += splatScale * splatRGB[2];
+
+        // Scale pixel value by _scale_
+        rgb[3 * offset] *= scale;
+        rgb[3 * offset + 1] *= scale;
+        rgb[3 * offset + 2] *= scale;
+        ++offset;
     }
 
     // Write RGB image
@@ -229,22 +212,14 @@ void Film::WriteImage(Float splatScale)
 
 void Film::Clear()
 {
-    const int &min_x = croppedPixelBounds.point_min.x;
-    const int &min_y = croppedPixelBounds.point_min.y;
-    const int &max_x = croppedPixelBounds.point_max.x;
-    const int &max_y = croppedPixelBounds.point_max.y;
-
-    for (int i = min_x; i < max_x; ++i)
+    for (auto point : croppedPixelBounds)
     {
-        for (int j = min_y; j < max_y; ++j)
+        Pixel &pixel = GetPixel(point);
+        for (int c = 0; c < 3; ++c)
         {
-            Pixel &pixel = GetPixel(i, j);
-            for (int c = 0; c < 3; ++c)
-            {
-                pixel.splatXYZ[c] = pixel.xyz[c] = FLOAT_0;
-            }
-            pixel.filterWeightSum = FLOAT_0;
+            pixel.splatXYZ[c] = pixel.xyz[c] = FLOAT_0;
         }
+        pixel.filterWeightSum = FLOAT_0;
     }
 }
 
@@ -276,10 +251,10 @@ Film *CreateFilm(const ParamSet &params, std::unique_ptr<filter::Filter> filter)
     const Float *cr = params.FindFloat("cropwindow", &cwi);
     if (cr && cwi == 4)
     {
-        crop.pMin.x = common::math::Clamp(std::min(cr[0], cr[1]), 0.f, 1.f);
-        crop.pMax.x = common::math::Clamp(std::max(cr[0], cr[1]), 0.f, 1.f);
-        crop.pMin.y = common::math::Clamp(std::min(cr[2], cr[3]), 0.f, 1.f);
-        crop.pMax.y = common::math::Clamp(std::max(cr[2], cr[3]), 0.f, 1.f);
+        crop.point_min.x = common::math::Clamp(std::min(cr[0], cr[1]), 0.f, 1.f);
+        crop.point_max.x = common::math::Clamp(std::max(cr[0], cr[1]), 0.f, 1.f);
+        crop.point_min.y = common::math::Clamp(std::min(cr[2], cr[3]), 0.f, 1.f);
+        crop.point_max.y = common::math::Clamp(std::max(cr[2], cr[3]), 0.f, 1.f);
     }
     else if (cr)
         Error("%d values supplied for \"cropwindow\". Expected 4.", cwi);

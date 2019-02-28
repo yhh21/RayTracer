@@ -5,7 +5,7 @@
 #include "../../common/math/Bounds2.h"
 
 #include "FilmTile.h"
-#include "filter/Filter.h"
+#include "../sampler/filter/Filter.h"
 
 #include <atomic>
 #include <mutex>
@@ -24,7 +24,7 @@ public:
     
     const common::math::Vec2i fullResolution;
     const Float diagonal;
-    std::unique_ptr<filter::Filter> filter;
+    std::unique_ptr<core::sampler::filter::Filter> filter;
     const std::string filename;
     common::math::Bounds2i croppedPixelBounds;
 
@@ -33,7 +33,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////
 
     Film(const common::math::Vec2i &resolution, const common::math::Bounds2f &cropWindow,
-        std::unique_ptr<filter::Filter> filter, Float diagonal,
+        std::unique_ptr<core::sampler::filter::Filter> filter, Float diagonal,
         const std::string &filename, Float scale,
         Float maxSampleLuminance = (std::numeric_limits<Float>::max)());
 
@@ -72,21 +72,13 @@ private:
         Float pad;
     };
 
-    Pixel& GetPixel(const int &x, const int &y)
+    Pixel& GetPixel(const common::math::Vec2i &p)
     {
-    #ifdef DEBUG
-        CHECK(InsideExclusive(common::math::Vec2i(x, y), croppedPixelBounds));
-    #endif
+        CHECK(InsideExclusive(p, croppedPixelBounds));
         int width = croppedPixelBounds.point_max.x - croppedPixelBounds.point_min.x;
-        int offset = (x - croppedPixelBounds.point_min.x) + (y - croppedPixelBounds.point_min.y) * width;
+        int offset = (p.x - croppedPixelBounds.point_min.x) + (p.y - croppedPixelBounds.point_min.y) * width;
 
         return pixels[offset];
-    }
-
-    inline
-        Pixel& GetPixel(const common::math::Vec2i &p)
-    {
-        return GetPixel(p.x, p.y);
     }
 
 
