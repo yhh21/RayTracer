@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "Vec2.h"
 #include "Vec3.h"
+#include <iterator>
 
 namespace common
 {
@@ -177,6 +178,90 @@ Bounds2<T> Expand(const Bounds2<T> &b, U delta)
 {
     return Bounds2<T>(b.point_min - Vec2<T>(static_cast<T>(delta), static_cast<T>(delta))
         , b.point_max + Vec2<T>(static_cast<T>(delta), static_cast<T>(delta)));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Iteractor Operators
+////////////////////////////////////////////////////////////////////////////////
+
+class Bounds2iIterator : public std::forward_iterator_tag
+{
+public:
+
+    Bounds2iIterator(const Bounds2i &b, const Vec2i &pt)
+        : p(pt), bounds(&b)
+    {}
+
+
+    __forceinline
+    Bounds2iIterator operator++()
+    {
+        Advance();
+        return *this;
+    }
+
+    __forceinline
+    Bounds2iIterator operator++(int)
+    {
+        Bounds2iIterator old = *this;
+        Advance();
+        return old;
+    }
+
+    __forceinline
+    bool operator==(const Bounds2iIterator &bi) const
+    {
+        return p == bi.p && bounds == bi.bounds;
+    }
+
+    __forceinline
+    bool operator!=(const Bounds2iIterator &bi) const
+    {
+        return p != bi.p || bounds != bi.bounds;
+    }
+
+    __forceinline
+    Vec2i operator*() const
+    {
+        return p;
+    }
+
+private:
+    void Advance()
+    {
+        ++p.x;
+        if (p.x == bounds->point_max.x)
+        {
+            p.x = bounds->point_min.x;
+            ++p.y;
+        }
+    }
+
+    Vec2i p;
+    const Bounds2i *bounds;
+};
+
+
+__forceinline
+Bounds2iIterator begin(const Bounds2i &b)
+{
+    return Bounds2iIterator(b, b.point_min);
+}
+
+__forceinline
+Bounds2iIterator end(const Bounds2i &b)
+{
+    // Normally, the ending point is at the minimum x value and one past
+    // the last valid y value.
+    Vec2i pEnd(b.point_min.x, b.point_max.y);
+    // However, if the bounds are degenerate, override the end point to
+    // equal the start point so that any attempt to iterate over the bounds
+    // exits out immediately.
+    if (b.point_min.x >= b.point_max.x || b.point_min.y >= b.point_max.y)
+    {
+        pEnd = b.point_min;
+    }
+    return Bounds2iIterator(b, pEnd);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

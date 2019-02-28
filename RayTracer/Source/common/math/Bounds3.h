@@ -97,9 +97,9 @@ public:
 
     Vec3<T> Lerp(const Vec3<T> &t) const
     {
-        return Vec3<T>(Lerp<T>(t.x, point_min.x, point_max.x)
-            , Lerp<T>(t.y, point_min.y, point_max.y)
-            , Lerp<T>(t.z, point_min.z, point_max.z));
+        return Vec3<T>(common::math::Lerp(t.x, point_min.x, point_max.x)
+            , common::math::Lerp(t.y, point_min.y, point_max.y)
+            , common::math::Lerp(t.z, point_min.z, point_max.z));
     }
 
     Vec3<T> Offset(const Vec3<T> &p) const
