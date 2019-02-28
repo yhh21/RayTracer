@@ -28,8 +28,7 @@ public:
 
     const core::primitive::Primitive *primitive = nullptr;
     bxdf::BSDF *bsdf = nullptr;
-    // TODO
-    //BSSRDF *bssrdf = nullptr;
+    bxdf::BSSRDF *bssrdf = nullptr;
 
     mutable common::math::Vec3f dp_dx, dp_dy;
     mutable Float du_dx = FLOAT_0, dv_dx = FLOAT_0, du_dy = FLOAT_0, dv_dy = FLOAT_0;
