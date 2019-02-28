@@ -259,6 +259,27 @@ public:
         return ret;
     }
 
+    Float MaxComponentValue() const
+    {
+        Float m = c[0];
+        for (int i = 1; i < SAMPLE_NUMBER; ++i)
+        {
+            m = (std::max)(m, c[i]);
+        }
+        return m;
+    }
+
+    bool HasNaNs() const
+    {
+        for (int i = 0; i < SAMPLE_NUMBER; ++i)
+        {
+            if (std::isnan(c[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
 protected:
     Float c[SPECTRUM_SAMPLES_NUMBER];
