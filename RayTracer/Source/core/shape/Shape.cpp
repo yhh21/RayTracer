@@ -86,7 +86,7 @@ Float Shape::SolidAngle(const common::math::Vec3f &p, int nSamples) const
     /* TODO
     for (int i = 0; i < nSamples; ++i)
     {
-        common::math::Vec2f u(RadicalInverse(0, i), RadicalInverse(1, i));
+        common::math::Vec2f u(core::sampler::RadicalInverse(0, i), core::sampler::RadicalInverse(1, i));
         Float pdf;
         interaction::Interaction pShape = Sample(ref, u, &pdf);
         if (pdf > FLOAT_0 && !IntersectP(common::math::Rayf(p, pShape.p - p, static_cast<Float>(0.999F))))
