@@ -101,8 +101,8 @@ Float Grad(int x, int y, int z, Float dx, Float dy, Float dz)
 {
     int h = NoisePerm[NoisePerm[NoisePerm[x] + y] + z];
     h &= 15;
-    Float u = h < 8 || h == 12 || h == 13 ? dx : dy;
-    Float v = h < 4 || h == 12 || h == 13 ? dy : dz;
+    Float u = h < 8 || 12 == h || 13 == h ? dx : dy;
+    Float v = h < 4 || 12 == h || 13 == h ? dy : dz;
     return ((h & 1) ? -u : u) + ((h & 2) ? -v : v);
 }
 

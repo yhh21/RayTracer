@@ -87,7 +87,7 @@ ImageTexture<Float, Float> *CreateImageFloatTexture(const Transform &tex2world,
     // Initialize 2D texture mapping _map_ from _tp_
     std::unique_ptr<TextureMapping2D> map;
     std::string type = tp.FindString("mapping", "uv");
-    if (type == "uv")
+    if ("uv" == type)
     {
         Float su = tp.FindFloat("uscale", 1.);
         Float sv = tp.FindFloat("vscale", 1.);
@@ -95,11 +95,11 @@ ImageTexture<Float, Float> *CreateImageFloatTexture(const Transform &tex2world,
         Float dv = tp.FindFloat("vdelta", 0.);
         map.reset(new UVMapping2D(su, sv, du, dv));
     }
-    else if (type == "spherical")
+    else if ("spherical" == type)
         map.reset(new SphericalMapping2D(Inverse(tex2world)));
-    else if (type == "cylindrical")
+    else if ("cylindrical" == type)
         map.reset(new CylindricalMapping2D(Inverse(tex2world)));
-    else if (type == "planar")
+    else if ("planar" == type)
         map.reset(new PlanarMapping2D(tp.FindVector3f("v1", common::math::Vec3f(1, 0, 0)),
             tp.FindVector3f("v2", common::math::Vec3f(0, 1, 0)),
             tp.FindFloat("udelta", 0.f),
@@ -115,9 +115,9 @@ ImageTexture<Float, Float> *CreateImageFloatTexture(const Transform &tex2world,
     bool trilerp = tp.FindBool("trilinear", false);
     std::string wrap = tp.FindString("wrap", "repeat");
     ImageWrap wrapMode = ImageWrap::Repeat;
-    if (wrap == "black")
+    if ("black" == wrap)
         wrapMode = ImageWrap::Black;
-    else if (wrap == "clamp")
+    else if ("clamp" == wrap)
         wrapMode = ImageWrap::Clamp;
     Float scale = tp.FindFloat("scale", 1.f);
     std::string filename = tp.FindFilename("filename");
@@ -133,7 +133,7 @@ ImageTexture<RGBSpectrum, Spectrum> *CreateImageSpectrumTexture(
     // Initialize 2D texture mapping _map_ from _tp_
     std::unique_ptr<TextureMapping2D> map;
     std::string type = tp.FindString("mapping", "uv");
-    if (type == "uv")
+    if ("uv" == type)
     {
         Float su = tp.FindFloat("uscale", 1.);
         Float sv = tp.FindFloat("vscale", 1.);
@@ -141,11 +141,11 @@ ImageTexture<RGBSpectrum, Spectrum> *CreateImageSpectrumTexture(
         Float dv = tp.FindFloat("vdelta", 0.);
         map.reset(new UVMapping2D(su, sv, du, dv));
     }
-    else if (type == "spherical")
+    else if ("spherical" == type)
         map.reset(new SphericalMapping2D(Inverse(tex2world)));
-    else if (type == "cylindrical")
+    else if ("cylindrical" == type)
         map.reset(new CylindricalMapping2D(Inverse(tex2world)));
-    else if (type == "planar")
+    else if ("planar" == type)
         map.reset(new PlanarMapping2D(tp.FindVector3f("v1", common::math::Vec3f(1, 0, 0)),
             tp.FindVector3f("v2", common::math::Vec3f(0, 1, 0)),
             tp.FindFloat("udelta", 0.f),
@@ -161,9 +161,9 @@ ImageTexture<RGBSpectrum, Spectrum> *CreateImageSpectrumTexture(
     bool trilerp = tp.FindBool("trilinear", false);
     std::string wrap = tp.FindString("wrap", "repeat");
     ImageWrap wrapMode = ImageWrap::Repeat;
-    if (wrap == "black")
+    if ("black" == wrap)
         wrapMode = ImageWrap::Black;
-    else if (wrap == "clamp")
+    else if ("clamp" == wrap)
         wrapMode = ImageWrap::Clamp;
     Float scale = tp.FindFloat("scale", 1.f);
     std::string filename = tp.FindFilename("filename");

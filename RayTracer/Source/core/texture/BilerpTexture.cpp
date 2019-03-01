@@ -13,7 +13,7 @@ BilerpTexture<Float> *CreateBilerpFloatTexture(const Transform &tex2world,
     // Initialize 2D texture mapping _map_ from _tp_
     std::unique_ptr<TextureMapping2D> map;
     std::string type = tp.FindString("mapping", "uv");
-    if (type == "uv")
+    if ("uv" == type)
     {
         Float su = tp.FindFloat("uscale", 1.);
         Float sv = tp.FindFloat("vscale", 1.);
@@ -21,11 +21,11 @@ BilerpTexture<Float> *CreateBilerpFloatTexture(const Transform &tex2world,
         Float dv = tp.FindFloat("vdelta", 0.);
         map.reset(new UVMapping2D(su, sv, du, dv));
     }
-    else if (type == "spherical")
+    else if ("spherical" == type)
         map.reset(new SphericalMapping2D(Inverse(tex2world)));
-    else if (type == "cylindrical")
+    else if ("cylindrical" == type)
         map.reset(new CylindricalMapping2D(Inverse(tex2world)));
-    else if (type == "planar")
+    else if ("planar" == type)
         map.reset(new PlanarMapping2D(tp.FindVector3f("v1", Vector3f(1, 0, 0)),
             tp.FindVector3f("v2", Vector3f(0, 1, 0)),
             tp.FindFloat("udelta", 0.f),
@@ -46,7 +46,7 @@ BilerpTexture<Spectrum> *CreateBilerpSpectrumTexture(const Transform &tex2world,
     // Initialize 2D texture mapping _map_ from _tp_
     std::unique_ptr<TextureMapping2D> map;
     std::string type = tp.FindString("mapping", "uv");
-    if (type == "uv")
+    if ("uv" == type)
     {
         Float su = tp.FindFloat("uscale", 1.);
         Float sv = tp.FindFloat("vscale", 1.);
@@ -54,11 +54,11 @@ BilerpTexture<Spectrum> *CreateBilerpSpectrumTexture(const Transform &tex2world,
         Float dv = tp.FindFloat("vdelta", 0.);
         map.reset(new UVMapping2D(su, sv, du, dv));
     }
-    else if (type == "spherical")
+    else if ("spherical" == type)
         map.reset(new SphericalMapping2D(Inverse(tex2world)));
-    else if (type == "cylindrical")
+    else if ("cylindrical" == type)
         map.reset(new CylindricalMapping2D(Inverse(tex2world)));
-    else if (type == "planar")
+    else if ("planar" == type)
         map.reset(new PlanarMapping2D(tp.FindVector3f("v1", Vector3f(1, 0, 0)),
             tp.FindVector3f("v2", Vector3f(0, 1, 0)),
             tp.FindFloat("udelta", 0.f),
