@@ -67,10 +67,5 @@ private:
 };
 
 
-Float Fourier(const Float *a, int m, double cosPhi);
-
-Float SampleFourier(const Float *ak, const Float *recip, int m, Float u, Float *pdf, Float *phiPtr);
-
-
 }
 }
