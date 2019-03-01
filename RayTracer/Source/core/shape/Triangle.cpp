@@ -305,7 +305,7 @@ bool Triangle::Intersect(const common::math::Rayf &ray, Float *t_hit, interactio
                 // parameterizations are still reasonable.
                 common::math::Vec3f dn = Cross(common::math::Vec3f(mesh->n[v[2]] - mesh->n[v[0]]),
                     common::math::Vec3f(mesh->n[v[1]] - mesh->n[v[0]]));
-                if (LengthSquared(dn) == FLOAT_0)
+                if (FLOAT_0 == LengthSquared(dn))
                 {
                     dn_du = dn_dv = common::math::Vec3f(FLOAT_0);
                 }
