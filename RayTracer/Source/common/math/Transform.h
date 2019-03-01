@@ -4,6 +4,7 @@
 #include "Constants.h"
 #include "Mat4.h"
 #include "Vec3.h"
+#include "Bounds3.h"
 
 namespace common
 {
@@ -93,11 +94,71 @@ public:
             , mat4[2][0] * v.x + mat4[2][1] * v.y + mat4[2][2] * v.z);
     }
 
-    Ray<T> operator()(const Ray<T> &ray) const;
+    inline
+        Vec3<T> operator()(const Vec3<T> &v, Vec3<T> *absError) const
+    {
+        T x = v.x, y = v.y, z = v.z;
 
-    RayDifferential<T> operator()(const RayDifferential<T> &ray_d) const;
+        absError->x = static_cast<T>(Gamma(3)) * (std::abs(mat4[0][0] * x) + std::abs(mat4[0][1] * y) +
+                std::abs(mat4[0][2] * z));
+        absError->y = static_cast<T>(Gamma(3)) * (std::abs(mat4[1][0] * x) + std::abs(mat4[1][1] * y) +
+                std::abs(mat4[1][2] * z));
+        absError->z = static_cast<T>(Gamma(3)) * (std::abs(mat4[2][0] * x) + std::abs(mat4[2][1] * y) +
+                std::abs(mat4[2][2] * z));
 
-    Bounds3<T> operator()(const Bounds3<T> &bounds) const;
+        return Vec3<T>(mat4[0][0] * x + mat4[0][1] * y + mat4[0][2] * z,
+            mat4[1][0] * x + mat4[1][1] * y + mat4[1][2] * z,
+            mat4[2][0] * x + mat4[2][1] * y + mat4[2][2] * z);
+    }
+
+    inline
+        Ray<T> operator()(const Ray<T> &ray) const
+    {
+        Vec3<T> origin_error;
+        Vec3<T> origin = (*this)(ray.origin, &origin_error);
+        Vec3<T> dir = (*this)(ray.dir);
+
+        // Offset ray origin to edge of error bounds and compute _tMax_
+        T length_squared = LengthSquared(dir);
+        T t_max = ray.t_max;
+        if (length_squared > static_cast<T>(0))
+        {
+            T dt = Dot(Abs(dir), origin_error) / length_squared;
+            origin += dir * dt;
+            t_max -= dt;
+        }
+
+        return Ray<T>(origin, dir, t_max, ray.t_min, ray.time, ray.medium);
+    }
+
+    RayDifferential<T> operator()(const RayDifferential<T> &ray_d) const
+    {
+        RayDifferential<T> ret((*this)(static_cast<Ray<T>>(ray_d)));
+
+        ret.has_differentials = ray_d.has_differentials;
+        ret.rx_origin = (*this)(ray_d.rx_origin);
+        ret.ry_origin = (*this)(ray_d.ry_origin);
+        ret.rx_direction = (*this)(ray_d.rx_direction);
+        ret.ry_direction = (*this)(ray_d.ry_direction);
+
+        return ret;
+    }
+
+
+    Bounds3f operator()(const Bounds3f &bounds) const
+    {
+        Bounds3<T> ret((*this)(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_min.z)));
+
+        ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_min.z)));
+        ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_min.z)));
+        ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_min.y, bounds.point_max.z)));
+        ret = Union(ret, (*this)(Vec3<T>(bounds.point_min.x, bounds.point_max.y, bounds.point_max.z)));
+        ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_max.y, bounds.point_min.z)));
+        ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_min.y, bounds.point_max.z)));
+        ret = Union(ret, (*this)(Vec3<T>(bounds.point_max.x, bounds.point_max.y, bounds.point_max.z)));
+
+        return ret;
+    }
 
     core::interaction::SurfaceInteraction operator()(const core::interaction::SurfaceInteraction &si) const;
 };
