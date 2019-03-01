@@ -88,7 +88,7 @@ void SampledSpectrum::Init()
 SampledSpectrum SampledSpectrum::FromRGB(const Float rgb[3], SpectrumType type)
 {
     SampledSpectrum r;
-    if (type == SpectrumType::Reflectance)
+    if (SpectrumType::Reflectance == type)
     {
         // Convert reflectance spectrum to RGB
         if (rgb[0] <= rgb[1] && rgb[0] <= rgb[2])

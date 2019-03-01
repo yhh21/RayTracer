@@ -951,14 +951,28 @@ Float AverageSpectrumSamples(const Float *lambda, const Float *vals, int n,
     CHECK_LT(lambdaStart, lambdaEnd);
 #endif // DEBUG
     // Handle cases with out-of-bounds range or single sample only
-    if (lambdaEnd <= lambda[0]) return vals[0];
-    if (lambdaStart >= lambda[n - 1]) return vals[n - 1];
-    if (n == 1) return vals[0];
+    if (lambdaEnd <= lambda[0])
+    {
+        return vals[0];
+    }
+    if (lambdaStart >= lambda[n - 1])
+    {
+        return vals[n - 1];
+    }
+    if (1 == n)
+    {
+        return vals[0];
+    }
     Float sum = FLOAT_0;
     // Add contributions of constant segments before/after samples
-    if (lambdaStart < lambda[0]) sum += vals[0] * (lambda[0] - lambdaStart);
+    if (lambdaStart < lambda[0])
+    {
+        sum += vals[0] * (lambda[0] - lambdaStart);
+    }
     if (lambdaEnd > lambda[n - 1])
+    {
         sum += vals[n - 1] * (lambdaEnd - lambda[n - 1]);
+    }
 
     // Advance to first relevant wavelength segment
     int i = 0;
@@ -992,8 +1006,14 @@ Float InterpolateSpectrumSamples(const Float *lambda, const Float *vals, int n,
         CHECK_GT(lambda[i + 1], lambda[i]);
     }
 #endif
-    if (l <= lambda[0]) return vals[0];
-    if (l >= lambda[n - 1]) return vals[n - 1];
+    if (l <= lambda[0])
+    {
+        return vals[0];
+    }
+    if (l >= lambda[n - 1])
+    {
+        return vals[n - 1];
+    }
     int offset = 0;
     common::math::FindInterval(n, [&](int index)
     {
