@@ -26,7 +26,7 @@ RealisticCamera::RealisticCamera(const common::math::AnimatedTransformf &CameraT
     : Camera(CameraToWorld, shutterOpen, shutterClose, film, medium),
     simpleWeighting(simpleWeighting)
 {
-    for (int i = 0; i < lensData.size(); i += 4)
+    for (size_t i = 0; i < lensData.size(); i += 4)
     {
         if (FLOAT_0 == lensData[i])
         {
@@ -353,7 +353,7 @@ void RealisticCamera::DrawRayPathFromFilm(const common::math::Rayf &r, bool arro
     {
         const LensElementInterface &element = elementInterfaces[i];
         elementZ -= element.thickness;
-        bool isStop = (element.curvatureRadius == 0);
+        bool isStop = (0 == element.curvatureRadius);
         // Compute intersection of ray with lens element
         Float t;
         common::math::Vec3f n;
@@ -422,7 +422,7 @@ void RealisticCamera::DrawRayPathFromScene(const common::math::Rayf &r, bool arr
     for (size_t i = 0; i < elementInterfaces.size(); ++i)
     {
         const LensElementInterface &element = elementInterfaces[i];
-        bool isStop = (element.curvatureRadius == 0);
+        bool isStop = (0 == element.curvatureRadius);
         // Compute intersection of ray with lens element
         Float t;
         common::math::Vec3f n;
@@ -451,12 +451,12 @@ void RealisticCamera::DrawRayPathFromScene(const common::math::Rayf &r, bool arr
         if (!isStop)
         {
             common::math::Vec3f wt;
-            Float etaI = (i == 0 || elementInterfaces[i - 1].eta == 0.f)
-                ? 1.f
+            Float etaI = (0 == i || FLOAT_0 == elementInterfaces[i - 1].eta)
+                ? FLOAT_1
                 : elementInterfaces[i - 1].eta;
-            Float etaT = (elementInterfaces[i].eta != 0.f)
+            Float etaT = (elementInterfaces[i].eta != FLOAT_0)
                 ? elementInterfaces[i].eta
-                : 1.f;
+                : FLOAT_1;
             if (!Refract(Normalize(-ray.dir), n, etaI / etaT, &wt)) return;
             ray.dir = wt;
         }
@@ -720,7 +720,7 @@ common::math::Vec3f RealisticCamera::SampleExitPupil(const common::math::Vec2f &
 {
     // Find exit pupil bound for sample distance from film center
     Float rFilm = std::sqrt(pFilm.x * pFilm.x + pFilm.y * pFilm.y);
-    int rIndex = rFilm / (film->diagonal * FLOAT_INV_2) * exitPupilBounds.size();
+    int rIndex = static_cast<int>(rFilm / (film->diagonal * FLOAT_INV_2) * exitPupilBounds.size());
     rIndex = (std::min)(static_cast<int>(exitPupilBounds.size()) - 1, rIndex);
     common::math::Bounds2f pupilBounds = exitPupilBounds[rIndex];
     if (sampleBoundsArea)
@@ -851,7 +851,7 @@ RealisticCamera *CreateRealisticCamera(const ParamSet &params,
     Float apertureDiameter = params.FindOneFloat("aperturediameter", 1.0);
     Float focusDistance = params.FindOneFloat("focusdistance", 10.0);
     bool simpleWeighting = params.FindOneBool("simpleweighting", true);
-    if (lensFile == "")
+    if ("" == lensFile)
     {
         Error("No lens description file supplied!");
         return nullptr;

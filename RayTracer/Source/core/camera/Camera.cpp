@@ -40,7 +40,10 @@ Camera::~Camera()
 Float Camera::GenerateRayDifferential(const CameraSample &sample, common::math::RayDifferentialf *rd) const
 {
     Float wt = GenerateRay(sample, rd);
-    if (FLOAT_0 == wt) return FLOAT_0;
+    if (FLOAT_0 == wt)
+    {
+        return FLOAT_0;
+    }
 
     Float FLOAT_0_05 = static_cast<Float>(0.05F);
     // Find camera ray after shifting a fraction of a pixel in the $x$ direction
@@ -54,9 +57,15 @@ Float Camera::GenerateRayDifferential(const CameraSample &sample, common::math::
         rd->rx_origin = rd->origin + (rx.origin - rd->origin) / eps;
         rd->rx_direction = rd->dir + (rx.dir - rd->dir) / eps;
         
-        if (FLOAT_0 != wtx) break;
+        if (FLOAT_0 != wtx)
+        {
+            break;
+        }
     }
-    if (FLOAT_0 == wtx) return FLOAT_0;
+    if (FLOAT_0 == wtx)
+    {
+        return FLOAT_0;
+    }
 
     // Find camera ray after shifting a fraction of a pixel in the $y$ direction
     Float wty;
@@ -69,9 +78,15 @@ Float Camera::GenerateRayDifferential(const CameraSample &sample, common::math::
         rd->rx_origin = rd->origin + (ry.origin - rd->origin) / eps;
         rd->rx_direction = rd->dir + (ry.dir - rd->dir) / eps;
         
-        if (FLOAT_0 != wty) break;
+        if (FLOAT_0 != wty)
+        {
+            break;
+        }
     }
-    if (FLOAT_0 == wty) return FLOAT_0;
+    if (FLOAT_0 == wty)
+    {
+        return FLOAT_0;
+    }
 
     rd->has_differentials = true;
     return wt;

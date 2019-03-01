@@ -258,7 +258,7 @@ PerspectiveCamera *CreatePerspectiveCamera(const ParamSet &params,
     const Float *sw = params.FindFloat("screenwindow", &swi);
     if (sw)
     {
-        if (swi == 4)
+        if (4 == swi)
         {
             screen.pMin.x = sw[0];
             screen.pMax.x = sw[1];
