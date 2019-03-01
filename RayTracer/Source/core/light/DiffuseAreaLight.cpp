@@ -25,8 +25,7 @@ DiffuseAreaLight::DiffuseAreaLight(const common::math::Transformf &LightToWorld,
 {
     // Warn if light has transformation with non-uniform scale, though not
     // for Triangles, since this doesn't matter for them.
-    if (WorldToLight.HasScale() &&
-        dynamic_cast<const core::shape::Triangle *>(shape.get()) == nullptr)
+    if (WorldToLight.HasScale() && nullptr == dynamic_cast<const core::shape::Triangle *>(shape.get()))
     {
         /* TODO
         Warning(
