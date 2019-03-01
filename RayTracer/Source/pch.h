@@ -18,9 +18,8 @@
 #ifdef NDEBUG
 #undef DEBUG
 #else
-
-#undef NDEBUG
 #define DEBUG
+#endif // NDEBUG
 
 #include <cassert>
 #include "common/tool/DebugTools.h"
@@ -33,7 +32,6 @@
 #define CHECK_GE(val1, val2) assert(val1 >= val2)
 #define CHECK_GT(val1, val2) assert(val1 > val2)
 #define CHECK(val1) assert(false != val1)
-#endif // NDEBUG
 
 
 //#define FLOAT_AS_DOUBLE

@@ -40,8 +40,8 @@
     <ClInclude Include="Source\core\bxdf\distribution\BeckmannDistribution.h" />
     <ClInclude Include="Source\core\bxdf\BSDF.h" />
     <ClInclude Include="Source\core\bxdf\BxDF.h" />
-    <ClInclude Include="Source\core\bvh\BVHAccelerator.h" />
-    <ClInclude Include="Source\core\bvh\BVHBuildNode.h" />
+    <ClInclude Include="Source\common\tool\bvh\BVHAccelerator.h" />
+    <ClInclude Include="Source\common\tool\bvh\BVHBuildNode.h" />
     <ClInclude Include="Source\core\bxdf\FourierBSDF.h" />
     <ClInclude Include="Source\core\bxdf\Fresnel.h" />
     <ClInclude Include="Source\core\bxdf\FresnelBlend.h" />
@@ -73,7 +73,11 @@
     <ClInclude Include="Source\core\color\ColorExtern.h" />
     <ClInclude Include="Source\core\color\RGBSpectrum.h" />
     <ClInclude Include="Source\core\color\SampledSpectrum.h" />
-    <ClInclude Include="Source\core\film\filter\Filter.h" />
+    <ClInclude Include="Source\core\integrator\DirectLightingIntegrator.h" />
+    <ClInclude Include="Source\core\integrator\Integrator.h" />
+    <ClInclude Include="Source\core\integrator\LightDistribution.h" />
+    <ClInclude Include="Source\core\integrator\PathIntegrator.h" />
+    <ClInclude Include="Source\core\integrator\SamplerIntegrator.h" />
     <ClInclude Include="Source\core\interaction\Interaction.h" />
     <ClInclude Include="Source\core\interaction\Medium.h" />
     <ClInclude Include="Source\core\interaction\MediumInteraction.h" />
@@ -96,6 +100,7 @@
     <ClInclude Include="Source\core\material\PlasticMaterial.h" />
     <ClInclude Include="Source\core\primitive\GeometricPrimitive.h" />
     <ClInclude Include="Source\core\primitive\Primitive.h" />
+    <ClInclude Include="Source\core\sampler\filter\Filter.h" />
     <ClInclude Include="Source\core\sampler\GlobalSampler.h" />
     <ClInclude Include="Source\core\sampler\PixelSampler.h" />
     <ClInclude Include="Source\core\sampler\Sampler.h" />
@@ -128,7 +133,7 @@
     <ClCompile Include="Source\common\math\Bounds3.cpp" />
     <ClCompile Include="Source\common\math\Quaternion.cpp" />
     <ClCompile Include="Source\common\math\Transform.cpp" />
-    <ClCompile Include="Source\core\bvh\BVHAccelerator.cpp" />
+    <ClCompile Include="Source\common\tool\bvh\BVHAccelerator.cpp" />
     <ClCompile Include="Source\core\bxdf\BSSRDF.cpp" />
     <ClCompile Include="Source\core\bxdf\BSSRDFTable.cpp" />
     <ClCompile Include="Source\core\bxdf\distribution\BeckmannDistribution.cpp" />
@@ -158,6 +163,11 @@
     <ClCompile Include="Source\core\camera\RealisticCamera.cpp" />
     <ClCompile Include="Source\core\film\Film.cpp" />
     <ClCompile Include="Source\core\color\ColorExtern.cpp" />
+    <ClCompile Include="Source\core\integrator\DirectLightingIntegrator.cpp" />
+    <ClCompile Include="Source\core\integrator\Integrator.cpp" />
+    <ClCompile Include="Source\core\integrator\LightDistribution.cpp" />
+    <ClCompile Include="Source\core\integrator\PathIntegrator.cpp" />
+    <ClCompile Include="Source\core\integrator\SamplerIntegrator.cpp" />
     <ClCompile Include="Source\core\interaction\Medium.cpp" />
     <ClCompile Include="Source\core\interaction\SurfaceInteraction.cpp" />
     <ClCompile Include="Source\core\light\AreaLight.cpp" />

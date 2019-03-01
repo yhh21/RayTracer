@@ -248,6 +248,23 @@ class Filter;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+namespace integrator
+{
+
+class Integrator;
+class SamplerIntegrator;
+class DirectLightingIntegrator;
+class PathIntegrator;
+
+class LightDistribution;
+class UniformLightDistribution;
+class PowerLightDistribution;
+class SpatialLightDistribution;
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 namespace interaction
 {
 

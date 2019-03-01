@@ -31,9 +31,6 @@
     <Filter Include="Source\Core\Sampler">
       <UniqueIdentifier>{3faf6e1c-62d3-4ddb-b03b-607b57b9c5bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Core\BVH">
-      <UniqueIdentifier>{1bfc66f9-1dae-4471-86a3-5ffc2ac54854}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Core\BxDF">
       <UniqueIdentifier>{03de811d-f7b8-484e-9473-88f516d78b2a}</UniqueIdentifier>
     </Filter>
@@ -42,9 +39,6 @@
     </Filter>
     <Filter Include="Source\Core\Film">
       <UniqueIdentifier>{4d4214f9-c98e-4d97-b393-a584d562b0f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Core\Film\Filter">
-      <UniqueIdentifier>{0455d5a3-9ce5-4fa7-b651-09b73d679538}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Core\Material">
       <UniqueIdentifier>{28757451-f000-4e8e-a02e-727a680797d2}</UniqueIdentifier>
@@ -60,6 +54,15 @@
     </Filter>
     <Filter Include="Source\Core\BxDF\Distribution">
       <UniqueIdentifier>{4fcfb7cc-33f7-488b-b90c-d00c298264a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Sampler\Filter">
+      <UniqueIdentifier>{0455d5a3-9ce5-4fa7-b651-09b73d679538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Integrator">
+      <UniqueIdentifier>{4bb76ce3-3263-4436-8ef7-d8645e107cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common\Tool\BVH">
+      <UniqueIdentifier>{1bfc66f9-1dae-4471-86a3-5ffc2ac54854}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,17 +156,14 @@
     <ClInclude Include="Source\core\film\FilmTile.h">
       <Filter>Source\Core\Film</Filter>
     </ClInclude>
-    <ClInclude Include="Source\core\film\filter\Filter.h">
-      <Filter>Source\Core\Film\Filter</Filter>
-    </ClInclude>
     <ClInclude Include="Source\core\shape\TriangleMesh.h">
       <Filter>Source\Core\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Source\core\bvh\BVHAccelerator.h">
-      <Filter>Source\Core\BVH</Filter>
+    <ClInclude Include="Source\common\tool\bvh\BVHAccelerator.h">
+      <Filter>Source\Common\Tool\BVH</Filter>
     </ClInclude>
-    <ClInclude Include="Source\core\bvh\BVHBuildNode.h">
-      <Filter>Source\Core\BVH</Filter>
+    <ClInclude Include="Source\common\tool\bvh\BVHBuildNode.h">
+      <Filter>Source\Common\Tool\BVH</Filter>
     </ClInclude>
     <ClInclude Include="Source\common\tool\MultiThread.h">
       <Filter>Source\Common\Tool</Filter>
@@ -372,6 +372,24 @@
     <ClInclude Include="Source\core\bxdf\SeparableBSSRDFAdapter.h">
       <Filter>Source\Core\BxDF</Filter>
     </ClInclude>
+    <ClInclude Include="Source\core\sampler\filter\Filter.h">
+      <Filter>Source\Core\Sampler\Filter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\integrator\Integrator.h">
+      <Filter>Source\Core\Integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\integrator\DirectLightingIntegrator.h">
+      <Filter>Source\Core\Integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\integrator\SamplerIntegrator.h">
+      <Filter>Source\Core\Integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\integrator\PathIntegrator.h">
+      <Filter>Source\Core\Integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\integrator\LightDistribution.h">
+      <Filter>Source\Core\Integrator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -404,8 +422,8 @@
     <ClCompile Include="Source\core\film\Film.cpp">
       <Filter>Source\Core\Film</Filter>
     </ClCompile>
-    <ClCompile Include="Source\core\bvh\BVHAccelerator.cpp">
-      <Filter>Source\Core\BVH</Filter>
+    <ClCompile Include="Source\common\tool\bvh\BVHAccelerator.cpp">
+      <Filter>Source\Common\Tool\BVH</Filter>
     </ClCompile>
     <ClCompile Include="Source\core\bxdf\BxDF.cpp">
       <Filter>Source\Core\BxDF</Filter>
@@ -595,6 +613,21 @@
     </ClCompile>
     <ClCompile Include="Source\core\bxdf\BSSRDF.cpp">
       <Filter>Source\Core\BxDF</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\integrator\Integrator.cpp">
+      <Filter>Source\Core\Integrator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\integrator\DirectLightingIntegrator.cpp">
+      <Filter>Source\Core\Integrator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\integrator\SamplerIntegrator.cpp">
+      <Filter>Source\Core\Integrator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\integrator\PathIntegrator.cpp">
+      <Filter>Source\Core\Integrator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\integrator\LightDistribution.cpp">
+      <Filter>Source\Core\Integrator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
