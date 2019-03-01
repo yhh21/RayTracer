@@ -25,13 +25,13 @@
 #include "common/tool/DebugTools.h"
 
 // glog formal
-#define CHECK_EQ(val1, val2) assert(val1 == val2)
-#define CHECK_NE(val1, val2) assert(val1 != val2)
-#define CHECK_LE(val1, val2) assert(val1 <= val2)
-#define CHECK_LT(val1, val2) assert(val1 < val2)
-#define CHECK_GE(val1, val2) assert(val1 >= val2)
-#define CHECK_GT(val1, val2) assert(val1 > val2)
-#define CHECK(val1) assert(false != val1)
+#define CHECK_EQ(val1, val2) assert((val1) == (val2))
+#define CHECK_NE(val1, val2) assert((val1) != (val2))
+#define CHECK_LE(val1, val2) assert((val1) <= (val2))
+#define CHECK_LT(val1, val2) assert((val1) < (val2))
+#define CHECK_GE(val1, val2) assert((val1) >= (val2))
+#define CHECK_GT(val1, val2) assert((val1) > (val2))
+#define CHECK(val1) assert(false != (val1))
 
 
 //#define FLOAT_AS_DOUBLE

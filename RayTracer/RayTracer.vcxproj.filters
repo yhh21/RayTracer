@@ -64,6 +64,9 @@
     <Filter Include="Source\Common\Tool\BVH">
       <UniqueIdentifier>{1bfc66f9-1dae-4471-86a3-5ffc2ac54854}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Common\Tool\KDTree">
+      <UniqueIdentifier>{d50c8b9c-dcad-4598-95a1-1125710571a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\common\math\Vec2.h">
@@ -402,6 +405,15 @@
     <ClInclude Include="Source\common\math\AnimatedTransform.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Source\common\tool\kdtree\KDTreeAccelerator.h">
+      <Filter>Source\Common\Tool\KDTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\tool\kdtree\BoundEdge.h">
+      <Filter>Source\Common\Tool\KDTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\tool\kdtree\KDTreeNode.h">
+      <Filter>Source\Common\Tool\KDTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -412,9 +424,6 @@
     </ClCompile>
     <ClCompile Include="Source\core\color\ColorExtern.cpp">
       <Filter>Source\Core\Color</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\common\math\Transform.cpp">
-      <Filter>Source\Common\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\core\camera\Camera.cpp">
       <Filter>Source\Core\Camera</Filter>
@@ -646,6 +655,9 @@
     </ClCompile>
     <ClCompile Include="Source\common\tool\MultiThread.cpp">
       <Filter>Source\Common\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\common\tool\kdtree\KDTreeAccelerator.cpp">
+      <Filter>Source\Common\Tool\KDTree</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

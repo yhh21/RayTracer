@@ -180,7 +180,7 @@ class OrenNayar;
 class ScaledBxDF;
 
 class BSSRDF;
-class BSSRDFTable;
+struct BSSRDFTable;
 class SeparableBSSRDF;
 class TabulatedBSSRDF;
 

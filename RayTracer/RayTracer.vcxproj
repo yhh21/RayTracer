@@ -35,6 +35,9 @@
     <ClInclude Include="Source\common\tool\bvh\BVHPrimitiveInfo.h" />
     <ClInclude Include="Source\common\tool\bvh\LinearBVHNode.h" />
     <ClInclude Include="Source\common\tool\bvh\MortonPrimitive.h" />
+    <ClInclude Include="Source\common\tool\kdtree\BoundEdge.h" />
+    <ClInclude Include="Source\common\tool\kdtree\KDTreeAccelerator.h" />
+    <ClInclude Include="Source\common\tool\kdtree\KDTreeNode.h" />
     <ClInclude Include="Source\common\tool\MemoryArena.h" />
     <ClInclude Include="Source\common\tool\MultiThread.h" />
     <ClInclude Include="Source\common\tool\RandomNumberGenerator.h" />
@@ -133,8 +136,8 @@
     <ClInclude Include="Source\common\tool\ImageManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\common\math\Transform.cpp" />
     <ClCompile Include="Source\common\tool\bvh\BVHAccelerator.cpp" />
+    <ClCompile Include="Source\common\tool\kdtree\KDTreeAccelerator.cpp" />
     <ClCompile Include="Source\common\tool\MemoryArena.cpp" />
     <ClCompile Include="Source\common\tool\MultiThread.cpp" />
     <ClCompile Include="Source\core\bxdf\BSSRDF.cpp" />
