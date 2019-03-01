@@ -32,6 +32,9 @@
     <ClInclude Include="Source\common\math\Vec2.h" />
     <ClInclude Include="Source\common\math\Vec3.h" />
     <ClInclude Include="Source\common\math\Vec4.h" />
+    <ClInclude Include="Source\common\tool\bvh\BVHPrimitiveInfo.h" />
+    <ClInclude Include="Source\common\tool\bvh\LinearBVHNode.h" />
+    <ClInclude Include="Source\common\tool\bvh\MortonPrimitive.h" />
     <ClInclude Include="Source\common\tool\MemoryArena.h" />
     <ClInclude Include="Source\common\tool\MultiThread.h" />
     <ClInclude Include="Source\common\tool\RandomNumberGenerator.h" />
@@ -98,6 +101,7 @@
     <ClInclude Include="Source\core\material\MatteMaterial.h" />
     <ClInclude Include="Source\core\material\MixMaterial.h" />
     <ClInclude Include="Source\core\material\PlasticMaterial.h" />
+    <ClInclude Include="Source\core\primitive\Aggregate.h" />
     <ClInclude Include="Source\core\primitive\GeometricPrimitive.h" />
     <ClInclude Include="Source\core\primitive\Primitive.h" />
     <ClInclude Include="Source\core\sampler\filter\Filter.h" />
@@ -129,11 +133,10 @@
     <ClInclude Include="Source\common\tool\ImageManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\common\math\AnimatedTransform.cpp" />
-    <ClCompile Include="Source\common\math\Bounds3.cpp" />
-    <ClCompile Include="Source\common\math\Quaternion.cpp" />
     <ClCompile Include="Source\common\math\Transform.cpp" />
     <ClCompile Include="Source\common\tool\bvh\BVHAccelerator.cpp" />
+    <ClCompile Include="Source\common\tool\MemoryArena.cpp" />
+    <ClCompile Include="Source\common\tool\MultiThread.cpp" />
     <ClCompile Include="Source\core\bxdf\BSSRDF.cpp" />
     <ClCompile Include="Source\core\bxdf\BSSRDFTable.cpp" />
     <ClCompile Include="Source\core\bxdf\distribution\BeckmannDistribution.cpp" />
@@ -161,6 +164,8 @@
     <ClCompile Include="Source\core\camera\OrthographicCamera.cpp" />
     <ClCompile Include="Source\core\camera\PerspectiveCamera.cpp" />
     <ClCompile Include="Source\core\camera\RealisticCamera.cpp" />
+    <ClCompile Include="Source\core\color\RGBSpectrum.cpp" />
+    <ClCompile Include="Source\core\color\SampledSpectrum.cpp" />
     <ClCompile Include="Source\core\film\Film.cpp" />
     <ClCompile Include="Source\core\color\ColorExtern.cpp" />
     <ClCompile Include="Source\core\integrator\DirectLightingIntegrator.cpp" />
@@ -185,6 +190,7 @@
     <ClCompile Include="Source\core\material\MatteMaterial.cpp" />
     <ClCompile Include="Source\core\material\MixMaterial.cpp" />
     <ClCompile Include="Source\core\material\PlasticMaterial.cpp" />
+    <ClCompile Include="Source\core\primitive\Aggregate.cpp" />
     <ClCompile Include="Source\core\primitive\GeometricPrimitive.cpp" />
     <ClCompile Include="Source\core\sampler\GlobalSampler.cpp" />
     <ClCompile Include="Source\core\sampler\PixelSampler.cpp" />

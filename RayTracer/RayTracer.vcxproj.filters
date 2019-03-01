@@ -75,22 +75,10 @@
     <ClInclude Include="Source\common\math\Vec4.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\common\math\Bounds2.h">
-      <Filter>Source\Common\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\common\math\Bounds3.h">
-      <Filter>Source\Common\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\common\math\Mat3.h">
-      <Filter>Source\Common\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Source\common\math\Transform.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\common\math\Mat4.h">
-      <Filter>Source\Common\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\common\math\Constants.h">
       <Filter>Source\Common\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\common\math\Quaternion.h">
@@ -140,9 +128,6 @@
     </ClInclude>
     <ClInclude Include="Source\core\camera\Camera.h">
       <Filter>Source\Core\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\common\math\AnimatedTransform.h">
-      <Filter>Source\Common\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\ForwardDeclaration.h">
       <Filter>Source</Filter>
@@ -390,6 +375,33 @@
     <ClInclude Include="Source\core\integrator\LightDistribution.h">
       <Filter>Source\Core\Integrator</Filter>
     </ClInclude>
+    <ClInclude Include="Source\common\tool\bvh\BVHPrimitiveInfo.h">
+      <Filter>Source\Common\Tool\BVH</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\tool\bvh\MortonPrimitive.h">
+      <Filter>Source\Common\Tool\BVH</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\tool\bvh\LinearBVHNode.h">
+      <Filter>Source\Common\Tool\BVH</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\core\primitive\Aggregate.h">
+      <Filter>Source\Core\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Mat3.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Constants.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Bounds3.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\Bounds2.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\common\math\AnimatedTransform.h">
+      <Filter>Source\Common\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -406,15 +418,6 @@
     </ClCompile>
     <ClCompile Include="Source\core\camera\Camera.cpp">
       <Filter>Source\Core\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\common\math\AnimatedTransform.cpp">
-      <Filter>Source\Common\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\common\math\Quaternion.cpp">
-      <Filter>Source\Common\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\common\math\Bounds3.cpp">
-      <Filter>Source\Common\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\core\sampler\Sampler.cpp">
       <Filter>Source\Core\Sampler</Filter>
@@ -628,6 +631,21 @@
     </ClCompile>
     <ClCompile Include="Source\core\integrator\LightDistribution.cpp">
       <Filter>Source\Core\Integrator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\primitive\Aggregate.cpp">
+      <Filter>Source\Core\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\common\tool\MemoryArena.cpp">
+      <Filter>Source\Common\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\color\RGBSpectrum.cpp">
+      <Filter>Source\Core\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\core\color\SampledSpectrum.cpp">
+      <Filter>Source\Core\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\common\tool\MultiThread.cpp">
+      <Filter>Source\Common\Tool</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
