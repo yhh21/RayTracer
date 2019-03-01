@@ -25,7 +25,7 @@ int MaxThreadIndex()
 
 void ParallelFor(std::function<void(int64_t)> func, int64_t count, int chunkSize)
 {
-    CHECK(threads.size() > 0 || MaxThreadIndex() == 1);
+    CHECK(threads.size() > 0 || 1 == MaxThreadIndex());
 
     // Run iterations immediately if not using threads or if _count_ is small
     if (threads.empty() || count < chunkSize)
@@ -88,13 +88,17 @@ void ParallelFor(std::function<void(int64_t)> func, int64_t count, int chunkSize
 
 void ParallelFor2D(std::function<void(common::math::Vec2i)> func, const common::math::Vec2i &count)
 {
-    CHECK(threads.size() > 0 || MaxThreadIndex() == 1);
+    CHECK(threads.size() > 0 || 1 == MaxThreadIndex());
 
     if (threads.empty() || count.x * count.y <= 1)
     {
         for (int y = 0; y < count.y; ++y)
+        {
             for (int x = 0; x < count.x; ++x) func(common::math::Vec2i(x, y));
-        return;
+            {
+                return;
+            }
+        }
     }
 
     /* TODO

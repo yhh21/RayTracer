@@ -151,11 +151,11 @@ MIPMap<T>::MIPMap(const common::math::Vec2i &res, const T *img, bool doTrilinear
                 for (int j = 0; j < 4; ++j)
                 {
                     int origS = sWeights[s].firstTexel + j;
-                    if (wrapMode == ImageWrap::Repeat)
+                    if (ImageWrap::Repeat == wrapMode)
                     {
                         origS = common::math::Mod(origS, resolution[0]);
                     }
-                    else if (wrapMode == ImageWrap::Clamp)
+                    else if (ImageWrap::Clamp == wrapMode)
                     {
                         origS = common::math::Clamp(origS, 0, resolution[0] - 1);
                     }
@@ -186,11 +186,11 @@ MIPMap<T>::MIPMap(const common::math::Vec2i &res, const T *img, bool doTrilinear
                 for (int j = 0; j < 4; ++j)
                 {
                     int offset = tWeights[t].firstTexel + j;
-                    if (wrapMode == ImageWrap::Repeat)
+                    if (ImageWrap::Repeat == wrapMode)
                     {
                         offset = common::math::Mod(offset, resolution[1]);
                     }
-                    else if (wrapMode == ImageWrap::Clamp)
+                    else if (ImageWrap::Clamp == wrapMode)
                     {
                         offset = common::math::Clamp(offset, 0, resolution[1] - 1);
                     }
@@ -241,7 +241,7 @@ MIPMap<T>::MIPMap(const common::math::Vec2i &res, const T *img, bool doTrilinear
     }
 
     // Initialize EWA filter weights if needed
-    if (weightLut[0] == FLOAT_0)
+    if (FLOAT_0 == weightLut[0])
     {
         for (int i = 0; i < WeightLUTSize; ++i)
         {
