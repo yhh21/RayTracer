@@ -24,7 +24,9 @@ common::tool::MIPMap<Tmemory> *ImageTexture<Tmemory, Treturn>::GetTexture(
     // Return _MIPMap_ from texture cache if present
     TexInfo texInfo(filename, doTrilinear, maxAniso, wrap, scale, gamma);
     if (textures.find(texInfo) != textures.end())
+    {
         return textures[texInfo].get();
+    }
 
     // Create _MIPMap_ for _filename_
     //ProfilePhase _(Prof::TextureLoading);
