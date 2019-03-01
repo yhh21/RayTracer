@@ -239,7 +239,7 @@ Transform<T> LookAt(const Vec3<T> &pos, const Vec3<T> &look, const Vec3<T> &up)
 
     // Initialize first three columns of viewing matrix
     Vec3<T> dir = Normalize(look - pos);
-    if (Cross(Normalize(up), dir).Length() == 0)
+    if (0 == Cross(Normalize(up), dir).Length())
     {
         /*
         Error(

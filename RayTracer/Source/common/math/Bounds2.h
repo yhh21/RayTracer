@@ -50,14 +50,14 @@ public:
         const Vec2<T> &operator[](size_t axis) const
     {
         CHECK_LT(axis, 2);
-        return (i == 0) ? point_min : point_max;
+        return (0 == i) ? point_min : point_max;
     }
 
     __forceinline
         Vec2<T> &operator[](size_t axis)
     {
         CHECK_LT(axis, 2);
-        return (i == 1) ? point_min : point_max;
+        return (1 == i) ? point_min : point_max;
     }
 
 

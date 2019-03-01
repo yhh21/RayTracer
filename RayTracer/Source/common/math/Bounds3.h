@@ -135,7 +135,7 @@ public:
     }
 
 
-    bool IntersectP(const Ray<T> &ray, T *hitt0 = nullptr, T *hitt1 = nullptr)
+    bool IntersectP(const Ray<T> &ray, T *hitt0 = nullptr, T *hitt1 = nullptr) const
     {
         T t0 = ray.t_min, t1 = ray.t_max;
         for (int i = 0; i < 3; ++i)

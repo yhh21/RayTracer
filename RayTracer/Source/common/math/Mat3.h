@@ -222,7 +222,7 @@ Mat3<T> &operator*=(Mat3<T>& mat3, const Mat3<T1> &other)
 template<typename T> __forceinline
 Mat3<T> Inverse(const Mat3<T>& mat3, T tolerance = 0) const
 {
-    if (!(mat3[0][2] == static_cast<T>(0) && mat3[1][2] == static_cast<T>(0) && mat3[2][2] == static_cast<T>(1)))
+    if (!(static_cast<T>(0) == mat3[0][2] && static_cast<T>(0) == mat3[1][2] && static_cast<T>(0) == mat3[2][2]))
     {
         Mat3<T> ret(mat3[1][1] * mat3[2][2] - mat3[2][1] * mat3[1][2],
             mat3[2][1] * mat3[0][2] - mat3[0][1] * mat3[2][2],
