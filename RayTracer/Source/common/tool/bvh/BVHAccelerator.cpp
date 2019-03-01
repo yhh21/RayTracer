@@ -60,7 +60,7 @@ static void RadixSort(std::vector<MortonPrimitive> *v)
     std::vector<MortonPrimitive> tempVector(v->size());
     constexpr int bitsPerPass = 6;
     constexpr int nBits = 30;
-    static_assert((nBits % bitsPerPass) == 0, "Radix sort bitsPerPass must evenly divide nBits");
+    static_assert(0 == (nBits % bitsPerPass), "Radix sort bitsPerPass must evenly divide nBits");
     constexpr int nPasses = nBits / bitsPerPass;
 
     for (int pass = 0; pass < nPasses; ++pass)
@@ -133,7 +133,7 @@ BVHAccelerator::BVHAccelerator(std::vector<std::shared_ptr<core::primitive::Prim
     std::vector<std::shared_ptr<core::primitive::Primitive>> orderedPrims;
     orderedPrims.reserve(primitives.size());
     BVHBuildNode *root;
-    if (splitMethod == SplitMethod::HLBVH)
+    if (SplitMethod::HLBVH == splitMethod)
     {
         root = HLBVHBuild(arena, primitiveInfo, &totalNodes, orderedPrims);
     }
@@ -205,7 +205,7 @@ bool BVHAccelerator::Intersect(const common::math::Rayf &ray, core::interaction:
                         hit = true;
                     }
                 }
-                if (toVisitOffset == 0)
+                if (0 == toVisitOffset)
                 {
                     break;
                 }
@@ -229,7 +229,7 @@ bool BVHAccelerator::Intersect(const common::math::Rayf &ray, core::interaction:
         }
         else
         {
-            if (toVisitOffset == 0)
+            if (0 == toVisitOffset)
             {
                 break;
             }
@@ -263,7 +263,7 @@ bool BVHAccelerator::IntersectP(const common::math::Rayf &ray) const
                         return true;
                     }
                 }
-                if (toVisitOffset == 0)
+                if (0 == toVisitOffset)
                 {
                     break;
                 }
@@ -286,7 +286,7 @@ bool BVHAccelerator::IntersectP(const common::math::Rayf &ray) const
         }
         else
         {
-            if (toVisitOffset == 0)
+            if (0 == toVisitOffset)
             {
                 break;
             }
@@ -312,7 +312,7 @@ BVHBuildNode *BVHAccelerator::recursiveBuild(
         bounds = Union(bounds, primitiveInfo[i].bounds);
     }
     int nPrimitives = end - start;
-    if (nPrimitives == 1)
+    if (1 == nPrimitives)
     {
         // Create leaf _BVHBuildNode_
         int firstPrimOffset = orderedPrims.size();
@@ -544,7 +544,7 @@ BVHBuildNode *BVHAccelerator::HLBVHBuild(
     #else
         uint32_t mask = 0x3ffc0000;
     #endif
-        if (end == (int)mortonPrims.size() ||
+        if ((int)mortonPrims.size() == end ||
             ((mortonPrims[start].mortonCode & mask) !=
             (mortonPrims[end].mortonCode & mask)))
         {
@@ -593,7 +593,7 @@ BVHBuildNode *BVHAccelerator::emitLBVH(
     std::atomic<int> *orderedPrimsOffset, int bitIndex) const
 {
     CHECK_GT(nPrimitives, 0);
-    if (bitIndex == -1 || nPrimitives < maxPrimsInNode)
+    if (-1 == bitIndex || nPrimitives < maxPrimsInNode)
     {
         // Create and return leaf node of LBVH treelet
         (*totalNodes)++;
@@ -667,11 +667,11 @@ BVHBuildNode *BVHAccelerator::buildUpperSAH(MemoryArena &arena,
 {
     CHECK_LT(start, end);
     int nNodes = end - start;
-    if (nNodes == 1)
+    if (1 == nNodes)
     {
         return treeletRoots[start];
     }
-    (*totalNodes)++;
+    ++(*totalNodes);
     BVHBuildNode *node = arena.Alloc<BVHBuildNode>();
 
     // Compute bounds of all nodes under this HLBVH node
