@@ -59,7 +59,7 @@ core::color::Spectrum UniformSampleAllLights(const core::interaction::Interactio
                     uLightArray[k], scene, sampler, arena,
                     handleMedia);
             }
-            L += Ld / nSamples;
+            L += Ld / static_cast<Float>(nSamples);
         }
     }
     return L;

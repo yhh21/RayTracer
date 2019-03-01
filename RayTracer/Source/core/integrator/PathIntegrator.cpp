@@ -223,7 +223,7 @@ PathIntegrator *CreatePathIntegrator(const ParamSet &params,
         {
             pixelBounds = Intersect(pixelBounds,
                 common::math::Bounds2i{{pb[0], pb[2]}, {pb[1], pb[3]}});
-            if (pixelBounds.Area() == 0)
+            if (0 == pixelBounds.Area())
                 Error("Degenerate \"pixelbounds\" specified.");
         }
     }

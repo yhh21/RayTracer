@@ -104,7 +104,7 @@ SpatialLightDistribution::SpatialLightDistribution(const core::scene::Scene &sce
 
     hashTableSize = 4 * nVoxels[0] * nVoxels[1] * nVoxels[2];
     hashTable.reset(new HashEntry[hashTableSize]);
-    for (int i = 0; i < hashTableSize; ++i)
+    for (size_t i = 0; i < hashTableSize; ++i)
     {
         hashTable[i].packedPos.store(invalidPackedPos);
         hashTable[i].distribution.store(nullptr);
@@ -183,7 +183,7 @@ const core::sampler::Distribution1D *SpatialLightDistribution::Lookup(const comm
             // Yes! Most of the time, there should already by a light
             // sampling distribution available.
             core::sampler::Distribution1D *dist = entry.distribution.load(std::memory_order_acquire);
-            if (dist == nullptr)
+            if (nullptr == dist)
             {
                 // Rarely, another thread will have already done a lookup
                 // at this point, found that there isn't a sampling

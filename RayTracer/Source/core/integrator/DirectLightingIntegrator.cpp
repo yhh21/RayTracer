@@ -100,9 +100,9 @@ DirectLightingIntegrator *CreateDirectLightingIntegrator(
     int maxDepth = params.FindOneInt("maxdepth", 5);
     LightStrategy strategy;
     std::string st = params.FindOneString("strategy", "all");
-    if (st == "one")
+    if ("one" == st)
         strategy = LightStrategy::UniformSampleOne;
-    else if (st == "all")
+    else if ("all" == st)
         strategy = LightStrategy::UniformSampleAll;
     else
     {
@@ -124,7 +124,7 @@ DirectLightingIntegrator *CreateDirectLightingIntegrator(
         {
             pixelBounds = Intersect(pixelBounds,
                 common::math::Bounds2i{{pb[0], pb[2]}, {pb[1], pb[3]}});
-            if (pixelBounds.Area() == 0)
+            if (0 == pixelBounds.Area())
                 Error("Degenerate \"pixelbounds\" specified.");
         }
     }
