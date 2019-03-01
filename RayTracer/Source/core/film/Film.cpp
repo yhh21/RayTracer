@@ -249,7 +249,7 @@ Film *CreateFilm(const ParamSet &params, std::unique_ptr<filter::Filter> filter)
     common::math::Bounds2f crop;
     int cwi;
     const Float *cr = params.FindFloat("cropwindow", &cwi);
-    if (cr && cwi == 4)
+    if (cr && 4 == cwi)
     {
         crop.point_min.x = common::math::Clamp(std::min(cr[0], cr[1]), 0.f, 1.f);
         crop.point_max.x = common::math::Clamp(std::max(cr[0], cr[1]), 0.f, 1.f);
