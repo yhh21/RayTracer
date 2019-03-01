@@ -21,6 +21,7 @@ public:
         : Camera(CameraToWorld, shutterOpen, shutterClose, film, medium)
     {}
 
+
     Float GenerateRay(const CameraSample &sample, common::math::Rayf *) const;
 };
 

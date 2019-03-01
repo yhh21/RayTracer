@@ -223,7 +223,7 @@ bool RealisticCamera::TraceLensesFromScene(const common::math::Rayf &rCamera,
         if (!isStop)
         {
             common::math::Vec3f wt;
-            Float etaI = (i == 0 || FLOAT_0 == elementInterfaces[i - 1].eta)
+            Float etaI = (0 == i || FLOAT_0 == elementInterfaces[i - 1].eta)
                 ? FLOAT_1 : elementInterfaces[i - 1].eta;
             Float etaT = (elementInterfaces[i].eta != FLOAT_0) ? elementInterfaces[i].eta : FLOAT_1;
             if (!core::bxdf::Refract(Normalize(-rLens.dir), n, etaI / etaT, &wt))
