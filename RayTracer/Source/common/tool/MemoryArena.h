@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <list>
 #include <cstddef>
 
@@ -14,11 +15,7 @@ namespace tool
 
 #define ARENA_ALLOC(arena, Type) new ((arena).Alloc(sizeof(Type))) Type
 
-void *AllocAligned(size_t size)
-{
-    const size_t L1_CACHE_LINE_SIZE = 64;
-    return _aligned_malloc(size, L1_CACHE_LINE_SIZE);
-}
+void *AllocAligned(size_t size);
 
 template <typename T>
 T *AllocAligned(size_t count)
@@ -26,13 +23,7 @@ T *AllocAligned(size_t count)
     return (T *)AllocAligned(count * sizeof(T));
 }
 
-void FreeAligned(void *ptr)
-{
-    if (nullptr != ptr)
-    {
-        _aligned_free(ptr);
-    }
-}
+void FreeAligned(void *ptr);
 
 
 class MemoryArena
@@ -100,7 +91,7 @@ public:
     T *Alloc(size_t n = 1, bool runConstructor = true)
     {
         T *ret = (T *)Alloc(n * sizeof(T));
-        if (nullptr != runConstructor)
+        if (runConstructor)
         {
             for (size_t i = 0; i < n; ++i)
             {

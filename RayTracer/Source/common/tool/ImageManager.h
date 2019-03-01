@@ -1,11 +1,10 @@
 #pragma once
 
-#include "pch.h"
+#include "../../ForwardDeclaration.h"
 #include <cstdlib>
 #include <string>
 #include <vector>
 #include <ctime>
-#include "Color.h"
 
 using namespace std;
 
@@ -14,10 +13,11 @@ namespace common
 namespace ImageManager
 {
 
+// TODO
 
 #ifdef PPM_FORMAT
 inline
-static void pixel_write(FILE *fp, const CColor& c)
+static void pixel_write(FILE *fp, const core::color::Spectrum &c)
 {
     static unsigned char color[3];
     color[0] = c[0] & 255;
@@ -27,7 +27,7 @@ static void pixel_write(FILE *fp, const CColor& c)
 }
 #endif // PPM_FORMAT
 
-static void SaveImage(vector<vector<CColor>> ss)
+static void SaveImage(vector<vector<core::color::Spectrum>> ss)
 {
     size_t col = ss.size();
     size_t row = ss[0].size();
