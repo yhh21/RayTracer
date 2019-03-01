@@ -1,9 +1,11 @@
 #pragma once
 
-#include "../../ForwardDeclaration.h"
-#include "../../common/math/Bounds3.h"
+#include "../../../ForwardDeclaration.h"
+#include "../../math/Bounds3.h"
 
-namespace core
+namespace common
+{
+namespace tool
 {
 namespace bvh
 {
@@ -11,12 +13,19 @@ namespace bvh
 
 struct BVHBuildNode
 {
+    common::math::Bounds3f bounds;
+
+    BVHBuildNode *children[2];
+
+    int splitAxis, firstPrimOffset, nPrimitives;
+
+
     void InitLeaf(int first, int n, const common::math::Bounds3f &b)
     {
         firstPrimOffset = first;
         nPrimitives = n;
         bounds = b;
-        p_left_child = p_right_child = nullptr;
+        children[0] = children[1] = nullptr;
         /*
         ++leafNodes;
         ++totalLeafNodes;
@@ -24,10 +33,10 @@ struct BVHBuildNode
         */
     }
 
-    void InitInterior(int axis, BVHBuildNode *_left_child, BVHBuildNode *_right_child)
+    void InitInterior(int axis, BVHBuildNode *p_left_child, BVHBuildNode *p_right_child)
     {
-        p_left_child = _left_child;
-        p_right_child = _right_child;
+        children[0] = p_left_child;
+        children[1] = p_right_child;
         bounds = Union(p_left_child->bounds, p_right_child->bounds);
         splitAxis = axis;
         nPrimitives = 0;
@@ -35,12 +44,9 @@ struct BVHBuildNode
         ++interiorNodes;
         */
     }
-
-    common::math::Bounds3f bounds;
-    BVHBuildNode *p_left_child, *p_right_child;
-    int splitAxis, firstPrimOffset, nPrimitives;
 };
 
 
+}
 }
 }

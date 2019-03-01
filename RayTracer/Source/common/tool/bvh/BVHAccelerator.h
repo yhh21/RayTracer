@@ -1,17 +1,21 @@
 #pragma once
 
-#include "TODO"
-
-#include "../../ForwardDeclaration.h"
+#include "../../../core/primitive/Aggregate.h"
 #include "BVHBuildNode.h"
+#include "BVHPrimitiveInfo.h"
+#include "MortonPrimitive.h"
+#include "LinearBVHNode.h"
+#include <atomic>
 
-namespace core
+namespace common
+{
+namespace tool
 {
 namespace bvh
 {
 
 
-class BVHAccelerator
+class BVHAccelerator : public core::primitive::Aggregate
 {
 public:
     enum class SplitMethod
@@ -26,7 +30,7 @@ public:
     // Construction
     ////////////////////////////////////////////////////////////////////////////////
 
-    BVHAccelerator(std::vector<std::shared_ptr<primitive::Primitive>> p
+    BVHAccelerator(std::vector<std::shared_ptr<core::primitive::Primitive>> p
         , int maxPrimsInNode = 1, SplitMethod splitMethod = SplitMethod::SAH);
 
     ~BVHAccelerator();
@@ -43,18 +47,18 @@ private:
     BVHBuildNode *recursiveBuild(
         common::tool::MemoryArena &arena, std::vector<BVHPrimitiveInfo> &primitiveInfo,
         int start, int end, int *totalNodes,
-        std::vector<std::shared_ptr<primitive::Primitive>> &orderedPrims);
+        std::vector<std::shared_ptr<core::primitive::Primitive>> &orderedPrims);
 
     BVHBuildNode *HLBVHBuild(
         common::tool::MemoryArena &arena, const std::vector<BVHPrimitiveInfo> &primitiveInfo,
         int *totalNodes,
-        std::vector<std::shared_ptr<primitive::Primitive>> &orderedPrims) const;
+        std::vector<std::shared_ptr<core::primitive::Primitive>> &orderedPrims) const;
 
     BVHBuildNode *emitLBVH(
         BVHBuildNode *&buildNodes,
         const std::vector<BVHPrimitiveInfo> &primitiveInfo,
         MortonPrimitive *mortonPrims, int nPrimitives, int *totalNodes,
-        std::vector<std::shared_ptr<primitive::Primitive>> &orderedPrims,
+        std::vector<std::shared_ptr<core::primitive::Primitive>> &orderedPrims,
         std::atomic<int> *orderedPrimsOffset, int bitIndex) const;
 
     BVHBuildNode *buildUpperSAH(common::tool::MemoryArena &arena,
@@ -66,10 +70,11 @@ private:
 
     const int maxPrimsInNode;
     const SplitMethod splitMethod;
-    std::vector<std::shared_ptr<primitive::Primitive>> primitives;
+    std::vector<std::shared_ptr<core::primitive::Primitive>> primitives;
     LinearBVHNode *nodes = nullptr;
 };
 
 
+}
 }
 }
