@@ -29,7 +29,7 @@ public:
         core::color::Spectrum f = bssrdf->Sw(wi);
         // Update BSSRDF transmission term to account for adjoint light
         // transport
-        if (bssrdf->mode == core::material::TransportMode::Radiance)
+        if (core::material::TransportMode::Radiance == bssrdf->mode)
         {
             f *= bssrdf->eta * bssrdf->eta;
         }

@@ -101,7 +101,7 @@ core::color::Spectrum SeparableBSSRDF::Sample_Sp(const core::scene::Scene &scene
     while (true)
     {
         common::math::Rayf r = base.SpawnRayTo(pTarget);
-        if (r.dir == common::math::Vec3f(FLOAT_0, FLOAT_0, FLOAT_0) || !scene.Intersect(r, &ptr->si))
+        if (common::math::Vec3f(FLOAT_0, FLOAT_0, FLOAT_0) == r.dir || !scene.Intersect(r, &ptr->si))
         {
             break;
         }

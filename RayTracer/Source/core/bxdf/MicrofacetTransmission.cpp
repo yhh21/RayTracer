@@ -32,7 +32,7 @@ core::color::Spectrum MicrofacetTransmission::f(const common::math::Vec3f &wo,
     core::color::Spectrum F = fresnel.Evaluate(Dot(wo, wh));
 
     Float sqrtDenom = Dot(wo, wh) + eta * Dot(wi, wh);
-    Float factor = (mode == core::material::TransportMode::Radiance) ? (FLOAT_1 / eta) : FLOAT_1;
+    Float factor = (core::material::TransportMode::Radiance == mode) ? (FLOAT_1 / eta) : FLOAT_1;
 
     return (core::color::Spectrum(FLOAT_1) - F) * T *
         std::abs(distribution->D(wh) * distribution->G(wo, wi) * eta * eta *

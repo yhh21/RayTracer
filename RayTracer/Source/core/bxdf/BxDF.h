@@ -111,14 +111,14 @@ inline
 Float CosPhi(const common::math::Vec3f &w)
 {
     Float sinTheta = SinTheta(w);
-    return (sinTheta == FLOAT_0) ? FLOAT_1 : common::math::Clamp(w.x / sinTheta, -FLOAT_1, FLOAT_1);
+    return (FLOAT_0 == sinTheta) ? FLOAT_1 : common::math::Clamp(w.x / sinTheta, -FLOAT_1, FLOAT_1);
 }
 
 inline
 Float SinPhi(const common::math::Vec3f &w)
 {
     Float sinTheta = SinTheta(w);
-    return (sinTheta == FLOAT_0) ? FLOAT_0 : common::math::Clamp(w.y / sinTheta, -FLOAT_1, FLOAT_1);
+    return (FLOAT_0 == sinTheta) ? FLOAT_0 : common::math::Clamp(w.y / sinTheta, -FLOAT_1, FLOAT_1);
 }
 
 inline

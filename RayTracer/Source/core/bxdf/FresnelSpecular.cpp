@@ -42,7 +42,7 @@ color::Spectrum FresnelSpecular::Sample_f(const common::math::Vec3f &wo, common:
         color::Spectrum ft = T * (FLOAT_1 - F);
 
         // Account for non-symmetry with transmission to different medium
-        if (mode == material::TransportMode::Radiance)
+        if (material::TransportMode::Radiance == mode)
         {
             ft *= (etaI * etaI) / (etaT * etaT);
         }

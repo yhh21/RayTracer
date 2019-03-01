@@ -163,13 +163,13 @@ core::color::Spectrum FourierBSDF::Sample_f(const common::math::Vec3f &wo, commo
 
     // Evaluate remaining Fourier expansions for angle $\phi$
     Float scale = muI != FLOAT_0 ? (FLOAT_1 / std::abs(muI)) : FLOAT_0;
-    if (mode == core::material::TransportMode::Radiance && muI * muO > FLOAT_0)
+    if (core::material::TransportMode::Radiance == mode && muI * muO > FLOAT_0)
     {
         float eta = muI > FLOAT_0 ? FLOAT_1 / bsdfTable.eta : bsdfTable.eta;
         scale *= eta * eta;
     }
 
-    if (bsdfTable.nChannels == 1)
+    if (1 == bsdfTable.nChannels)
     {
         return core::color::Spectrum(Y * scale);
     }

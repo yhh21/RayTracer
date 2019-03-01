@@ -79,7 +79,7 @@ color::Spectrum BSDF::Sample_f(const common::math::Vec3f &woWorld, common::math:
     int count = comp;
     for (int i = 0; i < nBxDFs; ++i)
     {
-        if (bxdfs[i]->MatchesFlags(type) && count-- == 0)
+        if (bxdfs[i]->MatchesFlags(type) && 0 == count--)
         {
             _bxdf = bxdfs[i];
             break;
