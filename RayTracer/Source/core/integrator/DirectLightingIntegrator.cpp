@@ -24,7 +24,7 @@ namespace integrator
 void DirectLightingIntegrator::Preprocess(const core::scene::Scene &scene,
     core::sampler::Sampler &sampler)
 {
-    if (strategy == LightStrategy::UniformSampleAll)
+    if (LightStrategy::UniformSampleAll == strategy)
     {
         // Compute number of samples to use for each light
         for (const auto &light : scene.lights)
@@ -73,7 +73,7 @@ core::color::Spectrum DirectLightingIntegrator::Li(const common::math::RayDiffer
     if (scene.lights.size() > 0)
     {
         // Compute direct lighting for _DirectLightingIntegrator_ integrator
-        if (strategy == LightStrategy::UniformSampleAll)
+        if (LightStrategy::UniformSampleAll == strategy)
         {
             L += UniformSampleAllLights(isect, scene, arena, sampler,
                 nLightSamples);

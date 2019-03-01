@@ -207,7 +207,8 @@ core::color::Spectrum SamplerIntegrator::SpecularReflect(
 
 core::color::Spectrum SamplerIntegrator::SpecularTransmit(
     const common::math::RayDifferentialf &ray, const core::interaction::SurfaceInteraction &isect,
-    const core::scene::Scene &scene, core::sampler::Sampler &sampler, common::tool::MemoryArena &arena, int depth) const
+    const core::scene::Scene &scene, core::sampler::Sampler &sampler,
+    common::tool::MemoryArena &arena, int depth) const
 {
     common::math::Vec3f wo = isect.wo, wi;
     Float pdf;
@@ -235,12 +236,12 @@ core::color::Spectrum SamplerIntegrator::SpecularTransmit(
             // The BSDF stores the IOR of the interior of the object being
             // intersected.  Compute the relative IOR by first out by
             // assuming that the ray is entering the object.
-            Float eta = 1 / bsdf.eta;
-            if (Dot(wo, ns) < 0)
+            Float eta = FLOAT_1 / bsdf.eta;
+            if (Dot(wo, ns) < FLOAT_0)
             {
                 // If the ray isn't entering, then we need to invert the
                 // relative IOR and negate the normal and its derivatives.
-                eta = 1 / eta;
+                eta = FLOAT_1 / eta;
                 ns = -ns;
                 dndx = -dndx;
                 dndy = -dndy;
@@ -284,7 +285,6 @@ core::color::Spectrum SamplerIntegrator::SpecularTransmit(
     }
     return L;
 }
-
 
 
 }

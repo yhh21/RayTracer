@@ -70,7 +70,7 @@ core::color::Spectrum PathIntegrator::Li(const common::math::RayDifferentialf &r
         bool foundIntersection = scene.Intersect(ray, &isect);
 
         // Possibly add emitted light at intersection
-        if (bounces == 0 || specularBounce)
+        if (0 == bounces || specularBounce)
         {
             // Add emitted light at path vertex or from the environment
             if (foundIntersection)
@@ -101,7 +101,7 @@ core::color::Spectrum PathIntegrator::Li(const common::math::RayDifferentialf &r
             VLOG(2) << "Skipping intersection due to null bsdf";
             */
             ray = isect.SpawnRay(ray.dir);
-            bounces--;
+            --bounces;
             continue;
         }
 

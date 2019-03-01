@@ -29,17 +29,17 @@ LightDistribution::~LightDistribution()
 std::unique_ptr<LightDistribution> CreateLightSampleDistribution(
     const std::string &name, const core::scene::Scene &scene)
 {
-    if (name == "uniform" || scene.lights.size() == 1)
+    if ("uniform" == name || 1 == scene.lights.size())
     {
         return std::unique_ptr<LightDistribution>{
             new UniformLightDistribution(scene)};
     }
-    else if (name == "power")
+    else if ("power" == name)
     {
         return std::unique_ptr<LightDistribution>{
             new PowerLightDistribution(scene)};
     }
-    else if (name == "spatial")
+    else if ("spatial" == name)
     {
         return std::unique_ptr<LightDistribution>{
             new SpatialLightDistribution(scene)};
@@ -145,7 +145,7 @@ const core::sampler::Distribution1D *SpatialLightDistribution::Lookup(const comm
         // The clamp should almost never be necessary, but is there to be
         // robust to computed intersection points being slightly outside
         // the scene bounds due to floating-point roundoff error.
-        pi[i] = common::math::Clamp(int(offset[i] * nVoxels[i]), 0, nVoxels[i] - 1);
+        pi[i] = common::math::Clamp(static_cast<int>(offset[i] * nVoxels[i]), 0, nVoxels[i] - 1);
     }
 
     // Pack the 3D integer voxel coordinates into a single 64-bit value.
@@ -252,9 +252,9 @@ core::sampler::Distribution1D * SpatialLightDistribution::ComputeDistribution(co
     common::math::Vec3f p0(static_cast<Float>(pi[0]) / static_cast<Float>(nVoxels[0]),
         static_cast<Float>(pi[1]) / static_cast<Float>(nVoxels[1]),
         static_cast<Float>(pi[2]) / static_cast<Float>(nVoxels[2]));
-    common::math::Vec3f p1(static_cast<Float>(pi[0] + 1) / static_cast<Float>(nVoxels[0]),
-        static_cast<Float>(pi[1] + 1) / static_cast<Float>(nVoxels[1]),
-        static_cast<Float>(pi[2] + 1) / static_cast<Float>(nVoxels[2]));
+    common::math::Vec3f p1((static_cast<Float>(pi[0]) + FLOAT_1) / static_cast<Float>(nVoxels[0]),
+        (static_cast<Float>(pi[1]) + FLOAT_1) / static_cast<Float>(nVoxels[1]),
+        (static_cast<Float>(pi[2]) + FLOAT_1) / static_cast<Float>(nVoxels[2]));
     common::math::Bounds3f voxelBounds(scene.WorldBound().Lerp(p0),
         scene.WorldBound().Lerp(p1));
 
@@ -269,7 +269,8 @@ core::sampler::Distribution1D * SpatialLightDistribution::ComputeDistribution(co
     for (int i = 0; i < nSamples; ++i)
     {
         common::math::Vec3f po = voxelBounds.Lerp(common::math::Vec3f(
-            core::sampler::RadicalInverse(0, i), core::sampler::RadicalInverse(1, i), core::sampler::RadicalInverse(2, i)));
+            core::sampler::RadicalInverse(0, i), core::sampler::RadicalInverse(1, i)
+            , core::sampler::RadicalInverse(2, i)));
         core::interaction::Interaction intr(po, common::math::Vec3f(), common::math::Vec3f(),
             common::math::Vec3f(FLOAT_1, FLOAT_0, FLOAT_0),
             FLOAT_0 /* time */, core::interaction::MediumInterface());
@@ -301,7 +302,7 @@ core::sampler::Distribution1D * SpatialLightDistribution::ComputeDistribution(co
     // least the corresponding probability.
     Float sumContrib = std::accumulate(lightContrib.begin(), lightContrib.end(), FLOAT_0);
     Float avgContrib = sumContrib / (nSamples * lightContrib.size());
-    Float minContrib = (avgContrib > FLOAT_0) ? .001 * avgContrib : FLOAT_1;
+    Float minContrib = (avgContrib > FLOAT_0) ? static_cast<Float>(0.001F) * avgContrib : FLOAT_1;
     for (size_t i = 0; i < lightContrib.size(); ++i)
     {
         /* TODO
