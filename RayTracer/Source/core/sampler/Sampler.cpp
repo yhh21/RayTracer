@@ -43,7 +43,10 @@ void Sampler::Request2DArray(int n)
 
 const Float *Sampler::Get1DArray(int n)
 {
-    if (array_1D_offset == sample_array_1D.size()) return nullptr;
+    if (sample_array_1D.size() == array_1D_offset)
+    {
+        return nullptr;
+    }
     CHECK_EQ(samples_1D_array_sizes[array_1D_offset], n);
     CHECK_LT(current_pixel_sample_index, samples_per_pixel);
     return &sample_array_1D[array_1D_offset++][current_pixel_sample_index * n];
@@ -51,7 +54,10 @@ const Float *Sampler::Get1DArray(int n)
 
 const common::math::Vec2f *Sampler::Get2DArray(int n)
 {
-    if (array_2D_offset == sample_array_2D.size()) return nullptr;
+    if (sample_array_2D.size() == array_2D_offset)
+    {
+        return nullptr;
+    }
     CHECK_EQ(samples_2D_array_sizes[array_2D_offset], n);
     CHECK_LT(current_pixel_sample_index, samples_per_pixel);
     return &sample_array_2D[array_2D_offset++][current_pixel_sample_index * n];

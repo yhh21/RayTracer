@@ -42,7 +42,7 @@ struct Distribution1D
 
         // Transform step function integral into CDF
         funcInt = cdf[n];
-        if (funcInt == 0)
+        if (0 == funcInt)
         {
             for (int i = 1; i < n + 1; ++i)
             {
